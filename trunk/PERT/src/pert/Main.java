@@ -5,6 +5,8 @@
 
 package pert;
 
+import Forms.Inicio;
+
 /**
  *
  * @author Usuario
@@ -20,6 +22,8 @@ public class Main {
     }
 
     public void inicializar(String paisIdioma, String lenguajeIdioma){
-        
+        Inicio i = new Inicio(paisIdioma, lenguajeIdioma);
+        //i.setSize(800, 600);
+        i.setVisible(true);
     }
 }
