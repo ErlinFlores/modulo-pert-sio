@@ -11,6 +11,12 @@
 
 package Forms;
 
+import Entidades.Accion;
+import Entidades.Tarea;
+import Entidades.Tiempo;
+import java.lang.Exception;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Usuario
@@ -18,8 +24,24 @@ package Forms;
 public class FormTarea extends javax.swing.JFrame {
 
     /** Creates new form FormTarea */
-    public FormTarea() {
+    public FormTarea() { // Para cuando se quiere crear una nueva tarea.
         initComponents();
+        motivo = Accion.crear;
+        tarea = null;
+    }
+
+    public FormTarea(Tarea t) { // Para cuando se quiere modificar una tarea existente.
+        initComponents();
+        motivo = Accion.modificar;
+        tarea = t;
+    }
+
+    private Accion motivo;
+    private Tarea tarea; // La tarea que se gestiona en este form al ser utilizado.
+
+    private boolean controlarDatosDeEntradaDelUsuario(){
+
+        return true;
     }
 
     /** This method is called from within the constructor to
@@ -281,7 +303,25 @@ public class FormTarea extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSacarPrecedenciaActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        try{
+            if (controlarDatosDeEntradaDelUsuario()){
+                String dt = txtDescripcionTarea.getText();
+                Tiempo t = new Tiempo(Integer.parseInt(txtTiempoOptimista.getText()), Integer.parseInt(txtTiempoMasProbable.getText()), Integer.parseInt(txtTiempoPesimista.getText()));
+                switch (motivo){
+                    case crear:                      
+                        tarea = new Tarea(Byte.parseByte(txtIdTarea.getText()), dt, t, null);
+                        //Proyecto.addTarea(tarea)
+                        break;
+                    case modificar:
+                        tarea.setDescripcion(txtDescripcionTarea.getText());
+                        tarea.setTiempos(t);
+                        tarea.setPrecedencias(null);
+                        break;
+                }
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
