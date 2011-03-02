@@ -4,7 +4,7 @@
  */
 
 /*
- * Inicio.java
+ * FormInicio.java
  *
  * Created on 02/03/2011, 05:14:32
  */
@@ -17,10 +17,10 @@ import java.util.Locale;
  *
  * @author Usuario
  */
-public class Inicio extends javax.swing.JFrame {
+public class FormInicio extends javax.swing.JFrame {
 
-    /** Creates new form Inicio */
-    public Inicio(String paisIdioma, String lenguajeIdioma) {
+    /** Creates new form FormInicio */
+    public FormInicio(String paisIdioma, String lenguajeIdioma) {
         lugarConfigurado = new Locale(paisIdioma, lenguajeIdioma);
         initComponents();
         setearEtiquetas();
@@ -101,9 +101,7 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblListaDeProyectos)
-                        .addContainerGap(255, Short.MAX_VALUE))
+                    .addComponent(lblListaDeProyectos)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -111,8 +109,8 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                             .addComponent(btnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                             .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +135,8 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        // TODO add your handling code here:
+        FormProyecto fp = new FormProyecto();
+        fp.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
@@ -159,7 +158,7 @@ public class Inicio extends javax.swing.JFrame {
     /*public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                new FormInicio().setVisible(true);
             }
         });
     }*/
