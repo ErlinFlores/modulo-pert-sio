@@ -52,8 +52,6 @@ public class FormProyecto extends javax.swing.JFrame {
 
         lblNombreProyecto.setText("lblNombreProyecto");
 
-        txtNombreProyecto.setText("txtNombreProyecto");
-
         jLabel1.setText("lblTareasProyecto");
 
         tblTareasProyecto.setBorder(javax.swing.BorderFactory.createCompoundBorder());
