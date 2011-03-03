@@ -36,4 +36,8 @@ public class Proyecto {
     public void setTareas(List<Tarea> tareas) {
         this.tareas = tareas;
     }
+
+    public void agregarTarea(Tarea t) {
+        tareas.add(t);
+    }
 }
