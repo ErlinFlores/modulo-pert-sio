@@ -11,7 +11,13 @@
 
 package Forms;
 
+import Entidades.Proyecto;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  *
@@ -24,9 +30,12 @@ public class FormInicio extends javax.swing.JFrame {
         lugarConfigurado = new Locale(paisIdioma, lenguajeIdioma);
         initComponents();
         setearEtiquetas();
+        lstProyectos = new JList(new DefaultListModel());
+        obtenerProyectosAlmacenados();
     }
 
     private Locale lugarConfigurado;
+    private List<Proyecto> listaDeProyectos;
 
     private void setearEtiquetas(){
         this.setTitle("Módulo PERT"); // Manejo de idioma!!!
@@ -35,6 +44,21 @@ public class FormInicio extends javax.swing.JFrame {
         this.btnAbrir.setText("Abrir"); // Manejo de idioma!!!
         this.btnBorrar.setText("Borrar"); // Manejo de idioma!!!
         this.btnSalir.setText("Salir"); // Manejo de idioma!!!
+    }
+
+    private void obtenerProyectosAlmacenados(){
+        listaDeProyectos = new ArrayList<Proyecto>();
+        for(int i = 0; i < listaDeProyectos.size(); i++){
+            Proyecto p = listaDeProyectos.get(i);
+            lstProyectos.add(null, p); 
+        }
+        lstProyectos.updateUI();
+        // Lógica de acceso a los archivos.
+    }
+
+    public void agregarProyectoEnLista(Proyecto p){
+        //lstProyectos.add(p);
+        lstProyectos.updateUI();
     }
 
     /** This method is called from within the constructor to
@@ -77,11 +101,6 @@ public class FormInicio extends javax.swing.JFrame {
             }
         });
 
-        lstProyectos.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         lstProyectos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(lstProyectos);
 
@@ -135,16 +154,20 @@ public class FormInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        FormProyecto fp = new FormProyecto();
+        FormProyecto fp = new FormProyecto(this, listaDeProyectos);
         fp.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        // TODO add your handling code here:
+        Proyecto p = listaDeProyectos.get(lstProyectos.getSelectedIndex());
+        FormProyecto fp = new FormProyecto(this, listaDeProyectos, p);
+        fp.setVisible(true);
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
+        int i = lstProyectos.getSelectedIndex();
+        listaDeProyectos.remove(i);
+        lstProyectos.remove(i);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

@@ -11,10 +11,8 @@
 
 package Forms;
 
-import Entidades.Accion;
-import Entidades.Tarea;
-import Entidades.Tiempo;
-import java.lang.Exception;
+import Entidades.*;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,7 +22,7 @@ import javax.swing.JOptionPane;
 public class FormTarea extends javax.swing.JFrame {
 
     /** Creates new form FormTarea */
-    public FormTarea() { // Para cuando se quiere crear una nueva tarea.
+    public FormTarea(Proyecto p) { // Para cuando se quiere crear una nueva tarea.
         initComponents();
         motivo = Accion.crear;
         tarea = null;
@@ -34,13 +32,30 @@ public class FormTarea extends javax.swing.JFrame {
         initComponents();
         motivo = Accion.modificar;
         tarea = t;
+        proyecto = null;
     }
 
     private Accion motivo;
+    private Proyecto proyecto; // Proyecto al que pertenece la tarea que se gestiona en este form.
     private Tarea tarea; // La tarea que se gestiona en este form al ser utilizado.
+    private String descripcionTarea;
+    private int tiempoOptimista;
+    private int tiempoMasProbable;
+    private int tiempoPesimista;
+    private List<Tarea> tareasPredecesoras;
+    
 
     private boolean controlarDatosDeEntradaDelUsuario(){
-
+        descripcionTarea = txtDescripcionTarea.getText();
+        if (descripcionTarea.equals("")){
+            return false;
+        }
+        tiempoOptimista = Integer.parseInt(txtTiempoOptimista.getText());
+        tiempoMasProbable = Integer.parseInt(txtTiempoMasProbable.getText());
+        tiempoPesimista = Integer.parseInt(txtTiempoPesimista.getText());
+        if (!((tiempoOptimista > 0) && (tiempoOptimista < tiempoMasProbable) && (tiempoMasProbable < tiempoPesimista) && (tiempoPesimista < 256))){
+            return false;
+        }
         return true;
     }
 
@@ -212,8 +227,8 @@ public class FormTarea extends javax.swing.JFrame {
                     .addComponent(lblTareasPrecedentes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblTareasDisponiblesComoPrecedencia)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTareasDisponiblesComoPrecedencia))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -310,7 +325,7 @@ public class FormTarea extends javax.swing.JFrame {
                 switch (motivo){
                     case crear:                      
                         tarea = new Tarea(Byte.parseByte(txtIdTarea.getText()), dt, t, null);
-                        //Proyecto.addTarea(tarea)
+                        proyecto.agregarTarea(tarea);
                         break;
                     case modificar:
                         tarea.setDescripcion(txtDescripcionTarea.getText());
@@ -318,6 +333,9 @@ public class FormTarea extends javax.swing.JFrame {
                         tarea.setPrecedencias(null);
                         break;
                 }
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(this, "ERROR: Hay campos con valores no válidos.");
             }
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, ex);
@@ -325,7 +343,7 @@ public class FormTarea extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
