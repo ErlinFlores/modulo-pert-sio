@@ -11,6 +11,11 @@
 
 package Forms;
 
+import Entidades.Proyecto;
+import Entidades.Tarea;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Usuario
@@ -18,8 +23,42 @@ package Forms;
 public class FormProyecto extends javax.swing.JFrame {
 
     /** Creates new form FormProyecto */
-    public FormProyecto() {
+    public FormProyecto(FormInicio i, List<Proyecto> lp) { //Crear proyecto nuevo
         initComponents();
+        formularioInicio = i;
+        listaDeProyectos = lp;
+        proyecto = null;
+    }
+
+    public FormProyecto(FormInicio i, List<Proyecto> lp, Proyecto p) { //Abrir proyecto existente
+        initComponents();
+        formularioInicio = i;
+        listaDeProyectos = lp;
+        proyecto = p;
+    }
+
+    private FormInicio formularioInicio;
+    private List<Proyecto> listaDeProyectos;
+    private Proyecto proyecto;
+    private String nombreProyecto;
+    private List<Tarea> listaDeTareas;
+
+    private boolean controlarDatosDeEntradaDelUsuario(){
+        nombreProyecto = txtNombreProyecto.getText();
+        if (nombreProyecto.equals("")){
+            return false;
+        }
+        listaDeTareas = new ArrayList<Tarea>(); // agregar las tareas!
+        if (listaDeTareas.isEmpty()){
+            //return false;
+            return true;
+        }
+        return true;
+    }
+
+    private boolean tieneSucesores(List<Tarea> lt, int i){
+
+        return false;
     }
 
     /** This method is called from within the constructor to
@@ -246,20 +285,28 @@ public class FormProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        FormTarea ft = new FormTarea();
+        FormTarea ft = new FormTarea(proyecto);
         ft.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
+        int i = tblTareasProyecto.getSelectedRow();
+        Tarea t = proyecto.getTareas().get(i);
+        FormTarea ft = new FormTarea(t);
+        ft.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        // TODO add your handling code here:
+        int i = tblTareasProyecto.getSelectedRow();
+        List<Tarea> lt = proyecto.getTareas();
+        if (!(tieneSucesores(lt, i))){
+            lt.remove(i);
+            tblTareasProyecto.remove(i);
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
-        // TODO add your handling code here:
+        proyecto.setTareas(null);
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
@@ -267,11 +314,15 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        if (controlarDatosDeEntradaDelUsuario()){
+            proyecto = new Proyecto(nombreProyecto, listaDeTareas);
+        }
+        listaDeProyectos.add(proyecto);
+        formularioInicio.agregarProyectoEnLista(proyecto);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
