@@ -43,6 +43,17 @@ public class FormProyecto extends javax.swing.JFrame {
     private String nombreProyecto;
     private List<Tarea> listaDeTareas;
 
+    /**
+     * Se setean las etiquetas de la pantalla.
+     */
+    private void setearEtiquetas(){
+        setTitle("Proyecto"); // Manejo de idioma!!!
+    }
+
+    /**
+     * Antes de ingresar los datos ingresados por el usuario a la estructura de datos interna del programa, se verifican que cumplan las restricciones.
+     * @return
+     */
     private boolean controlarDatosDeEntradaDelUsuario(){
         nombreProyecto = txtNombreProyecto.getText();
         if (nombreProyecto.equals("")){
@@ -56,6 +67,12 @@ public class FormProyecto extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     * Dada una tarea, se determina si forma parte de un camino en la red en el cual existen otras tareas sucesoras.
+     * @param lt
+     * @param i
+     * @return
+     */
     private boolean tieneSucesores(List<Tarea> lt, int i){
 
         return false;
@@ -299,9 +316,9 @@ public class FormProyecto extends javax.swing.JFrame {
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         int i = tblTareasProyecto.getSelectedRow();
         List<Tarea> lt = proyecto.getTareas();
-        if (!(tieneSucesores(lt, i))){
-            lt.remove(i);
+        if (!(tieneSucesores(lt, i))){            
             tblTareasProyecto.remove(i);
+            lt.remove(i);
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -316,9 +333,10 @@ public class FormProyecto extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (controlarDatosDeEntradaDelUsuario()){
             proyecto = new Proyecto(nombreProyecto, listaDeTareas);
+            listaDeProyectos.add(proyecto);
+            formularioInicio.agregarProyectoEnLista(proyecto);
         }
-        listaDeProyectos.add(proyecto);
-        formularioInicio.agregarProyectoEnLista(proyecto);
+        this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
