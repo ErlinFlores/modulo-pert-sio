@@ -43,7 +43,13 @@ public class FormTarea extends javax.swing.JFrame {
     private int tiempoMasProbable;
     private int tiempoPesimista;
     private List<Tarea> tareasPredecesoras;
-    
+
+    /**
+     * Se setean las etiquetas de la pantalla.
+     */
+    private void setearEtiquetas(){
+        setTitle("Tarea"); // Manejo de idioma!!!
+    }
 
     private boolean controlarDatosDeEntradaDelUsuario(){
         descripcionTarea = txtDescripcionTarea.getText();
