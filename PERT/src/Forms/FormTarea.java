@@ -12,6 +12,7 @@
 package Forms;
 
 import Entidades.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -22,26 +23,35 @@ import javax.swing.JOptionPane;
 public class FormTarea extends javax.swing.JFrame {
 
     /** Creates new form FormTarea */
-    public FormTarea(Proyecto p) { // Para cuando se quiere crear una nueva tarea.
+    public FormTarea(FormProyecto fp) { // Para cuando se quiere crear una nueva tarea.
         initComponents();
-        motivo = Accion.crear;
-        tarea = null;
+        setearEtiquetas();
+        formularioProyecto = fp;
+        tipoAccion = Accion.crear;
+        idTarea = 0; // Conseguir id de singleton!!!
+        descripcionTarea = "";
+        tiemposEstimados = null;
+        tareasPredecesoras = new ArrayList<Tarea>();
+        setearCampos();
     }
 
-    public FormTarea(Tarea t) { // Para cuando se quiere modificar una tarea existente.
+    public FormTarea(FormProyecto fp, Tarea t) { // Para cuando se quiere modificar una tarea existente.
         initComponents();
-        motivo = Accion.modificar;
-        tarea = t;
-        proyecto = null;
+        setearEtiquetas();
+        formularioProyecto = fp;
+        tipoAccion = Accion.modificar;
+        idTarea = t.getId();
+        descripcionTarea = t.getDescripcion();
+        tiemposEstimados = t.getTiempos();
+        tareasPredecesoras = t.getPrecedencias();
+        setearCampos();
     }
 
-    private Accion motivo;
-    private Proyecto proyecto; // Proyecto al que pertenece la tarea que se gestiona en este form.
-    private Tarea tarea; // La tarea que se gestiona en este form al ser utilizado.
+    private FormProyecto formularioProyecto;
+    private Accion tipoAccion;
+    private int idTarea;
     private String descripcionTarea;
-    private int tiempoOptimista;
-    private int tiempoMasProbable;
-    private int tiempoPesimista;
+    private Tiempo tiemposEstimados;
     private List<Tarea> tareasPredecesoras;
 
     /**
@@ -51,17 +61,28 @@ public class FormTarea extends javax.swing.JFrame {
         setTitle("Tarea"); // Manejo de idioma!!!
     }
 
+    private void setearCampos(){
+        //Agregar todas las tareas en opcion a elegir tareas predecesoras!!!
+        if (tipoAccion == Accion.modificar){
+            txtIdTarea.setText(Integer.toString(idTarea));
+            txtDescripcionTarea.setText(descripcionTarea);
+            txtTiempoOptimista.setText(Integer.toString(tiemposEstimados.getTiempoOptimista()));
+            txtTiempoMasProbable.setText(Integer.toString(tiemposEstimados.getTiempoMasProbable()));
+            txtTiempoPesimista.setText(Integer.toString(tiemposEstimados.getTiempoPesimista()));
+        }
+    }
+
     private boolean controlarDatosDeEntradaDelUsuario(){
-        descripcionTarea = txtDescripcionTarea.getText();
-        if (descripcionTarea.equals("")){
+        if (txtDescripcionTarea.getText().equals("")){
             return false;
         }
-        tiempoOptimista = Integer.parseInt(txtTiempoOptimista.getText());
-        tiempoMasProbable = Integer.parseInt(txtTiempoMasProbable.getText());
-        tiempoPesimista = Integer.parseInt(txtTiempoPesimista.getText());
-        if (!((tiempoOptimista > 0) && (tiempoOptimista < tiempoMasProbable) && (tiempoMasProbable < tiempoPesimista) && (tiempoPesimista < 256))){
+        int to = Integer.parseInt(txtTiempoOptimista.getText());
+        int tmp = Integer.parseInt(txtTiempoMasProbable.getText());
+        int tp = Integer.parseInt(txtTiempoPesimista.getText());
+        if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
             return false;
         }
+        //Controlar precedencias???
         return true;
     }
 
@@ -94,7 +115,7 @@ public class FormTarea extends javax.swing.JFrame {
         btnSacarPrecedencia = new javax.swing.JButton();
         lblTareasPrecedentes = new javax.swing.JLabel();
         lblTareasDisponiblesComoPrecedencia = new javax.swing.JLabel();
-        btnAceptar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -255,10 +276,10 @@ public class FormTarea extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnAceptar.setText("btnAceptar");
-        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setText("btnGuardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAceptarActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
@@ -287,7 +308,7 @@ public class FormTarea extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(txtDescripcionTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -308,7 +329,7 @@ public class FormTarea extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
-                    .addComponent(btnAceptar))
+                    .addComponent(btnGuardar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -323,20 +344,20 @@ public class FormTarea extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSacarPrecedenciaActionPerformed
 
-    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try{
             if (controlarDatosDeEntradaDelUsuario()){
-                String dt = txtDescripcionTarea.getText();
-                Tiempo t = new Tiempo(Integer.parseInt(txtTiempoOptimista.getText()), Integer.parseInt(txtTiempoMasProbable.getText()), Integer.parseInt(txtTiempoPesimista.getText()));
-                switch (motivo){
-                    case crear:                      
-                        tarea = new Tarea(Byte.parseByte(txtIdTarea.getText()), dt, t, null);
-                        proyecto.agregarTarea(tarea);
+                descripcionTarea = txtDescripcionTarea.getText();
+                int tiempoOptimista = Integer.parseInt(txtTiempoOptimista.getText());
+                int tiempoMasProbable = Integer.parseInt(txtTiempoMasProbable.getText());
+                int tiempoPesimista = Integer.parseInt(txtTiempoPesimista.getText());
+                switch (tipoAccion){
+                    case crear:
+                        Tarea t = new Tarea(Byte.parseByte(txtIdTarea.getText()), descripcionTarea, new Tiempo(tiempoOptimista, tiempoMasProbable, tiempoPesimista), tareasPredecesoras);
+                        formularioProyecto.agregarTareaEnListaDeTareas(t);
                         break;
                     case modificar:
-                        tarea.setDescripcion(txtDescripcionTarea.getText());
-                        tarea.setTiempos(t);
-                        tarea.setPrecedencias(null);
+                        tiemposEstimados.setTiemposEstimados(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
                         break;
                 }
                 this.dispose();
@@ -346,7 +367,7 @@ public class FormTarea extends javax.swing.JFrame {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, ex);
         }
-    }//GEN-LAST:event_btnAceptarActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
@@ -365,9 +386,9 @@ public class FormTarea extends javax.swing.JFrame {
     }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregarPrecedencia;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSacarPrecedencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
