@@ -60,10 +60,11 @@ public class FormInicio extends javax.swing.JFrame {
     }
 
     /**
-     * Se agrega un proyecto creado recientemente a la lista comboBox de la pantalla.
+     * Se agrega un proyecto creado recientemente a la lista de proyectos existente.
      * @param p
      */
-    public void agregarProyectoEnLista(Proyecto p){
+    public void agregarProyectoEnListaDeProyectos(Proyecto p){
+        listaDeProyectos.add(p);
         cmbListaDeProyectos.addItem(p.getNombre());
         cmbListaDeProyectos.updateUI();
     }
@@ -156,13 +157,13 @@ public class FormInicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        FormProyecto fp = new FormProyecto(this, listaDeProyectos);
+        FormProyecto fp = new FormProyecto(this);
         fp.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
         Proyecto p = listaDeProyectos.get(cmbListaDeProyectos.getSelectedIndex());
-        FormProyecto fp = new FormProyecto(this, listaDeProyectos, p);
+        FormProyecto fp = new FormProyecto(this, p);
         fp.setVisible(true);
     }//GEN-LAST:event_btnAbrirActionPerformed
 

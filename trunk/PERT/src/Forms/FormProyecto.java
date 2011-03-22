@@ -11,10 +11,12 @@
 
 package Forms;
 
+import Entidades.Accion;
 import Entidades.Proyecto;
 import Entidades.Tarea;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,24 +25,28 @@ import java.util.List;
 public class FormProyecto extends javax.swing.JFrame {
 
     /** Creates new form FormProyecto */
-    public FormProyecto(FormInicio i, List<Proyecto> lp) { //Crear proyecto nuevo
+    public FormProyecto(FormInicio fi) { //Crear proyecto nuevo
         initComponents();
-        formularioInicio = i;
-        listaDeProyectos = lp;
-        proyecto = null;
+        setearEtiquetas();
+        formularioInicio = fi;
+        tipoAccion = Accion.crear;
+        nombreDelProyecto = "";
+        listaDeTareas = new ArrayList<Tarea>();
     }
 
-    public FormProyecto(FormInicio i, List<Proyecto> lp, Proyecto p) { //Abrir proyecto existente
+    public FormProyecto(FormInicio fi, Proyecto p) { //Abrir proyecto existente
         initComponents();
-        formularioInicio = i;
-        listaDeProyectos = lp;
-        proyecto = p;
+        setearEtiquetas();        
+        formularioInicio = fi;
+        tipoAccion = Accion.modificar;
+        nombreDelProyecto = p.getNombre();
+        listaDeTareas = p.getTareas();
+        setearCampos();
     }
 
     private FormInicio formularioInicio;
-    private List<Proyecto> listaDeProyectos;
-    private Proyecto proyecto;
-    private String nombreProyecto;
+    private Accion tipoAccion;
+    private String nombreDelProyecto;
     private List<Tarea> listaDeTareas;
 
     /**
@@ -49,22 +55,29 @@ public class FormProyecto extends javax.swing.JFrame {
     private void setearEtiquetas(){
         setTitle("Proyecto"); // Manejo de idioma!!!
     }
+    
+    private void setearCampos(){
+        txtNombreProyecto.setText(nombreDelProyecto);
+        // Agregar las tareas a la tabla!!
+    }
 
     /**
      * Antes de ingresar los datos ingresados por el usuario a la estructura de datos interna del programa, se verifican que cumplan las restricciones.
      * @return
      */
     private boolean controlarDatosDeEntradaDelUsuario(){
-        nombreProyecto = txtNombreProyecto.getText();
-        if (nombreProyecto.equals("")){
+        if (txtNombreProyecto.getText().equals("")){ // Se puede agregar más restricciones en cuanto a los caracteres permitidos!!!
             return false;
         }
-        listaDeTareas = new ArrayList<Tarea>(); // agregar las tareas!
         if (listaDeTareas.isEmpty()){
-            //return false;
-            return true;
+            return false;
         }
         return true;
+    }   
+
+    public void agregarTareaEnListaDeTareas(Tarea t){
+        listaDeTareas.add(t);
+        // Agregar a la tabla de tareas!!!
     }
 
     /**
@@ -73,9 +86,25 @@ public class FormProyecto extends javax.swing.JFrame {
      * @param i
      * @return
      */
-    private boolean tieneSucesores(List<Tarea> lt, int i){
-
+    private boolean tieneSucesores(int i){
+        Tarea tareaDeAnalisis = listaDeTareas.get(i);
+        for (int j = 0; j < listaDeTareas.size(); j++){
+            if (j != i){
+                Tarea tAux = listaDeTareas.get(j);
+                List<Tarea> precedencias = tAux.getPrecedencias();
+                for (int h = 0; h < precedencias.size(); h++){
+                    Tarea tPrec = precedencias.get(h);
+                    if (tareaDeAnalisis.equals(tPrec)){
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
+    }
+
+    public List<Tarea> obtenerListaDeTareasDelProyecto(){
+        return listaDeTareas;
     }
 
     /** This method is called from within the constructor to
@@ -302,28 +331,30 @@ public class FormProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        FormTarea ft = new FormTarea(proyecto);
+        FormTarea ft = new FormTarea(this);
         ft.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int i = tblTareasProyecto.getSelectedRow();
-        Tarea t = proyecto.getTareas().get(i);
-        FormTarea ft = new FormTarea(t);
+        Tarea t = listaDeTareas.get(i);
+        FormTarea ft = new FormTarea(this, t);
         ft.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         int i = tblTareasProyecto.getSelectedRow();
-        List<Tarea> lt = proyecto.getTareas();
-        if (!(tieneSucesores(lt, i))){            
+        if (!(tieneSucesores(i))){
+            listaDeTareas.remove(i);
             tblTareasProyecto.remove(i);
-            lt.remove(i);
+            tblTareasProyecto.updateUI();
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
-        proyecto.setTareas(null);
+        listaDeTareas = new ArrayList<Tarea>();
+        tblTareasProyecto.removeAll();
+        tblTareasProyecto.updateUI();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
@@ -331,10 +362,23 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (controlarDatosDeEntradaDelUsuario()){
-            proyecto = new Proyecto(nombreProyecto, listaDeTareas);
-            listaDeProyectos.add(proyecto);
-            formularioInicio.agregarProyectoEnLista(proyecto);
+        try{
+            if (controlarDatosDeEntradaDelUsuario()){
+                nombreDelProyecto = txtNombreProyecto.getText();
+                switch (tipoAccion){
+                    case crear:
+                        Proyecto p = new Proyecto(nombreDelProyecto, listaDeTareas);
+                        formularioInicio.agregarProyectoEnListaDeProyectos(p);
+                        break;
+                    case modificar:
+                        // En teoría no hay que modificar nada en este sector. Modificación por referencia.
+                        break;
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "ERROR: Hay campos con valores no válidos.");
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex);
         }
         this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
