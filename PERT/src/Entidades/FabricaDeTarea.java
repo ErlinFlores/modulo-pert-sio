@@ -10,6 +10,8 @@ package Entidades;
  */
 public class FabricaDeTarea {
 
+    //--------------- SINGLETON ------------------------------------------------
+    
     private static FabricaDeTarea instancia = null;     
  
     private synchronized static void createInstance() {
@@ -22,7 +24,11 @@ public class FabricaDeTarea {
         if (instancia == null) 
             createInstance();
         return instancia;
-    }
+    }   
+    
+    //--------------------------------------------------------------------------
+    
+    private int proximoId;
     
     private FabricaDeTarea() {
         proximoId = 0;
@@ -31,9 +37,7 @@ public class FabricaDeTarea {
     public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
         int id = getId();
         return new Tarea(id, getNombre(id), descripcion, tiempoEstimado, precedencia);
-    }
-    
-    private int proximoId;
+    }   
     
     private int getId(){
         int id;
@@ -45,6 +49,5 @@ public class FabricaDeTarea {
     private String getNombre(int valor){           
         int intDelChar = valor + 65; //en ascii el 65 representa la letra "A".
         return String.valueOf((char)intDelChar);
-    }
-    
+    }    
 }
