@@ -12,11 +12,13 @@
 package Forms;
 
 import Entidades.Accion;
+import Entidades.Precedencia;
 import Entidades.Proyecto;
 import Entidades.Tarea;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,14 +26,19 @@ import javax.swing.JOptionPane;
  */
 public class FormProyecto extends javax.swing.JFrame {
 
+    private FormInicio formularioInicio;
+    private Accion tipoAccion;
+    private String nombre;
+    private List<Tarea> tareas;
+    
     /** Creates new form FormProyecto */
     public FormProyecto(FormInicio fi) { //Crear proyecto nuevo
         initComponents();
         setearEtiquetas();
         formularioInicio = fi;
         tipoAccion = Accion.crear;
-        nombreDelProyecto = "";
-        listaDeTareas = new ArrayList<Tarea>();
+        nombre = "";
+        tareas = new ArrayList<Tarea>();
     }
 
     public FormProyecto(FormInicio fi, Proyecto p) { //Abrir proyecto existente
@@ -39,28 +46,62 @@ public class FormProyecto extends javax.swing.JFrame {
         setearEtiquetas();        
         formularioInicio = fi;
         tipoAccion = Accion.modificar;
-        nombreDelProyecto = p.getNombre();
-        listaDeTareas = p.getTareas();
+        nombre = p.getNombre();
+        tareas = p.getTareas();
         setearCampos();
-    }
-
-    private FormInicio formularioInicio;
-    private Accion tipoAccion;
-    private String nombreDelProyecto;
-    private List<Tarea> listaDeTareas;
+    }    
 
     /**
      * Se setean las etiquetas de la pantalla.
      */
     private void setearEtiquetas(){
         setTitle("Proyecto"); // Manejo de idioma!!!
+        this.lblNombreProyecto.setText("Nombre del proyecto: ");
+        this.lblTareasProyecto.setText("Tareas del proyecto: ");
+        this.btnAgregar.setText("Agregar");
+        this.btnBorrar.setText("Borrar");
+        this.btnBorrarTodas.setText("Borrar todas");
+        this.btnModificar.setText("Modificar");
+        this.btnGuardar.setText("Guardar");
+        this.btnCancelar.setText("Cancelar");
+        this.btnRealizarCalculosTiempos.setText("Realizar cálculos de tiempos");
+        this.btnCalculoDeProbabilidades.setText("Cálculo de probabilidades");
     }
     
     private void setearCampos(){
-        txtNombreProyecto.setText(nombreDelProyecto);
-        // Agregar las tareas a la tabla!!
+        txtNombreProyecto.setText(nombre);
+        if (tipoAccion.equals(tipoAccion.modificar)){            
+            int fila = 0;
+            for (Tarea tarea : tareas){
+                agregarTareaEnLaTablaDeTareas(tarea, fila);
+                fila += 1;
+            }
+        }
     }
 
+    private String precedenciasConcatenadas(Tarea tarea){
+        String tareasConcatenadas = "";
+        List<Tarea> tareasPrecedentes = tarea.getPrecedencias();
+        for (int i = 0; i < tareasPrecedentes.size(); i++){
+            tareasConcatenadas += String.valueOf(tareasPrecedentes.get(i).getId());
+            if ((i + 1) < tareasPrecedentes.size()){
+                tareasConcatenadas += ", ";
+            }
+        }        
+        return tareasConcatenadas;
+    }
+    
+    private void agregarTareaEnLaTablaDeTareas(Tarea tarea, int fila){
+        DefaultTableModel modeloTablaTareas = (DefaultTableModel)tblTareasProyecto.getModel();
+        modeloTablaTareas.addRow(new Object[fila]);
+        tblTareasProyecto.setValueAt(tarea.getId(), fila, 0);
+        tblTareasProyecto.setValueAt(tarea.getDescripcion(), fila, 1);
+        tblTareasProyecto.setValueAt(tarea.getTiempos().getTiempoOptimista(), fila, 2);
+        tblTareasProyecto.setValueAt(tarea.getTiempos().getTiempoMasProbable(), fila, 3);
+        tblTareasProyecto.setValueAt(tarea.getTiempos().getTiempoPesimista(), fila, 4);
+        tblTareasProyecto.setValueAt(precedenciasConcatenadas(tarea), fila, 5);
+    }
+    
     /**
      * Antes de ingresar los datos ingresados por el usuario a la estructura de datos interna del programa, se verifican que cumplan las restricciones.
      * @return
@@ -69,17 +110,17 @@ public class FormProyecto extends javax.swing.JFrame {
         if (txtNombreProyecto.getText().equals("")){ // Se puede agregar más restricciones en cuanto a los caracteres permitidos!!!
             return false;
         }
-        if (listaDeTareas.isEmpty()){
+        if (tareas.isEmpty()){
             return false;
         }
         return true;
     }   
 
-    public void agregarTareaEnListaDeTareas(Tarea t){
-        listaDeTareas.add(t);
-        // Agregar a la tabla de tareas!!!
-    }
-
+    public void agregarTareaEnListaDeTareas(Tarea tarea){
+        tareas.add(tarea);
+        agregarTareaEnLaTablaDeTareas(tarea, tareas.size() - 1);
+    }    
+    
     /**
      * Dada una tarea, se determina si forma parte de un camino en la red en el cual existen otras tareas sucesoras.
      * @param lt
@@ -87,10 +128,10 @@ public class FormProyecto extends javax.swing.JFrame {
      * @return
      */
     private boolean tieneSucesores(int i){
-        Tarea tareaDeAnalisis = listaDeTareas.get(i);
-        for (int j = 0; j < listaDeTareas.size(); j++){
+        Tarea tareaDeAnalisis = tareas.get(i);
+        for (int j = 0; j < tareas.size(); j++){
             if (j != i){
-                Tarea tAux = listaDeTareas.get(j);
+                Tarea tAux = tareas.get(j);
                 List<Tarea> precedencias = tAux.getPrecedencias();
                 for (int h = 0; h < precedencias.size(); h++){
                     Tarea tPrec = precedencias.get(h);
@@ -104,7 +145,7 @@ public class FormProyecto extends javax.swing.JFrame {
     }
 
     public List<Tarea> obtenerListaDeTareasDelProyecto(){
-        return listaDeTareas;
+        return tareas;
     }
 
     /** This method is called from within the constructor to
@@ -118,7 +159,7 @@ public class FormProyecto extends javax.swing.JFrame {
 
         lblNombreProyecto = new javax.swing.JLabel();
         txtNombreProyecto = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblTareasProyecto = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTareasProyecto = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
@@ -130,19 +171,21 @@ public class FormProyecto extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        btnCalculoDeProbabilidades = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         lblNombreProyecto.setText("lblNombreProyecto");
 
-        jLabel1.setText("lblTareasProyecto");
+        txtNombreProyecto.setText("Proyecto prueba");
+
+        lblTareasProyecto.setText("lblTareasProyecto");
 
         tblTareasProyecto.setBorder(javax.swing.BorderFactory.createCompoundBorder());
         tblTareasProyecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Descripción", "tO", "tM", "tP", "Precedencia"
@@ -213,7 +256,7 @@ public class FormProyecto extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Duración", "Precedencia", "tTempComienzo", "tTempFin", "tTardíoComienzo", "tTardíoFin", "Holgura", "¿Pertenece al C.C.?"
+                "ID", "Duración", "Precedencia", "tComTemp", "tComTardío", "tFinTemp", "tFinTardío", "Holgura", "¿C.C.?"
             }
         ) {
             Class[] types = new Class [] {
@@ -257,39 +300,41 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
+        btnCalculoDeProbabilidades.setText("btnCalculoDeProbabilidades");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(lblNombreProyecto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnBorrarTodas, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnBorrar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblNombreProyecto)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblTareasProyecto, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                    .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnBorrarTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCalculoDeProbabilidades)
+                        .addGap(433, 433, 433))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,21 +344,16 @@ public class FormProyecto extends javax.swing.JFrame {
                     .addComponent(lblNombreProyecto)
                     .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(lblTareasProyecto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1)
-                        .addGap(18, 18, 18)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnRealizarCalculosTiempos))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnAgregar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -322,9 +362,13 @@ public class FormProyecto extends javax.swing.JFrame {
                                 .addComponent(btnBorrar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBorrarTodas)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(13, 13, 13)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnRealizarCalculosTiempos)
+                            .addComponent(btnCalculoDeProbabilidades))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -337,7 +381,7 @@ public class FormProyecto extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         int i = tblTareasProyecto.getSelectedRow();
-        Tarea t = listaDeTareas.get(i);
+        Tarea t = tareas.get(i);
         FormTarea ft = new FormTarea(this, t);
         ft.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -345,14 +389,14 @@ public class FormProyecto extends javax.swing.JFrame {
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         int i = tblTareasProyecto.getSelectedRow();
         if (!(tieneSucesores(i))){
-            listaDeTareas.remove(i);
+            tareas.remove(i);
             tblTareasProyecto.remove(i);
             tblTareasProyecto.updateUI();
         }
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
-        listaDeTareas = new ArrayList<Tarea>();
+        tareas = new ArrayList<Tarea>();
         tblTareasProyecto.removeAll();
         tblTareasProyecto.updateUI();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
@@ -364,10 +408,10 @@ public class FormProyecto extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try{
             if (controlarDatosDeEntradaDelUsuario()){
-                nombreDelProyecto = txtNombreProyecto.getText();
+                nombre = txtNombreProyecto.getText();
                 switch (tipoAccion){
                     case crear:
-                        Proyecto p = new Proyecto(nombreDelProyecto, listaDeTareas);
+                        Proyecto p = new Proyecto(nombre, tareas);
                         formularioInicio.agregarProyectoEnListaDeProyectos(p);
                         break;
                     case modificar:
@@ -403,16 +447,16 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarTodas;
+    private javax.swing.JButton btnCalculoDeProbabilidades;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRealizarCalculosTiempos;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblNombreProyecto;
+    private javax.swing.JLabel lblTareasProyecto;
     private javax.swing.JTable tblTareasProyecto;
     private javax.swing.JTextField txtNombreProyecto;
     // End of variables declaration//GEN-END:variables

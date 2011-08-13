@@ -31,7 +31,7 @@ public class FormInicio extends javax.swing.JFrame {
     }
 
     private Locale lugarConfigurado;
-    private List<Proyecto> listaDeProyectos;
+    private List<Proyecto> proyectos;
 
     /**
      * Se setean las etiquetas de la pantalla.
@@ -49,12 +49,12 @@ public class FormInicio extends javax.swing.JFrame {
      * Se obtienen los proyectos que previamente han sido ingresados al sistema y almacenados en los archivos de persistencia.
      */
     private void obtenerProyectosAlmacenados(){
-        listaDeProyectos = new ArrayList<Proyecto>();
+        proyectos = new ArrayList<Proyecto>();
 
         // Lógica de acceso a los archivos con proyectos almacenados!!!
 
-        for(int i = 0; i < listaDeProyectos.size(); i++){
-            cmbListaDeProyectos.addItem(listaDeProyectos.get(i).getNombre());
+        for(int i = 0; i < proyectos.size(); i++){
+            cmbListaDeProyectos.addItem(proyectos.get(i).getNombre());
         }
         cmbListaDeProyectos.updateUI();       
     }
@@ -64,7 +64,7 @@ public class FormInicio extends javax.swing.JFrame {
      * @param p
      */
     public void agregarProyectoEnListaDeProyectos(Proyecto p){
-        listaDeProyectos.add(p);
+        proyectos.add(p);
         cmbListaDeProyectos.addItem(p.getNombre());
         cmbListaDeProyectos.updateUI();
     }
@@ -124,31 +124,34 @@ public class FormInicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblListaDeProyectos)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(cmbListaDeProyectos, 0, 252, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                             .addComponent(btnAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblListaDeProyectos)
+                            .addComponent(cmbListaDeProyectos, javax.swing.GroupLayout.Alignment.TRAILING, 0, 260, Short.MAX_VALUE)))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblListaDeProyectos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevo)
-                    .addComponent(cmbListaDeProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAbrir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblListaDeProyectos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbListaDeProyectos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnNuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAbrir)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBorrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                 .addComponent(btnSalir)
                 .addContainerGap())
         );
@@ -162,7 +165,7 @@ public class FormInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        Proyecto p = listaDeProyectos.get(cmbListaDeProyectos.getSelectedIndex());
+        Proyecto p = proyectos.get(cmbListaDeProyectos.getSelectedIndex());
         FormProyecto fp = new FormProyecto(this, p);
         fp.setVisible(true);
     }//GEN-LAST:event_btnAbrirActionPerformed
@@ -171,7 +174,7 @@ public class FormInicio extends javax.swing.JFrame {
         int i = cmbListaDeProyectos.getSelectedIndex();
         cmbListaDeProyectos.removeItemAt(i);
         cmbListaDeProyectos.updateUI();
-        listaDeProyectos.remove(i);
+        proyectos.remove(i);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
