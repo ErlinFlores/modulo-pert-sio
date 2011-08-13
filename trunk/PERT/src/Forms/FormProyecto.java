@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Usuario
+ * @author Manuel Lorenze
  */
 public class FormProyecto extends javax.swing.JFrame {
 

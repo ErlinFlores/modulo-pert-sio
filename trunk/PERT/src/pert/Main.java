@@ -9,7 +9,7 @@ import Forms.FormInicio;
 
 /**
  *
- * @author Usuario
+ * @author Manuel Lorenze
  */
 public class Main {
 

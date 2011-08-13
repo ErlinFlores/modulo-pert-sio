@@ -7,7 +7,7 @@ package Entidades;
 
 /**
  *
- * @author Usuario
+ * @author Manuel Lorenze
  */
 public class TiempoEstimado {
 
