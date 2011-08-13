@@ -18,7 +18,7 @@ import java.util.Locale;
 
 /**
  *
- * @author Usuario
+ * @author Manuel Lorenze
  */
 public class FormInicio extends javax.swing.JFrame {
 

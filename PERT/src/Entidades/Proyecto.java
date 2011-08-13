@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author Usuario
+ * @author Manuel Lorenze
  */
 public class Proyecto {
 

@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Usuario
+ * @author Manuel Lorenze
  */
 public class FormTarea extends javax.swing.JFrame {
 
