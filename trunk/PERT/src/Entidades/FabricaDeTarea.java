@@ -43,10 +43,8 @@ public class FabricaDeTarea {
     }
     
     private String getNombre(int valor){           
-        char[] caracterDeNombre = new char[1];
         int intDelChar = valor + 65; //en ascii el 65 representa la letra "A".
-        caracterDeNombre[0] = (char)intDelChar;
-        return String.valueOf(caracterDeNombre);
+        return String.valueOf((char)intDelChar);
     }
     
 }
