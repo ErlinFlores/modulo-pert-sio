@@ -13,14 +13,28 @@ import java.util.List;
  */
 public class Proyecto {
 
-    public Proyecto(String n, List<Tarea> lt){
-        nombre = n;
-        tareas = lt;
-    }
-
+    private int id;    
     private String nombre;
     private List<Tarea> tareas;
+    
+    public Proyecto(int id, String nombre, List<Tarea> tareas){
+        this.id = id;
+        this.nombre = nombre;
+        this.tareas = tareas;
+    }        
+    
+    public void addTarea(Tarea tarea) {
+        tareas.add(tarea);
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -35,9 +49,5 @@ public class Proyecto {
 
     public void setTareas(List<Tarea> tareas) {
         this.tareas = tareas;
-    }
-
-    public void agregarTarea(Tarea t) {
-        tareas.add(t);
     }
 }
