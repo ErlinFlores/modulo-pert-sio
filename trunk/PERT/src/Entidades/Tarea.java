@@ -5,28 +5,40 @@
 
 package Entidades;
 
-import java.util.List;
-
 /**
  *
  * @author Usuario
  */
 public class Tarea {
 
-    public Tarea(byte unId, String d, Tiempo t, List<Tarea> p){
-        id = unId;
-        descripcion = d;
-        tiempos = t;
-        precedencias = p;
+    private int id;
+    private String nombre;
+    private String descripcion;
+    private TiempoEstimado tiempoEstimado;
+    private Precedencia precedencia;
+    
+    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tiempoEstimado = tiempoEstimado;
+        this.precedencia = precedencia;
+    }    
+
+    public int getDuracionEsperada() {
+        return tiempoEstimado.getDuracionEsperada();
+    }
+    
+    public int getId() {
+        return id;
     }
 
-    private byte id;
-    private String descripcion;
-    private Tiempo tiempos;
-    private List<Tarea> precedencias;
+    public String getNombre() {
+        return nombre;
+    }
 
-    public byte getId() {
-        return id;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -36,20 +48,20 @@ public class Tarea {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    public Tiempo getTiempos() {
-        return tiempos;
+    
+    public TiempoEstimado getTiempoEstimado() {
+        return tiempoEstimado;
     }
 
-    public void setTiempos(Tiempo tiempos) {
-        this.tiempos = tiempos;
+    public void setTiempoEstimado(TiempoEstimado tiempoEstimado) {
+        this.tiempoEstimado = tiempoEstimado;
+    }       
+
+    public Precedencia getPrecedencia() {
+        return precedencia;
     }
 
-    public List<Tarea> getPrecedencias() {
-        return precedencias;
-    }
-
-    public void setPrecedencias(List<Tarea> precedencias) {
-        this.precedencias = precedencias;
-    }
+    public void setPrecedencia(Precedencia precedencia) {
+        this.precedencia = precedencia;
+    }    
 }
