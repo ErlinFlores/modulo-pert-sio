@@ -45,6 +45,7 @@ public class FormTarea extends javax.swing.JFrame {
         setearDatosDeTarea();
     }
 
+    /** Creates new form FormTarea */
     public FormTarea(FormProyecto formularioProyecto, Tarea tarea) { // Para cuando se quiere modificar una tarea existente.
         initComponents();
         setearEtiquetas();
@@ -71,9 +72,16 @@ public class FormTarea extends javax.swing.JFrame {
         return posiblesTareas;
     }
     
+    //malo!!!
     private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
-        Precedencia
-        
+        Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.getPrecedencia();
+        for (Tarea tarea : tareasPrecedentesDeTareaDestino.getTareas()){
+            if (!(tarea.getId() == tareaInicio.getId())){
+                return hayCamino(tareaInicio, tarea);
+            }else{
+                return true;
+            }
+        }
         return false;
     }
     
