@@ -14,6 +14,7 @@ package Forms;
 import Entidades.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -402,7 +403,7 @@ public class FormTarea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarPrecedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPrecedenciaActionPerformed
-        int aux = tblPosiblesPrecedencias.getSelectedRow();
+       /* int aux = tblPosiblesPrecedencias.getSelectedRow();
         if (aux != -1){
             DefaultTableModel modeloTablaPrecedencias = (DefaultTableModel)tblPrecedencia.getModel();
             int nuevaFila = tareasPrecedentes.size();
@@ -412,12 +413,13 @@ public class FormTarea extends javax.swing.JFrame {
             tareasPrecedentes.add(nuevaTareaPredecesora);
             tblPrecedencia.setValueAt(nuevaTareaPredecesora.getId(), nuevaFila, 0);
             tblPrecedencia.setValueAt(nuevaTareaPredecesora.getDescripcion(), nuevaFila, 1);
-        }
+        }*/
         
     }//GEN-LAST:event_btnAgregarPrecedenciaActionPerformed
 
     private void btnSacarPrecedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarPrecedenciaActionPerformed
-        tareasPredecesoras.remove(tblPrecedencia.getSelectedRow());
+        
+        tareasPrecedentes.removeTarea(idTarea.g);
     }//GEN-LAST:event_btnSacarPrecedenciaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
