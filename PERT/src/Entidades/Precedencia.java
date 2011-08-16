@@ -25,6 +25,10 @@ public class Precedencia {
     public void addTarea(Tarea tarea){
         this.tareas.add(tarea);
     }
+
+    public boolean removeTarea(Tarea tarea){
+        return this.tareas.remove(tarea);
+    }
     
     public Tarea getTareaByID(int id){
         for (Tarea tarea : tareas){
