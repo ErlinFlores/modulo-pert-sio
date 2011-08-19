@@ -14,7 +14,6 @@ package Forms;
 import Entidades.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -141,6 +140,27 @@ public class FormTarea extends javax.swing.JFrame {
         return true;
     }
 
+    private Tarea quitarTareaDePosiblesPrecedenciasSegunSeleccion(int filaSeleccionada){
+        int idTarea = (Integer)tblPosiblesPrecedencias.getValueAt(filaSeleccionada, 0);
+        for (Tarea tarea : posiblesTareasPrecedentes){
+            if (tarea.getId() == idTarea){
+                Tarea nuevaTareaPrecedente = tarea;
+                posiblesTareasPrecedentes.remove(tarea);
+                tblPosiblesPrecedencias.remove(filaSeleccionada);
+                return nuevaTareaPrecedente;
+            }
+        }
+        return null;
+    }
+    
+    private Tarea quitarTareaDePrecedenciasSegunSeleccion(int filaSeleccionada){
+        int idTarea = (Integer)tblPrecedencia.getValueAt(filaSeleccionada, 0);
+        Tarea nuevaPosibleTareaPrecedente = tareasPrecedentes.getTareaByID(idTarea);
+        tareasPrecedentes.removeTarea(nuevaPosibleTareaPrecedente);
+        tblPrecedencia.remove(filaSeleccionada);
+        return nuevaPosibleTareaPrecedente;
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -403,37 +423,42 @@ public class FormTarea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarPrecedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPrecedenciaActionPerformed
-       /* int aux = tblPosiblesPrecedencias.getSelectedRow();
-        if (aux != -1){
-            DefaultTableModel modeloTablaPrecedencias = (DefaultTableModel)tblPrecedencia.getModel();
-            int nuevaFila = tareasPrecedentes.size();
+        int filaSeleccionada = tblPosiblesPrecedencias.getSelectedRow();
+        if (filaSeleccionada != -1){
+            Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);
+            DefaultTableModel modeloTablaPrecedencias = (DefaultTableModel)tblPrecedencia.getModel();            
+            int nuevaFila = tareasPrecedentes.getCantidadDeTareas();
             modeloTablaPrecedencias.addRow(new Object[nuevaFila]);
-            Tarea nuevaTareaPredecesora = posiblesTareasPrecedentes.get(aux);
-            tblPosiblesPrecedencias.remove(tblPosiblesPrecedencias.getSelectedRow());
-            tareasPrecedentes.add(nuevaTareaPredecesora);
-            tblPrecedencia.setValueAt(nuevaTareaPredecesora.getId(), nuevaFila, 0);
-            tblPrecedencia.setValueAt(nuevaTareaPredecesora.getDescripcion(), nuevaFila, 1);
-        }*/
-        
+            tareasPrecedentes.addTarea(nuevaTareaPrecedente);
+            tblPrecedencia.setValueAt(nuevaTareaPrecedente.getId(), nuevaFila, 0);
+            tblPrecedencia.setValueAt(nuevaTareaPrecedente.getDescripcion(), nuevaFila, 1);
+        }        
     }//GEN-LAST:event_btnAgregarPrecedenciaActionPerformed
 
     private void btnSacarPrecedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarPrecedenciaActionPerformed
-        
-        tareasPrecedentes.removeTarea(idTarea.g);
+        int filaSeleccionada = tblPrecedencia.getSelectedRow();
+        if (filaSeleccionada != -1){
+            Tarea nuevaPosibleTareaPrecedente = quitarTareaDePrecedenciasSegunSeleccion(filaSeleccionada);
+            DefaultTableModel modeloTablaPosiblePrecedencias = (DefaultTableModel)tblPosiblesPrecedencias.getModel();            
+            int nuevaFila = tareasPrecedentes.getCantidadDeTareas();
+            modeloTablaPosiblePrecedencias.addRow(new Object[nuevaFila]);
+            posiblesTareasPrecedentes.add(nuevaPosibleTareaPrecedente);
+            tblPrecedencia.setValueAt(nuevaPosibleTareaPrecedente.getId(), nuevaFila, 0);
+            tblPrecedencia.setValueAt(nuevaPosibleTareaPrecedente.getDescripcion(), nuevaFila, 1);
+        }
     }//GEN-LAST:event_btnSacarPrecedenciaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try{
             if (controlarDatosDeEntradaDelUsuario()){
-                descripcionTarea = txtDescripcionTarea.getText();
+                descripcion = txtDescripcionTarea.getText();
                 int tiempoOptimista = Integer.parseInt(txtTiempoOptimista.getText());
                 int tiempoMasProbable = Integer.parseInt(txtTiempoMasProbable.getText());
                 int tiempoPesimista = Integer.parseInt(txtTiempoPesimista.getText());
                 switch (tipoAccion){
                     case crear:
-                        Tarea t = new Tarea(idTarea, descripcionTarea, new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista), tareasPredecesoras);
-                        formularioProyecto.agregarTareaEnListaDeTareas(t);
-                        FabricaDeTarea.getInstance().confirmarUltimoId();
+                        Tarea nuevaTarea = FabricaDeTareas.getInstance().crearTarea(descripcion, tiemposEstimados, tareasPrecedentes);
+                        formularioProyecto.agregarTareaEnListaDeTareas(nuevaTarea);
                         break;
                     case modificar:
                         tiemposEstimados.setTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
