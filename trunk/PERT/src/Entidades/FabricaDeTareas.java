@@ -40,8 +40,7 @@ public class FabricaDeTareas {
     }   
     
     private int getId(){
-        int id;
-        id = proximoId;
+        int id = proximoId;
         proximoId += 1;        
         return id;
     }
@@ -50,4 +49,17 @@ public class FabricaDeTareas {
         int intDelChar = valor + 65; //en ascii el 65 representa la letra "A".
         return String.valueOf((char)intDelChar);
     }    
+    
+    public String getNombreCandidato(){
+        return getNombre(proximoId);
+    }
+    
+    public int getIdTareaByNombre(String nombre){
+        char[] caracteres = nombre.toCharArray();
+        return ((int)caracteres[0])-65;
+    }
+    
+    public void reset(){
+        proximoId = 0;
+    }
 }
