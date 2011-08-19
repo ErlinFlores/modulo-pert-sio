@@ -8,19 +8,19 @@ package Entidades;
  *
  * @author Manuel Lorenze
  */
-public class FabricaDeTarea {
+public class FabricaDeTareas {
 
     //--------------- SINGLETON ------------------------------------------------
     
-    private static FabricaDeTarea instancia = null;     
+    private static FabricaDeTareas instancia = null;     
  
     private synchronized static void createInstance() {
         if (instancia == null) { 
-            instancia = new FabricaDeTarea();
+            instancia = new FabricaDeTareas();
         }
     }
  
-    public static FabricaDeTarea getInstance() {
+    public static FabricaDeTareas getInstance() {
         if (instancia == null) 
             createInstance();
         return instancia;
@@ -30,7 +30,7 @@ public class FabricaDeTarea {
     
     private int proximoId;
     
-    private FabricaDeTarea() {
+    private FabricaDeTareas() {
         proximoId = 0;
     }
     

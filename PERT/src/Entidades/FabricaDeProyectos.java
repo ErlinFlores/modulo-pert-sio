@@ -10,19 +10,19 @@ import java.util.List;
  *
  * @author Manuel Lorenze
  */
-public class FabricaDeProyecto {
+public class FabricaDeProyectos {
     
     //--------------- SINGLETON ------------------------------------------------
     
-    private static FabricaDeProyecto instancia = null;     
+    private static FabricaDeProyectos instancia = null;     
  
     private synchronized static void createInstance() {
         if (instancia == null) { 
-            instancia = new FabricaDeProyecto();
+            instancia = new FabricaDeProyectos();
         }
     }
  
-    public static FabricaDeProyecto getInstance() {
+    public static FabricaDeProyectos getInstance() {
         if (instancia == null) 
             createInstance();
         return instancia;
@@ -32,7 +32,7 @@ public class FabricaDeProyecto {
     
     private int proximoId;
     
-    private FabricaDeProyecto() {
+    private FabricaDeProyectos() {
         proximoId = 0;
     }
     
