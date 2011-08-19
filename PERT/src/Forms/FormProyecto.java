@@ -14,6 +14,7 @@ package Forms;
 import Entidades.Accion;
 import Entidades.FabricaDeProyectos;
 import Entidades.FabricaDeTareas;
+import Entidades.GestorDeCalculosDeTiempos;
 import Entidades.Proyecto;
 import Entidades.Tarea;
 import java.util.ArrayList;
@@ -398,7 +399,8 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        // TODO add your handling code here:
+        GestorDeCalculosDeTiempos gestorDeCalculos = new GestorDeCalculosDeTiempos(tareas);
+        gestorDeCalculos.init();
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
