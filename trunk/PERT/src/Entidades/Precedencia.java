@@ -51,4 +51,15 @@ public class Precedencia {
     public List<Tarea> getTareas() {
         return tareas;
     } 
+    
+    public String getTareasConcatenadas(){
+        String tareasConcatenadas = "";
+        for (int i = 0; i < tareas.size(); i++){
+            tareasConcatenadas += String.valueOf(tareas.get(i).getId());
+            if ((i + 1) < tareas.size()){
+                tareasConcatenadas += ", ";
+            }
+        }
+        return tareasConcatenadas;
+    }
 }
