@@ -165,16 +165,16 @@ public class FormInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
-        Proyecto p = proyectos.get(cmbListaDeProyectos.getSelectedIndex());
-        FormProyecto fp = new FormProyecto(this, p);
+        Proyecto proyecto = proyectos.get(cmbListaDeProyectos.getSelectedIndex());
+        FormProyecto fp = new FormProyecto(this, proyecto);
         fp.setVisible(true);
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         int i = cmbListaDeProyectos.getSelectedIndex();
+        proyectos.remove(i);
         cmbListaDeProyectos.removeItemAt(i);
         cmbListaDeProyectos.updateUI();
-        proyectos.remove(i);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
