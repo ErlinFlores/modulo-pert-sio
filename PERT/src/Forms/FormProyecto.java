@@ -12,6 +12,7 @@
 package Forms;
 
 import Entidades.Accion;
+import Entidades.FabricaDeProyectos;
 import Entidades.Precedencia;
 import Entidades.Proyecto;
 import Entidades.Tarea;
@@ -32,22 +33,22 @@ public class FormProyecto extends javax.swing.JFrame {
     private List<Tarea> tareas;
     
     /** Creates new form FormProyecto */
-    public FormProyecto(FormInicio fi) { //Crear proyecto nuevo
+    public FormProyecto(FormInicio formularioInicio) { //Crear proyecto nuevo
         initComponents();
         setearEtiquetas();
-        formularioInicio = fi;
-        tipoAccion = Accion.crear;
-        nombre = "";
-        tareas = new ArrayList<Tarea>();
+        this.formularioInicio = formularioInicio;
+        this.tipoAccion = Accion.crear;
+        this.nombre = "";
+        this.tareas = new ArrayList<Tarea>();
     }
 
-    public FormProyecto(FormInicio fi, Proyecto p) { //Abrir proyecto existente
+    public FormProyecto(FormInicio formularioInicio, Proyecto proyecto) { //Abrir proyecto existente
         initComponents();
         setearEtiquetas();        
-        formularioInicio = fi;
-        tipoAccion = Accion.modificar;
-        nombre = p.getNombre();
-        tareas = p.getTareas();
+        this.formularioInicio = formularioInicio;
+        this.tipoAccion = Accion.modificar;
+        this.nombre = proyecto.getNombre();
+        this.tareas = proyecto.getTareas();
         setearCampos();
     }    
 
@@ -79,16 +80,8 @@ public class FormProyecto extends javax.swing.JFrame {
         }
     }
 
-    private String precedenciasConcatenadas(Tarea tarea){
-        String tareasConcatenadas = "";
-        List<Tarea> tareasPrecedentes = tarea.getPrecedencias();
-        for (int i = 0; i < tareasPrecedentes.size(); i++){
-            tareasConcatenadas += String.valueOf(tareasPrecedentes.get(i).getId());
-            if ((i + 1) < tareasPrecedentes.size()){
-                tareasConcatenadas += ", ";
-            }
-        }        
-        return tareasConcatenadas;
+    private String precedenciaConcatenada(Tarea tarea){             
+        return tarea.getPrecedencia().getTareasConcatenadas();
     }
     
     private void agregarTareaEnLaTablaDeTareas(Tarea tarea, int fila){
@@ -96,10 +89,10 @@ public class FormProyecto extends javax.swing.JFrame {
         modeloTablaTareas.addRow(new Object[fila]);
         tblTareasProyecto.setValueAt(tarea.getId(), fila, 0);
         tblTareasProyecto.setValueAt(tarea.getDescripcion(), fila, 1);
-        tblTareasProyecto.setValueAt(tarea.getTiempos().getTiempoOptimista(), fila, 2);
-        tblTareasProyecto.setValueAt(tarea.getTiempos().getTiempoMasProbable(), fila, 3);
-        tblTareasProyecto.setValueAt(tarea.getTiempos().getTiempoPesimista(), fila, 4);
-        tblTareasProyecto.setValueAt(precedenciasConcatenadas(tarea), fila, 5);
+        tblTareasProyecto.setValueAt(tarea.getTiempoEstimado().getTiempoOptimista(), fila, 2);
+        tblTareasProyecto.setValueAt(tarea.getTiempoEstimado().getTiempoMasProbable(), fila, 3);
+        tblTareasProyecto.setValueAt(tarea.getTiempoEstimado().getTiempoPesimista(), fila, 4);
+        tblTareasProyecto.setValueAt(precedenciaConcatenada(tarea), fila, 5);
     }
     
     /**
@@ -127,12 +120,12 @@ public class FormProyecto extends javax.swing.JFrame {
      * @param i
      * @return
      */
-    private boolean tieneSucesores(int i){
+  /*  private boolean tieneSucesores(int i){
         Tarea tareaDeAnalisis = tareas.get(i);
         for (int j = 0; j < tareas.size(); j++){
             if (j != i){
                 Tarea tAux = tareas.get(j);
-                List<Tarea> precedencias = tAux.getPrecedencias();
+                List<Tarea> precedencias = tAux.getPrecedencia();
                 for (int h = 0; h < precedencias.size(); h++){
                     Tarea tPrec = precedencias.get(h);
                     if (tareaDeAnalisis.equals(tPrec)){
@@ -142,7 +135,7 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         }
         return false;
-    }
+    }*/
 
     public List<Tarea> obtenerListaDeTareasDelProyecto(){
         return tareas;
@@ -388,11 +381,11 @@ public class FormProyecto extends javax.swing.JFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         int i = tblTareasProyecto.getSelectedRow();
-        if (!(tieneSucesores(i))){
+/*        if (!(tieneSucesores(i))){
             tareas.remove(i);
             tblTareasProyecto.remove(i);
             tblTareasProyecto.updateUI();
-        }
+        }*/
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
@@ -411,8 +404,8 @@ public class FormProyecto extends javax.swing.JFrame {
                 nombre = txtNombreProyecto.getText();
                 switch (tipoAccion){
                     case crear:
-                        Proyecto p = new Proyecto(nombre, tareas);
-                        formularioInicio.agregarProyectoEnListaDeProyectos(p);
+                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, tareas);
+                        formularioInicio.agregarProyectoEnListaDeProyectos(nuevoProyecto);
                         break;
                     case modificar:
                         // En teoría no hay que modificar nada en este sector. Modificación por referencia.
