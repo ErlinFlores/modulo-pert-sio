@@ -171,9 +171,9 @@ public class FormInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAbrirActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        int i = cmbListaDeProyectos.getSelectedIndex();
-        proyectos.remove(i);
+        int i = cmbListaDeProyectos.getSelectedIndex();        
         cmbListaDeProyectos.removeItemAt(i);
+        proyectos.remove(i);
         cmbListaDeProyectos.updateUI();
     }//GEN-LAST:event_btnBorrarActionPerformed
 

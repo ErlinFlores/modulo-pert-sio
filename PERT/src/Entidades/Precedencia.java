@@ -55,7 +55,7 @@ public class Precedencia {
     public String getTareasConcatenadas(){
         String tareasConcatenadas = "";
         for (int i = 0; i < tareas.size(); i++){
-            tareasConcatenadas += String.valueOf(tareas.get(i).getId());
+            tareasConcatenadas += String.valueOf(tareas.get(i).getNombre());
             if ((i + 1) < tareas.size()){
                 tareasConcatenadas += ", ";
             }
