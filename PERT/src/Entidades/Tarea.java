@@ -5,11 +5,13 @@
 
 package Entidades;
 
+import Entidades.ModeloDeRed.Arco;
+
 /**
  *
  * @author Manuel Lorenze
  */
-public class Tarea {
+public class Tarea extends Arco{
 
     private int id;
     private String nombre;
