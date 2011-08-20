@@ -11,6 +11,8 @@
 
 package Forms;
 
+import Entidades.FabricaDeProyectos;
+import Entidades.FabricaDeTareas;
 import Entidades.Proyecto;
 import java.util.ArrayList;
 import java.util.List;

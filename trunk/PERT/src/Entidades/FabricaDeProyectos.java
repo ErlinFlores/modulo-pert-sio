@@ -46,4 +46,8 @@ public class FabricaDeProyectos {
         proximoId += 1;        
         return id;
     }   
+    
+    public void reset(){
+        proximoId = 0;
+    }
 }

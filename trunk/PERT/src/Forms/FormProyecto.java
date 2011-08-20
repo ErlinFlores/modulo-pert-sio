@@ -15,8 +15,10 @@ import Entidades.Accion;
 import Entidades.FabricaDeProyectos;
 import Entidades.FabricaDeTareas;
 import Entidades.GestorDeCalculosDeTiempos;
+import Entidades.Precedencia;
 import Entidades.Proyecto;
 import Entidades.Tarea;
+import Entidades.TiempoEstimado;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -37,6 +39,8 @@ public class FormProyecto extends javax.swing.JFrame {
     /** Creates new form FormProyecto */
     public FormProyecto(FormInicio formularioInicio) { //Crear proyecto nuevo
         initComponents();
+        FabricaDeProyectos.getInstance().reset();
+        FabricaDeTareas.getInstance().reset();
         setearEtiquetas();
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.crear;
@@ -46,6 +50,8 @@ public class FormProyecto extends javax.swing.JFrame {
 
     public FormProyecto(FormInicio formularioInicio, Proyecto proyecto) { //Abrir proyecto existente
         initComponents();
+        FabricaDeProyectos.getInstance().reset();
+        FabricaDeTareas.getInstance().reset();
         setearEtiquetas();        
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.modificar;
@@ -117,6 +123,40 @@ public class FormProyecto extends javax.swing.JFrame {
         tareas.add(tarea);
     }    
     
+    public List<Tarea> obtenerPosiblesTareasPrecedentes(Tarea tarea){
+        Precedencia tareasPrecedentes = tarea.getPrecedencia();
+        List<Tarea> posiblesTareas = new ArrayList<Tarea>();
+        for (Tarea posibleTareaPrecedente : tareas){
+            int idPosibleTareaPrecedente = posibleTareaPrecedente.getId();
+            if ((!tareasPrecedentes.esPrecedente(idPosibleTareaPrecedente)) && (idPosibleTareaPrecedente != tarea.getId())){
+                if (!hayCamino(tarea, posibleTareaPrecedente)){
+                    posiblesTareas.add(posibleTareaPrecedente);
+                }
+            }
+        }       
+        return posiblesTareas;
+    }
+    
+    /*private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
+        return false;
+    }*/
+    
+    private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
+        Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.getPrecedencia();
+        boolean existeCamino = false;
+        for (Tarea tarea : tareasPrecedentesDeTareaDestino.getTareas()){
+            if (!(tarea.getId() == tareaInicio.getId())){
+                existeCamino = hayCamino(tareaInicio, tarea);
+            }else{
+                return true;
+            }
+            if (existeCamino){
+                break;
+            }
+        }
+        return existeCamino;
+    }
+    
     /**
      * Dada una tarea, se determina si forma parte de un camino en la red en el cual existen otras tareas sucesoras.
      * @param lt
@@ -142,6 +182,19 @@ public class FormProyecto extends javax.swing.JFrame {
 
     public List<Tarea> obtenerListaDeTareasDelProyecto(){
         return tareas;
+    }
+    
+    public void actualizarTareaEnTabla(int id, TiempoEstimado tiemposEstimados, Precedencia tareasPrecedentes){
+        for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
+            String nombreTarea = (String)tblTareasProyecto.getValueAt(i, 0);
+            int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
+            if (idTarea == id){
+                tblTareasProyecto.setValueAt(tareasPrecedentes.getTareasConcatenadas(), i, 2);
+                tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoOptimista(), i, 3);
+                tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoMasProbable(), i, 4);
+                tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoPesimista(), i, 5);
+            }
+        }
     }
 
     /** This method is called from within the constructor to

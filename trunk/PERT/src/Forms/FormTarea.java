@@ -28,6 +28,7 @@ public class FormTarea extends javax.swing.JFrame {
     private FabricaDeTareas fabricaDeTareas = FabricaDeTareas.getInstance();
     private List<Tarea> posiblesTareasPrecedentes;
     private Accion tipoAccion;
+    private int id;
     private String nombre;
     private String descripcion;
     private TiempoEstimado tiemposEstimados;
@@ -38,12 +39,13 @@ public class FormTarea extends javax.swing.JFrame {
         initComponents();
         setearEtiquetas();
         this.formularioProyecto = formularioProyecto;        
-        this.posiblesTareasPrecedentes = new ArrayList<Tarea>(formularioProyecto.obtenerListaDeTareasDelProyecto());
         this.tipoAccion = Accion.crear;
+        this.id = -1;
         this.nombre = fabricaDeTareas.getNombreCandidato();
         this.descripcion = "";
         this.tiemposEstimados = null;
         this.tareasPrecedentes = new Precedencia(new ArrayList<Tarea>());
+        this.posiblesTareasPrecedentes = new ArrayList<Tarea>(formularioProyecto.obtenerListaDeTareasDelProyecto());
         setearDatosDeTarea();
     }
 
@@ -51,41 +53,16 @@ public class FormTarea extends javax.swing.JFrame {
     public FormTarea(FormProyecto formularioProyecto, Tarea tarea) { // Para cuando se quiere modificar una tarea existente.
         initComponents();
         setearEtiquetas();
-        this.formularioProyecto = formularioProyecto;
-        this.posiblesTareasPrecedentes = obtenerPosiblesTareasPrecedentes(tarea, formularioProyecto.obtenerListaDeTareasDelProyecto());
+        this.formularioProyecto = formularioProyecto;        
         this.tipoAccion = Accion.modificar;
+        this.id = tarea.getId();
         this.nombre = tarea.getNombre();
         this.descripcion = tarea.getDescripcion();
         this.tiemposEstimados = tarea.getTiempoEstimado();
         this.tareasPrecedentes = tarea.getPrecedencia();
+        this.posiblesTareasPrecedentes = formularioProyecto.obtenerPosiblesTareasPrecedentes(tarea);
         setearDatosDeTarea();
-    }    
-
-    private List<Tarea> obtenerPosiblesTareasPrecedentes(Tarea tareaEnEdicion, List<Tarea> tareasDelProyecto){
-        List<Tarea> posiblesTareas = new ArrayList<Tarea>();
-        for (Tarea tarea : tareasDelProyecto){
-            int idTarea = tarea.getId();
-            if ((!tareasPrecedentes.esPrecedente(idTarea)) && (idTarea != tareaEnEdicion.getId())){
-                if (!hayCamino(tareaEnEdicion, tarea)){
-                    posiblesTareas.add(tarea);
-                }
-            }
-        }       
-        return posiblesTareas;
-    }
-    
-    //malo!!!
-    private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
-        Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.getPrecedencia();
-        for (Tarea tarea : tareasPrecedentesDeTareaDestino.getTareas()){
-            if (!(tarea.getId() == tareaInicio.getId())){
-                return hayCamino(tareaInicio, tarea);
-            }else{
-                return true;
-            }
-        }
-        return false;
-    }
+    }      
     
     /**
      * Se setean las etiquetas de la pantalla.
@@ -473,6 +450,7 @@ public class FormTarea extends javax.swing.JFrame {
                         break;
                     case modificar:
                         tiemposEstimados.setTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
+                        formularioProyecto.actualizarTareaEnTabla(id, tiemposEstimados, tareasPrecedentes);
                         break;
                 }
                 this.dispose();
