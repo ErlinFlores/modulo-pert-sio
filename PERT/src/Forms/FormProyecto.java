@@ -15,6 +15,7 @@ import Entidades.Accion;
 import Entidades.FabricaDeProyectos;
 import Entidades.FabricaDeTareas;
 import Entidades.GestorDeCalculosDeTiempos;
+import Entidades.ModeloDeRed.GestorDeRed;
 import Entidades.Precedencia;
 import Entidades.Proyecto;
 import Entidades.Tarea;
@@ -184,11 +185,12 @@ public class FormProyecto extends javax.swing.JFrame {
         return tareas;
     }
     
-    public void actualizarTareaEnTabla(int id, TiempoEstimado tiemposEstimados, Precedencia tareasPrecedentes){
+    public void actualizarTareaEnTabla(int id, String descripcion, TiempoEstimado tiemposEstimados, Precedencia tareasPrecedentes){
         for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
             String nombreTarea = (String)tblTareasProyecto.getValueAt(i, 0);
             int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
             if (idTarea == id){
+                tblTareasProyecto.setValueAt(descripcion, i, 1);
                 tblTareasProyecto.setValueAt(tareasPrecedentes.getTareasConcatenadas(), i, 2);
                 tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoOptimista(), i, 3);
                 tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoMasProbable(), i, 4);
@@ -452,8 +454,8 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        GestorDeCalculosDeTiempos gestorDeCalculos = new GestorDeCalculosDeTiempos(tareas);
-        gestorDeCalculos.init();
+        GestorDeRed gestorDeRed = new GestorDeRed(tareas);
+        gestorDeRed.realizarCalculos();
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed

@@ -10,8 +10,9 @@ package Entidades.ModeloDeRed;
  */
 public abstract class Nodo {
     
-    private int id;
-
+    protected int id;
     
-
+    public int getId(){
+        return id;
+    }
 }

@@ -19,16 +19,23 @@ public class Tarea extends Arco{
     private TiempoEstimado tiempoEstimado;
     private Precedencia precedencia;
     
-    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+    private boolean ficticia;
+    
+    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia, boolean ficticia){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoEstimado = tiempoEstimado;
         this.precedencia = precedencia;
+        this.ficticia = ficticia;
     }    
 
     public int getDuracionEsperada() {
         return tiempoEstimado.getDuracionEsperada();
+    }
+    
+    public boolean tieneTareasPrecedentes(){
+        return precedencia.getCantidadDeTareas() > 0;
     }
     
     public int getId() {
@@ -39,31 +46,19 @@ public class Tarea extends Arco{
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public String getDescripcion() {
         return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
     
     public TiempoEstimado getTiempoEstimado() {
         return tiempoEstimado;
-    }
-
-    public void setTiempoEstimado(TiempoEstimado tiempoEstimado) {
-        this.tiempoEstimado = tiempoEstimado;
-    }       
+    }      
 
     public Precedencia getPrecedencia() {
         return precedencia;
     }
 
-    public void setPrecedencia(Precedencia precedencia) {
-        this.precedencia = precedencia;
-    }    
+    public boolean isFicticia() {
+        return ficticia;
+    }   
 }

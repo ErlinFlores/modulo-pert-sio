@@ -34,9 +34,9 @@ public class FabricaDeTareas {
         proximoId = 0;
     }
     
-    public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+    public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia, boolean ficticia){
         int id = getId();
-        return new Tarea(id, getNombre(id), descripcion, tiempoEstimado, precedencia);
+        return new Tarea(id, getNombre(id), descripcion, tiempoEstimado, precedencia, ficticia);
     }   
     
     private int getId(){
