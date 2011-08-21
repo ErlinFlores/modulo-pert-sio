@@ -450,7 +450,7 @@ public class FormTarea extends javax.swing.JFrame {
                         break;
                     case modificar:
                         tiemposEstimados.setTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
-                        formularioProyecto.actualizarTareaEnTabla(id, tiemposEstimados, tareasPrecedentes);
+                        formularioProyecto.actualizarTareaEnTabla(id, descripcion, tiemposEstimados, tareasPrecedentes);
                         break;
                 }
                 this.dispose();
