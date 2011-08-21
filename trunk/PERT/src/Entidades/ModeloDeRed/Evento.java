@@ -18,7 +18,8 @@ public class Evento extends Nodo{
     private int tiempoMasTempranoDeFin; // equivale al tiempo temprano de fin mas chico de las tareas que desembocan en este evento.
     private int tiempoMasTardioDeFin;
     
-    public Evento(TipoEvento tipo){
+    public Evento(int id, TipoEvento tipo){
+        this.id = id;
         this.tipo = tipo;
     }
 }
