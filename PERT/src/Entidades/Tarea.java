@@ -37,7 +37,7 @@ public class Tarea extends Arco{
     public boolean tieneTareasPrecedentes(){
         return precedencia.getCantidadDeTareas() > 0;
     }
-    
+
     public int getId() {
         return id;
     }

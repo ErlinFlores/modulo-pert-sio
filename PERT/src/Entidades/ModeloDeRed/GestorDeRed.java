@@ -30,23 +30,33 @@ public class GestorDeRed {
     private void crearRedDeTareas(){
         redDeTareas = new Red(eventoInicioProyecto, eventoFinProyecto);
         
-        List<Tarea> tareasSinPrecedentes = obtenerTareasSinPrecedentes();
-        for (Tarea tarea : tareasSinPrecedentes){
-            tarea.setNodoOrigen(eventoInicioProyecto);
-            Nodo nodoDestino = fabricaDeEventos.crearEvento(TipoEvento.transicion);
-            redDeTareas.agregarNodo(nodoDestino);
-            tarea.setNodoDestino(nodoDestino);
-        }
-    }
-    
-    private List<Tarea> obtenerTareasSinPrecedentes(){
         List<Tarea> tareasSinPrecedentes = new ArrayList<Tarea>();
+        List<Tarea> tareasIntermedias = new ArrayList<Tarea>();
+        List<Tarea> tareasSinSucesores = new ArrayList<Tarea>();
         for (Tarea tarea : tareasDelProyecto){
             if (!tarea.tieneTareasPrecedentes()){
                 tareasSinPrecedentes.add(tarea);
+            }else if (tieneSucesores(tarea)){
+                tareasIntermedias.add(tarea);
+            }else{
+                tareasSinSucesores.add(tarea);
             }                
         }
-        return tareasSinPrecedentes;
+        for (Tarea tarea : tareasSinPrecedentes){
+            tarea.setNodoOrigen(eventoInicioProyecto);
+            Evento eventoDestino = fabricaDeEventos.crearEvento(TipoEvento.transicion);
+            redDeTareas.agregarNodo(eventoDestino);
+            tarea.setNodoDestino(eventoDestino);
+        }
+    }
+    
+    private boolean tieneSucesores(Tarea tareaOrigen){
+        for (Tarea tarea : tareasDelProyecto){
+            if (tarea.getPrecedencia().esPrecedente(tareaOrigen.getId())){
+                return true;
+            }
+        }
+        return false;
     }
     
     public void realizarCalculos(){
