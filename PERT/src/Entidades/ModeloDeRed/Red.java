@@ -29,5 +29,9 @@ public class Red {
     
     public void agregarArco(Arco arco){
         listaDeArcos.add(arco);
-    }    
+    }
+
+    public void eliminarNodo(Nodo nodo){
+        listaDeNodos.remove(nodo);
+    }
 }
