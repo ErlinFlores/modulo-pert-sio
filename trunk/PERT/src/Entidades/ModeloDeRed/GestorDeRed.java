@@ -4,6 +4,7 @@
  */
 package Entidades.ModeloDeRed;
 
+import Entidades.Precedencia;
 import Entidades.Tarea;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,16 @@ public class GestorDeRed {
             Evento eventoDestino = fabricaDeEventos.crearEvento(TipoEvento.transicion);
             redDeTareas.agregarNodo(eventoDestino);
             tarea.setNodoDestino(eventoDestino);
+        }
+        for (Tarea tarea : tareasIntermedias){
+            Precedencia precedencia = tarea.getPrecedencia();
+            for (Tarea tareaPrecedente : precedencia.getTareas()){
+                
+            }
+        }
+        for (Tarea tarea : tareasSinSucesores){
+            redDeTareas.eliminarNodo(tarea.getNodoDestino());
+            tarea.setNodoDestino(eventoFinProyecto);
         }
     }
     
