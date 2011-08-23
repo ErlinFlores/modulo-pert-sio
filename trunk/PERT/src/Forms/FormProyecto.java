@@ -33,6 +33,7 @@ public class FormProyecto extends javax.swing.JFrame {
 
     private FormInicio formularioInicio;
     private Accion tipoAccion;
+    private Proyecto proyecto;
     private String nombre;
     private List<Tarea> tareas;
     
@@ -52,7 +53,8 @@ public class FormProyecto extends javax.swing.JFrame {
         initComponents();
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();
-        setearEtiquetas();        
+        setearEtiquetas();
+        this.proyecto = proyecto;
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.modificar;
         this.nombre = proyecto.obtenerNombre();
@@ -484,7 +486,7 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(tareas);
+        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(proyecto);
         List<Tarea> tareasDelProyecto = gestorDeCalculos.realizarCalculos();
         actualizarTablaDeCalculos(tareasDelProyecto);
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
