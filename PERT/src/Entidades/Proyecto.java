@@ -31,14 +31,9 @@ public class Proyecto {
         tareas.remove(tarea);
     }
 
-    public boolean tieneSucesores(Tarea tareaOrigen){
-        for (Tarea tarea : tareas){
-            if (tarea.obtenerPrecedencia().esPrecedente(tareaOrigen.obtenerId())){
-                return true;
-            }
-        }
-        return false;
-    }   
+    public int obtenerCantidadDeTareas(){
+        return tareas.size();
+    }      
 
     public int obtenerId() {
         return id;

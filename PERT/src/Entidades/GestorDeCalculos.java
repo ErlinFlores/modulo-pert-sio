@@ -12,16 +12,17 @@ import java.util.List;
  */
 public class GestorDeCalculos {
     
-    private List<Tarea> tareasDelProyecto;
+    private Proyecto proyecto;
     
-    public GestorDeCalculos(List<Tarea> tareasDelProyecto){
-        this.tareasDelProyecto = tareasDelProyecto;
+    public GestorDeCalculos(Proyecto proyecto){
+        this.proyecto = proyecto;
     }
     
-    public List<Tarea> realizarCalculos(){        
+    public boolean realizarCalculos(){
         boolean error = false;
+
         double duracionDelProyecto = 0;        
-        for (Tarea tarea : tareasDelProyecto){
+        for (Tarea tarea : proyecto.obtenerTareas()){
             if (!tarea.tieneTareasPrecedentes()){
                 tarea.setearComienzoTemprano(0);
                 tarea.setearFinTemprano(tarea.obtenerDuracionEsperada());
@@ -36,15 +37,15 @@ public class GestorDeCalculos {
                 tarea.setearComienzoTemprano(finTempranoMasGrandeDeLosPrecedentes);
                 tarea.setearFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.obtenerDuracionEsperada());
             }
-            if (!tieneSucesores(tarea)){
+            if (!proyecto.existeAlgunSucesor(tarea)){
                 if (duracionDelProyecto < tarea.obtenerFinTemprano()){
                     duracionDelProyecto = tarea.obtenerFinTemprano();
                 }
             }
         }        
-        for (int i = tareasDelProyecto.size()-1; i >= 0; i--){
-            Tarea tarea = tareasDelProyecto.get(i);
-            if (!tieneSucesores(tarea)){
+        for (int i = proyecto.obtenerCantidadDeTareas() - 1; i >= 0; i--){
+            Tarea tarea = proyecto.obtenerTareas().get(i);
+            if (!proyecto.existeAlgunSucesor(tarea)){
                 tarea.setearFinTardio(duracionDelProyecto);
             }
             double comienzoTardio = tarea.obtenerFinTardio() - tarea.obtenerDuracionEsperada();
@@ -61,18 +62,6 @@ public class GestorDeCalculos {
                 }
             }
         }
-        if (!error)
-            return tareasDelProyecto;
-        else
-            return null;
-    }
-    
-    private boolean tieneSucesores(Tarea tareaOrigen){
-        for (Tarea tarea : tareasDelProyecto){
-            if (tarea.obtenerPrecedencia().esPrecedente(tareaOrigen.obtenerId())){
-                return true;
-            }
-        }
-        return false;
+        return !error;
     }
 }
