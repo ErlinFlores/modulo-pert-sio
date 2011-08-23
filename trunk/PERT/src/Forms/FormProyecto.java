@@ -15,7 +15,6 @@ import Entidades.Accion;
 import Entidades.CalculosDePERT;
 import Entidades.FabricaDeProyectos;
 import Entidades.FabricaDeTareas;
-import Entidades.ModeloDeRed.GestorDeRed;
 import Entidades.Precedencia;
 import Entidades.Proyecto;
 import Entidades.Tarea;
@@ -118,7 +117,15 @@ public class FormProyecto extends javax.swing.JFrame {
             tblResultados.setValueAt(tarea.getComienzoTardio(), fila, 4);  
             tblResultados.setValueAt(tarea.getFinTardio(), fila, 5);  
             tblResultados.setValueAt(tarea.getHolgura(), fila, 6);  
-            tblResultados.setValueAt(tarea.isTareaCritica(), fila, 7);           
+            tblResultados.setValueAt(tarea.isTareaCritica(), fila, 7);
+            System.out.print(tarea.getNombre()+" / ");
+            System.out.print(tarea.getDuracionEsperada()+" / ");
+            System.out.print(tarea.getComienzoTemprano()+" / ");
+            System.out.print(tarea.getFinTemprano()+" / ");
+            System.out.print(tarea.getComienzoTardio()+" / ");
+            System.out.print(tarea.getFinTardio()+" / ");
+            System.out.print(tarea.getHolgura()+" / ");
+            System.out.println(tarea.isTareaCritica());
             fila += 1;
         }
         tblResultados.updateUI();

@@ -120,9 +120,9 @@ public class FormTarea extends javax.swing.JFrame {
         int to = Integer.parseInt(txtTiempoOptimista.getText());
         int tmp = Integer.parseInt(txtTiempoMasProbable.getText());
         int tp = Integer.parseInt(txtTiempoPesimista.getText());
-        if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
+     /*   if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -186,7 +186,7 @@ public class FormTarea extends javax.swing.JFrame {
         lblIdTarea.setText("lblNombreTarea");
 
         txtNombreTarea.setEditable(false);
-        txtNombreTarea.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtNombreTarea.setFont(new java.awt.Font("Tahoma", 1, 11));
         txtNombreTarea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         lblDescripciónTarea.setText("lblDescripcionTarea");
@@ -198,12 +198,10 @@ public class FormTarea extends javax.swing.JFrame {
         lblTiempoOptimista.setText("lblTiempoOptimista");
 
         txtTiempoOptimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTiempoOptimista.setText("1");
 
         lblTiempoMasProbable.setText("lblTiempoMasProbable");
 
         txtTiempoMasProbable.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTiempoMasProbable.setText("3");
 
         lblTiempoPesimista.setText("lblTiempoPesimista");
 
