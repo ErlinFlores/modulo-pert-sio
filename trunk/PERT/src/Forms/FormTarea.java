@@ -191,8 +191,6 @@ public class FormTarea extends javax.swing.JFrame {
 
         lblDescripciónTarea.setText("lblDescripcionTarea");
 
-        txtDescripcionTarea.setText("Tarea ");
-
         jPanelTiemposEstimados.setBorder(javax.swing.BorderFactory.createTitledBorder("Tiempos estimados"));
 
         lblTiempoOptimista.setText("lblTiempoOptimista");
@@ -206,7 +204,6 @@ public class FormTarea extends javax.swing.JFrame {
         lblTiempoPesimista.setText("lblTiempoPesimista");
 
         txtTiempoPesimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTiempoPesimista.setText("9");
 
         javax.swing.GroupLayout jPanelTiemposEstimadosLayout = new javax.swing.GroupLayout(jPanelTiemposEstimados);
         jPanelTiemposEstimados.setLayout(jPanelTiemposEstimadosLayout);
