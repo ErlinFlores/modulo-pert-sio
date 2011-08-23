@@ -12,7 +12,7 @@
 package Forms;
 
 import Entidades.Accion;
-import Entidades.CalculosDePERT;
+import Entidades.GestorDeCalculos;
 import Entidades.FabricaDeProyectos;
 import Entidades.FabricaDeTareas;
 import Entidades.Precedencia;
@@ -104,31 +104,36 @@ public class FormProyecto extends javax.swing.JFrame {
         tabla.updateUI();
     }
     
-    private void setearTablaDeCalculos(List<Tarea> tareasDelProyecto){
-        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblResultados.getModel();
+    private void actualizarTablaDeCalculos(List<Tarea> tareasDelProyecto){
+        DefaultTableModel modeloTabla = (DefaultTableModel)tblResultadoDeCalculos.getModel();
+        int cantidadDeFilas = modeloTabla.getRowCount();
+        for (int i = 0; i < cantidadDeFilas; i++){
+            modeloTabla.removeRow(0);
+        }
         int fila = 0;
-        for (Tarea tarea : tareasDelProyecto){
+        for (Tarea tarea : tareasDelProyecto){            
             modeloTabla.addRow(new Object[fila]);
-            tblResultados.setValueAt(tarea.getNombre(), fila, 0);
-            tblResultados.setValueAt(tarea.getDuracionEsperada(), fila, 1);
-            //tblResultados.setValueAt(tarea.getPrecedencia().getTareasConcatenadas(), fila, 2);
-            tblResultados.setValueAt(tarea.getComienzoTemprano(), fila, 2);
-            tblResultados.setValueAt(tarea.getFinTemprano(), fila, 3);
-            tblResultados.setValueAt(tarea.getComienzoTardio(), fila, 4);  
-            tblResultados.setValueAt(tarea.getFinTardio(), fila, 5);  
-            tblResultados.setValueAt(tarea.getHolgura(), fila, 6);  
-            tblResultados.setValueAt(tarea.isTareaCritica(), fila, 7);
-            System.out.print(tarea.getNombre()+" / ");
+            tblResultadoDeCalculos.setValueAt(tarea.getNombre(), fila, 0);
+            tblResultadoDeCalculos.setValueAt(tarea.getDuracionEsperada(), fila, 1);
+            tblResultadoDeCalculos.setValueAt(tarea.getPrecedencia().getTareasConcatenadas(), fila, 2);
+            tblResultadoDeCalculos.setValueAt(tarea.getComienzoTemprano(), fila, 3);
+            tblResultadoDeCalculos.setValueAt(tarea.getFinTemprano(), fila, 4);
+            tblResultadoDeCalculos.setValueAt(tarea.getComienzoTardio(), fila, 5);
+            tblResultadoDeCalculos.setValueAt(tarea.getFinTardio(), fila, 6);
+            tblResultadoDeCalculos.setValueAt(tarea.getHolgura(), fila, 7);
+            tblResultadoDeCalculos.setValueAt(tarea.isTareaCritica(), fila, 8);
+            System.out.print(tarea.getNombre()+": ");
             System.out.print(tarea.getDuracionEsperada()+" / ");
+            System.out.print(tarea.getPrecedencia().getTareasConcatenadas()+" // ");
             System.out.print(tarea.getComienzoTemprano()+" / ");
             System.out.print(tarea.getFinTemprano()+" / ");
             System.out.print(tarea.getComienzoTardio()+" / ");
             System.out.print(tarea.getFinTardio()+" / ");
             System.out.print(tarea.getHolgura()+" / ");
             System.out.println(tarea.isTareaCritica());
-            fila += 1;
+            fila += 1;            
         }
-        tblResultados.updateUI();
+        tblResultadoDeCalculos.updateUI();
     }
     
     /**
@@ -244,11 +249,11 @@ public class FormProyecto extends javax.swing.JFrame {
         btnBorrar = new javax.swing.JButton();
         btnBorrarTodas = new javax.swing.JButton();
         btnRealizarCalculosTiempos = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblResultados = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnCalculoDeProbabilidades = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblResultadoDeCalculos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -286,9 +291,11 @@ public class FormProyecto extends javax.swing.JFrame {
         tblTareasProyecto.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblTareasProyecto);
         tblTareasProyecto.getColumnModel().getColumn(0).setResizable(false);
+        tblTareasProyecto.getColumnModel().getColumn(1).setResizable(false);
         tblTareasProyecto.getColumnModel().getColumn(2).setResizable(false);
         tblTareasProyecto.getColumnModel().getColumn(3).setResizable(false);
         tblTareasProyecto.getColumnModel().getColumn(4).setResizable(false);
+        tblTareasProyecto.getColumnModel().getColumn(5).setResizable(false);
 
         btnAgregar.setText("btnAgregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -325,44 +332,6 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
-        tblResultados.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        tblResultados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Duración", "tComTemp", "tComTardío", "tFinTemp", "tFinTardío", "Holgura", "¿C.C.?"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblResultados.setColumnSelectionAllowed(true);
-        tblResultados.setPreferredSize(new java.awt.Dimension(675, 0));
-        tblResultados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(tblResultados);
-        tblResultados.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblResultados.getColumnModel().getColumn(0).setResizable(false);
-        tblResultados.getColumnModel().getColumn(1).setResizable(false);
-        tblResultados.getColumnModel().getColumn(2).setResizable(false);
-        tblResultados.getColumnModel().getColumn(3).setResizable(false);
-        tblResultados.getColumnModel().getColumn(4).setResizable(false);
-        tblResultados.getColumnModel().getColumn(5).setResizable(false);
-        tblResultados.getColumnModel().getColumn(6).setResizable(false);
-        tblResultados.getColumnModel().getColumn(7).setResizable(false);
-
         btnGuardar.setText("btnGuardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -379,6 +348,42 @@ public class FormProyecto extends javax.swing.JFrame {
 
         btnCalculoDeProbabilidades.setText("btnCalculoDeProbabilidades");
 
+        tblResultadoDeCalculos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Duración", "Precedencia", "tComienzoTemp", "tFinTemprano", "tComienzoTardio", "tFinTardio", "Holgura", "Critica"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblResultadoDeCalculos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblResultadoDeCalculos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tblResultadoDeCalculos);
+        tblResultadoDeCalculos.getColumnModel().getColumn(0).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(1).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(2).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(3).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(4).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(5).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(6).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(7).setResizable(false);
+        tblResultadoDeCalculos.getColumnModel().getColumn(8).setResizable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -387,66 +392,65 @@ public class FormProyecto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(642, 642, 642))
+                        .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                        .addGap(646, 646, 646))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNombreProyecto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblTareasProyecto)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                                     .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnBorrarTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCalculoDeProbabilidades)
-                                .addGap(515, 515, 515)))
-                        .addGap(18, 18, 18)
+                            .addComponent(btnCalculoDeProbabilidades))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                             .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
-                        .addContainerGap())))
+                        .addGap(10, 10, 10))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreProyecto)
+                    .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(lblTareasProyecto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBorrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBorrarTodas)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRealizarCalculosTiempos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(542, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombreProyecto)
-                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(lblTareasProyecto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAgregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBorrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnBorrarTodas)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRealizarCalculosTiempos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCalculoDeProbabilidades)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCalculoDeProbabilidades))
+                .addContainerGap())
         );
 
         pack();
@@ -482,10 +486,9 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        CalculosDePERT gestorDeCalculos = new CalculosDePERT(tareas);
+        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(tareas);
         List<Tarea> tareasDelProyecto = gestorDeCalculos.realizarCalculos();
-        setearTablaDeCalculos(tareasDelProyecto);
-        
+        actualizarTablaDeCalculos(tareasDelProyecto);
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -539,7 +542,7 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNombreProyecto;
     private javax.swing.JLabel lblTareasProyecto;
-    private javax.swing.JTable tblResultados;
+    private javax.swing.JTable tblResultadoDeCalculos;
     private javax.swing.JTable tblTareasProyecto;
     private javax.swing.JTextField txtNombreProyecto;
     // End of variables declaration//GEN-END:variables

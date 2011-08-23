@@ -10,11 +10,11 @@ import java.util.List;
  *
  * @author Manuel Lorenze
  */
-public class CalculosDePERT {
+public class GestorDeCalculos {
     
     private List<Tarea> tareasDelProyecto;
     
-    public CalculosDePERT(List<Tarea> tareasDelProyecto){
+    public GestorDeCalculos(List<Tarea> tareasDelProyecto){
         this.tareasDelProyecto = tareasDelProyecto;
     }
     
@@ -34,11 +34,11 @@ public class CalculosDePERT {
                     }
                 }
                 tarea.setComienzoTemprano(finTempranoMasGrandeDeLosPrecedentes);
-                tarea.setFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.getDuracionEsperada());
-                if (!tieneSucesores(tarea)){
-                    if (duracionDelProyecto < tarea.getFinTemprano()){
-                        duracionDelProyecto = tarea.getFinTemprano();
-                    }
+                tarea.setFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.getDuracionEsperada());                
+            }
+            if (!tieneSucesores(tarea)){
+                if (duracionDelProyecto < tarea.getFinTemprano()){
+                    duracionDelProyecto = tarea.getFinTemprano();
                 }
             }
         }        
