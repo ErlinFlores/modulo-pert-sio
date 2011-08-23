@@ -10,48 +10,48 @@ package Entidades;
  */
 public abstract class TareaAbstracta {
     
-    private double comienzoTemprano;
-    private double comienzoTardio;
-    private double finTemprano;
-    private double finTardio;
+    protected double comienzoTemprano;
+    protected double comienzoTardio;
+    protected double finTemprano;
+    protected double finTardio;
     
-    public double getComienzoTardio() {
+    public double obtenerComienzoTardio() {
         return comienzoTardio;
     }
 
-    public void setComienzoTardio(double comienzoTardio) {
+    public void setearComienzoTardio(double comienzoTardio) {
         this.comienzoTardio = comienzoTardio;
     }
 
-    public double getComienzoTemprano() {
+    public double obtenerComienzoTemprano() {
         return comienzoTemprano;
     }
 
-    public void setComienzoTemprano(double comienzoTemprano) {
+    public void setearComienzoTemprano(double comienzoTemprano) {
         this.comienzoTemprano = comienzoTemprano;
     }
 
-    public double getFinTardio() {
+    public double obtenerFinTardio() {
         return finTardio;
     }
 
-    public void setFinTardio(double finTardio) {
+    public void setearFinTardio(double finTardio) {
         this.finTardio = finTardio;
     }
 
-    public double getFinTemprano() {
+    public double obtenerFinTemprano() {
         return finTemprano;
     }
 
-    public void setFinTemprano(double finTemprano) {
+    public void setearFinTemprano(double finTemprano) {
         this.finTemprano = finTemprano;
     }    
     
-    public double getHolgura(){
+    public double obtenerHolgura(){
         return comienzoTardio - comienzoTemprano;
     }
     
-    public boolean isTareaCritica(){
-        return getHolgura() == 0;
+    public boolean esTareaCritica(){
+        return obtenerHolgura() == 0;
     }
 }

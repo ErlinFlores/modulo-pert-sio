@@ -55,8 +55,8 @@ public class FormProyecto extends javax.swing.JFrame {
         setearEtiquetas();        
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.modificar;
-        this.nombre = proyecto.getNombre();
-        this.tareas = proyecto.getTareas();
+        this.nombre = proyecto.obtenerNombre();
+        this.tareas = proyecto.obtenerTareas();
         setearCampos();
     }    
 
@@ -92,12 +92,12 @@ public class FormProyecto extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel)tabla.getModel();
         if (nuevaFila){
             modeloTabla.addRow(new Object[fila]);
-            tabla.setValueAt(tarea.getNombre(), fila, 0);
-            tabla.setValueAt(tarea.getDescripcion(), fila, 1);
-            tabla.setValueAt(tarea.getPrecedencia().getTareasConcatenadas(), fila, 2);
-            tabla.setValueAt(tarea.getTiempoEstimado().getTiempoOptimista(), fila, 3);
-            tabla.setValueAt(tarea.getTiempoEstimado().getTiempoMasProbable(), fila, 4);
-            tabla.setValueAt(tarea.getTiempoEstimado().getTiempoPesimista(), fila, 5);            
+            tabla.setValueAt(tarea.obtenerNombre(), fila, 0);
+            tabla.setValueAt(tarea.obtenerDescripcion(), fila, 1);
+            tabla.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+            tabla.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
+            tabla.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
+            tabla.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
         }else{
             modeloTabla.removeRow(fila);
         }      
@@ -113,24 +113,24 @@ public class FormProyecto extends javax.swing.JFrame {
         int fila = 0;
         for (Tarea tarea : tareasDelProyecto){            
             modeloTabla.addRow(new Object[fila]);
-            tblResultadoDeCalculos.setValueAt(tarea.getNombre(), fila, 0);
-            tblResultadoDeCalculos.setValueAt(tarea.getDuracionEsperada(), fila, 1);
-            tblResultadoDeCalculos.setValueAt(tarea.getPrecedencia().getTareasConcatenadas(), fila, 2);
-            tblResultadoDeCalculos.setValueAt(tarea.getComienzoTemprano(), fila, 3);
-            tblResultadoDeCalculos.setValueAt(tarea.getFinTemprano(), fila, 4);
-            tblResultadoDeCalculos.setValueAt(tarea.getComienzoTardio(), fila, 5);
-            tblResultadoDeCalculos.setValueAt(tarea.getFinTardio(), fila, 6);
-            tblResultadoDeCalculos.setValueAt(tarea.getHolgura(), fila, 7);
-            tblResultadoDeCalculos.setValueAt(tarea.isTareaCritica(), fila, 8);
-            System.out.print(tarea.getNombre()+": ");
-            System.out.print(tarea.getDuracionEsperada()+" / ");
-            System.out.print(tarea.getPrecedencia().getTareasConcatenadas()+" // ");
-            System.out.print(tarea.getComienzoTemprano()+" / ");
-            System.out.print(tarea.getFinTemprano()+" / ");
-            System.out.print(tarea.getComienzoTardio()+" / ");
-            System.out.print(tarea.getFinTardio()+" / ");
-            System.out.print(tarea.getHolgura()+" / ");
-            System.out.println(tarea.isTareaCritica());
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTemprano(), fila, 3);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTemprano(), fila, 4);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
+            tblResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
+            tblResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
+            System.out.print(tarea.obtenerNombre()+": ");
+            System.out.print(tarea.obtenerDuracionEsperada()+" / ");
+            System.out.print(tarea.obtenerPrecedencia().obtenerTareasConcatenadas()+" // ");
+            System.out.print(tarea.obtenerComienzoTemprano()+" / ");
+            System.out.print(tarea.obtenerFinTemprano()+" / ");
+            System.out.print(tarea.obtenerComienzoTardio()+" / ");
+            System.out.print(tarea.obtenerFinTardio()+" / ");
+            System.out.print(tarea.obtenerHolgura()+" / ");
+            System.out.println(tarea.esTareaCritica());
             fila += 1;            
         }
         tblResultadoDeCalculos.updateUI();
@@ -156,11 +156,11 @@ public class FormProyecto extends javax.swing.JFrame {
     }    
     
     public List<Tarea> obtenerPosiblesTareasPrecedentes(Tarea tarea){
-        Precedencia tareasPrecedentes = tarea.getPrecedencia();
+        Precedencia tareasPrecedentes = tarea.obtenerPrecedencia();
         List<Tarea> posiblesTareas = new ArrayList<Tarea>();
         for (Tarea posibleTareaPrecedente : tareas){
-            int idPosibleTareaPrecedente = posibleTareaPrecedente.getId();
-            if ((!tareasPrecedentes.esPrecedente(idPosibleTareaPrecedente)) && (idPosibleTareaPrecedente != tarea.getId())){
+            int idPosibleTareaPrecedente = posibleTareaPrecedente.obtenerId();
+            if ((!tareasPrecedentes.esPrecedente(idPosibleTareaPrecedente)) && (idPosibleTareaPrecedente != tarea.obtenerId())){
                 if (!hayCamino(tarea, posibleTareaPrecedente)){
                     posiblesTareas.add(posibleTareaPrecedente);
                 }
@@ -174,10 +174,10 @@ public class FormProyecto extends javax.swing.JFrame {
     }*/
     
     private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
-        Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.getPrecedencia();
+        Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
         boolean existeCamino = false;
-        for (Tarea tarea : tareasPrecedentesDeTareaDestino.getTareas()){
-            if (!(tarea.getId() == tareaInicio.getId())){
+        for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerTareas()){
+            if (!(tarea.obtenerId() == tareaInicio.obtenerId())){
                 existeCamino = hayCamino(tareaInicio, tarea);
             }else{
                 return true;
@@ -222,10 +222,10 @@ public class FormProyecto extends javax.swing.JFrame {
             int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
             if (idTarea == id){
                 tblTareasProyecto.setValueAt(descripcion, i, 1);
-                tblTareasProyecto.setValueAt(tareasPrecedentes.getTareasConcatenadas(), i, 2);
-                tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoOptimista(), i, 3);
-                tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoMasProbable(), i, 4);
-                tblTareasProyecto.setValueAt(tiemposEstimados.getTiempoPesimista(), i, 5);
+                tblTareasProyecto.setValueAt(tareasPrecedentes.obtenerTareasConcatenadas(), i, 2);
+                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoOptimista(), i, 3);
+                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoMasProbable(), i, 4);
+                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoPesimista(), i, 5);
             }
         }
     }

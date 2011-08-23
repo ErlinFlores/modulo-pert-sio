@@ -22,32 +22,37 @@ public class Proyecto {
         this.nombre = nombre;
         this.tareas = tareas;
     }        
-    
-    public void addTarea(Tarea tarea) {
+
+    public void agregarTarea(Tarea tarea) {
         tareas.add(tarea);
     }
 
-    public int getId() {
-        return id;
+    public void borrarTarea(Tarea tarea) {
+        tareas.remove(tarea);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public boolean tieneSucesores(Tarea tareaOrigen){
+        for (Tarea tarea : tareas){
+            if (tarea.obtenerPrecedencia().esPrecedente(tareaOrigen.obtenerId())){
+                return true;
+            }
+        }
+        return false;
+    }   
+
+    public int obtenerId() {
+        return id;
     }
     
-    public String getNombre() {
+    public String obtenerNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void cambiarNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public List<Tarea> getTareas() {
+    public List<Tarea> obtenerTareas() {
         return tareas;
-    }
-
-    public void setTareas(List<Tarea> tareas) {
-        this.tareas = tareas;
     }
 }

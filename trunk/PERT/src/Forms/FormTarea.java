@@ -55,11 +55,11 @@ public class FormTarea extends javax.swing.JFrame {
         setearEtiquetas();
         this.formularioProyecto = formularioProyecto;        
         this.tipoAccion = Accion.modificar;
-        this.id = tarea.getId();
-        this.nombre = tarea.getNombre();
-        this.descripcion = tarea.getDescripcion();
-        this.tiemposEstimados = tarea.getTiempoEstimado();
-        this.tareasPrecedentes = tarea.getPrecedencia();
+        this.id = tarea.obtenerId();
+        this.nombre = tarea.obtenerNombre();
+        this.descripcion = tarea.obtenerDescripcion();
+        this.tiemposEstimados = tarea.obtenerTiempoEstimado();
+        this.tareasPrecedentes = tarea.obtenerPrecedencia();
         this.posiblesTareasPrecedentes = formularioProyecto.obtenerPosiblesTareasPrecedentes(tarea);
         setearDatosDeTarea();
     }      
@@ -84,8 +84,8 @@ public class FormTarea extends javax.swing.JFrame {
         DefaultTableModel modeloTabla = (DefaultTableModel)tabla.getModel();
         if (nuevaFila){
             modeloTabla.addRow(new Object[fila]);
-            tabla.setValueAt(tarea.getNombre(), fila, 0);
-            tabla.setValueAt(tarea.getDescripcion(), fila, 1);
+            tabla.setValueAt(tarea.obtenerNombre(), fila, 0);
+            tabla.setValueAt(tarea.obtenerDescripcion(), fila, 1);
         }else{
             modeloTabla.removeRow(fila);
         }      
@@ -102,14 +102,14 @@ public class FormTarea extends javax.swing.JFrame {
         txtNombreTarea.setText(nombre);
         if (tipoAccion == Accion.modificar){
             indiceFila = 0;
-            for (Tarea tarea : tareasPrecedentes.getTareas()){      
+            for (Tarea tarea : tareasPrecedentes.obtenerTareas()){
                 modificarTabla(tblPrecedencia, indiceFila, true, tarea);
                 indiceFila += 1;
             }            
             txtDescripcionTarea.setText(descripcion);
-            txtTiempoOptimista.setText(Integer.toString(tiemposEstimados.getTiempoOptimista()));
-            txtTiempoMasProbable.setText(Integer.toString(tiemposEstimados.getTiempoMasProbable()));
-            txtTiempoPesimista.setText(Integer.toString(tiemposEstimados.getTiempoPesimista()));
+            txtTiempoOptimista.setText(Integer.toString(tiemposEstimados.obtenerTiempoOptimista()));
+            txtTiempoMasProbable.setText(Integer.toString(tiemposEstimados.obtenerTiempoMasProbable()));
+            txtTiempoPesimista.setText(Integer.toString(tiemposEstimados.obtenerTiempoPesimista()));
         }
     }
 
@@ -130,7 +130,7 @@ public class FormTarea extends javax.swing.JFrame {
         String nombreTarea = (String)tblPosiblesPrecedencias.getValueAt(filaSeleccionada, 0);
         int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
         for (Tarea tarea : posiblesTareasPrecedentes){
-            if (tarea.getId() == idTarea){
+            if (tarea.obtenerId() == idTarea){
                 Tarea nuevaTareaPrecedente = tarea;
                 posiblesTareasPrecedentes.remove(tarea);
                 modificarTabla(tblPosiblesPrecedencias, filaSeleccionada, false, null);
@@ -143,8 +143,8 @@ public class FormTarea extends javax.swing.JFrame {
     private Tarea quitarTareaDePrecedenciasSegunSeleccion(int filaSeleccionada){
         String nombreTarea = (String)tblPrecedencia.getValueAt(filaSeleccionada, 0);
         int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
-        Tarea nuevaPosibleTareaPrecedente = tareasPrecedentes.getTareaByID(idTarea);
-        tareasPrecedentes.removeTarea(nuevaPosibleTareaPrecedente);
+        Tarea nuevaPosibleTareaPrecedente = tareasPrecedentes.obtenerTareaPorID(idTarea);
+        tareasPrecedentes.borrarTarea(nuevaPosibleTareaPrecedente);
         modificarTabla(tblPrecedencia, filaSeleccionada, false, null);
         return nuevaPosibleTareaPrecedente;
     }
@@ -417,8 +417,8 @@ public class FormTarea extends javax.swing.JFrame {
         int filaSeleccionada = tblPosiblesPrecedencias.getSelectedRow();
         if (filaSeleccionada != -1){            
             Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);                      
-            int nuevaFila = tareasPrecedentes.getCantidadDeTareas();
-            tareasPrecedentes.addTarea(nuevaTareaPrecedente);            
+            int nuevaFila = tareasPrecedentes.obtenerCantidadDeTareas();
+            tareasPrecedentes.agregarTarea(nuevaTareaPrecedente);
             modificarTabla(tblPrecedencia, nuevaFila, true, nuevaTareaPrecedente);            
         }        
     }//GEN-LAST:event_btnAgregarPrecedenciaActionPerformed
@@ -447,7 +447,7 @@ public class FormTarea extends javax.swing.JFrame {
                         formularioProyecto.agregarTareaEnListaDeTareas(nuevaTarea);
                         break;
                     case modificar:
-                        tiemposEstimados.setTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
+                        tiemposEstimados.setearTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
                         formularioProyecto.actualizarTareaEnTabla(id, descripcion, tiemposEstimados, tareasPrecedentes);
                         break;
                 }
