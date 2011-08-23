@@ -44,10 +44,10 @@ public class GestorDeRed {
             }                
         }
         for (Tarea tarea : tareasSinPrecedentes){
-            tarea.setNodoOrigen(eventoInicioProyecto);
+            //tarea.setNodoOrigen(eventoInicioProyecto);
             Evento eventoDestino = fabricaDeEventos.crearEvento(TipoEvento.transicion);
             redDeTareas.agregarNodo(eventoDestino);
-            tarea.setNodoDestino(eventoDestino);
+            //tarea.setNodoDestino(eventoDestino);
         }
         for (Tarea tarea : tareasIntermedias){
             Precedencia precedencia = tarea.getPrecedencia();
@@ -56,8 +56,8 @@ public class GestorDeRed {
             }
         }
         for (Tarea tarea : tareasSinSucesores){
-            redDeTareas.eliminarNodo(tarea.getNodoDestino());
-            tarea.setNodoDestino(eventoFinProyecto);
+            //redDeTareas.eliminarNodo(tarea.getNodoDestino());
+            //tarea.setNodoDestino(eventoFinProyecto);
         }
     }
     

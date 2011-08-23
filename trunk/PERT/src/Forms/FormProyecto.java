@@ -12,6 +12,7 @@
 package Forms;
 
 import Entidades.Accion;
+import Entidades.CalculosDePERT;
 import Entidades.FabricaDeProyectos;
 import Entidades.FabricaDeTareas;
 import Entidades.ModeloDeRed.GestorDeRed;
@@ -102,6 +103,25 @@ public class FormProyecto extends javax.swing.JFrame {
             modeloTabla.removeRow(fila);
         }      
         tabla.updateUI();
+    }
+    
+    private void setearTablaDeCalculos(List<Tarea> tareasDelProyecto){
+        DefaultTableModel modeloTabla = (DefaultTableModel)this.tblResultados.getModel();
+        int fila = 0;
+        for (Tarea tarea : tareasDelProyecto){
+            modeloTabla.addRow(new Object[fila]);
+            tblResultados.setValueAt(tarea.getNombre(), fila, 0);
+            tblResultados.setValueAt(tarea.getDuracionEsperada(), fila, 1);
+            //tblResultados.setValueAt(tarea.getPrecedencia().getTareasConcatenadas(), fila, 2);
+            tblResultados.setValueAt(tarea.getComienzoTemprano(), fila, 2);
+            tblResultados.setValueAt(tarea.getFinTemprano(), fila, 3);
+            tblResultados.setValueAt(tarea.getComienzoTardio(), fila, 4);  
+            tblResultados.setValueAt(tarea.getFinTardio(), fila, 5);  
+            tblResultados.setValueAt(tarea.getHolgura(), fila, 6);  
+            tblResultados.setValueAt(tarea.isTareaCritica(), fila, 7);           
+            fila += 1;
+        }
+        tblResultados.updateUI();
     }
     
     /**
@@ -218,7 +238,7 @@ public class FormProyecto extends javax.swing.JFrame {
         btnBorrarTodas = new javax.swing.JButton();
         btnRealizarCalculosTiempos = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblResultados = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnCalculoDeProbabilidades = new javax.swing.JButton();
@@ -298,8 +318,8 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblResultados.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        tblResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -308,7 +328,7 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false
@@ -322,17 +342,19 @@ public class FormProyecto extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setPreferredSize(new java.awt.Dimension(675, 0));
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(jTable1);
-        jTable1.getColumnModel().getColumn(0).setResizable(false);
-        jTable1.getColumnModel().getColumn(1).setResizable(false);
-        jTable1.getColumnModel().getColumn(2).setResizable(false);
-        jTable1.getColumnModel().getColumn(3).setResizable(false);
-        jTable1.getColumnModel().getColumn(4).setResizable(false);
-        jTable1.getColumnModel().getColumn(5).setResizable(false);
-        jTable1.getColumnModel().getColumn(6).setResizable(false);
-        jTable1.getColumnModel().getColumn(7).setResizable(false);
+        tblResultados.setColumnSelectionAllowed(true);
+        tblResultados.setPreferredSize(new java.awt.Dimension(675, 0));
+        tblResultados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(tblResultados);
+        tblResultados.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblResultados.getColumnModel().getColumn(0).setResizable(false);
+        tblResultados.getColumnModel().getColumn(1).setResizable(false);
+        tblResultados.getColumnModel().getColumn(2).setResizable(false);
+        tblResultados.getColumnModel().getColumn(3).setResizable(false);
+        tblResultados.getColumnModel().getColumn(4).setResizable(false);
+        tblResultados.getColumnModel().getColumn(5).setResizable(false);
+        tblResultados.getColumnModel().getColumn(6).setResizable(false);
+        tblResultados.getColumnModel().getColumn(7).setResizable(false);
 
         btnGuardar.setText("btnGuardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -453,8 +475,10 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        GestorDeRed gestorDeRed = new GestorDeRed(tareas);
-        gestorDeRed.realizarCalculos();
+        CalculosDePERT gestorDeCalculos = new CalculosDePERT(tareas);
+        List<Tarea> tareasDelProyecto = gestorDeCalculos.realizarCalculos();
+        setearTablaDeCalculos(tareasDelProyecto);
+        
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -506,9 +530,9 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnRealizarCalculosTiempos;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblNombreProyecto;
     private javax.swing.JLabel lblTareasProyecto;
+    private javax.swing.JTable tblResultados;
     private javax.swing.JTable tblTareasProyecto;
     private javax.swing.JTextField txtNombreProyecto;
     // End of variables declaration//GEN-END:variables

@@ -5,13 +5,12 @@
 
 package Entidades;
 
-import Entidades.ModeloDeRed.Arco;
 
 /**
  *
  * @author Manuel Lorenze
  */
-public class Tarea extends Arco{
+public class Tarea extends TareaAbstracta{
 
     private int id;
     private String nombre;
@@ -19,18 +18,19 @@ public class Tarea extends Arco{
     private TiempoEstimado tiempoEstimado;
     private Precedencia precedencia;
     
-    private boolean ficticia;
-    
-    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia, boolean ficticia){
+    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+        super.setComienzoTardio(-1);
+        super.setComienzoTemprano(-1);
+        super.setFinTardio(-1);
+        super.setFinTemprano(-1);
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoEstimado = tiempoEstimado;
         this.precedencia = precedencia;
-        this.ficticia = ficticia;
     }    
-
-    public int getDuracionEsperada() {
+    
+    public double getDuracionEsperada() {
         return tiempoEstimado.getDuracionEsperada();
     }
     
@@ -56,9 +56,5 @@ public class Tarea extends Arco{
 
     public Precedencia getPrecedencia() {
         return precedencia;
-    }
-
-    public boolean isFicticia() {
-        return ficticia;
-    }   
+    }  
 }
