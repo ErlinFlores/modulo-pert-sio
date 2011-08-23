@@ -21,7 +21,7 @@ public class TiempoEstimado {
         tiempoPesimista = tp;
     }    
 
-    public int getDuracionEsperada() {
+    public double getDuracionEsperada() {
         return (tiempoOptimista+(4*tiempoMasProbable)+tiempoPesimista)/6;
     }
 

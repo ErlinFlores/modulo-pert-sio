@@ -445,7 +445,7 @@ public class FormTarea extends javax.swing.JFrame {
                 switch (tipoAccion){
                     case crear:
                         tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
-                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, tareasPrecedentes, false);
+                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, tareasPrecedentes);
                         formularioProyecto.agregarTareaEnListaDeTareas(nuevaTarea);
                         break;
                     case modificar:
