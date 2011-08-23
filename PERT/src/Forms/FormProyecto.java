@@ -260,8 +260,6 @@ public class FormProyecto extends javax.swing.JFrame {
 
         lblNombreProyecto.setText("lblNombreProyecto");
 
-        txtNombreProyecto.setText("Proyecto prueba");
-
         lblTareasProyecto.setText("lblTareasProyecto");
 
         tblTareasProyecto.setModel(new javax.swing.table.DefaultTableModel(

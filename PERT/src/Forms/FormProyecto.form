@@ -113,9 +113,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNombreProyecto">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Proyecto prueba"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTareasProyecto">
       <Properties>
