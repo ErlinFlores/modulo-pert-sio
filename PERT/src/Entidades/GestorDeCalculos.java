@@ -23,40 +23,40 @@ public class GestorDeCalculos {
         double duracionDelProyecto = 0;        
         for (Tarea tarea : tareasDelProyecto){
             if (!tarea.tieneTareasPrecedentes()){
-                tarea.setComienzoTemprano(0);
-                tarea.setFinTemprano(tarea.getDuracionEsperada());
+                tarea.setearComienzoTemprano(0);
+                tarea.setearFinTemprano(tarea.obtenerDuracionEsperada());
             }else{
                 double finTempranoMasGrandeDeLosPrecedentes = 0;
-                for (Tarea tareaPrecedente : tarea.getPrecedencia().getTareas()){
-                    double finTemprano = tareaPrecedente.getFinTemprano();
+                for (Tarea tareaPrecedente : tarea.obtenerPrecedencia().obtenerTareas()){
+                    double finTemprano = tareaPrecedente.obtenerFinTemprano();
                     if (finTempranoMasGrandeDeLosPrecedentes < finTemprano){
                         finTempranoMasGrandeDeLosPrecedentes = finTemprano;
                     }
                 }
-                tarea.setComienzoTemprano(finTempranoMasGrandeDeLosPrecedentes);
-                tarea.setFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.getDuracionEsperada());                
+                tarea.setearComienzoTemprano(finTempranoMasGrandeDeLosPrecedentes);
+                tarea.setearFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.obtenerDuracionEsperada());
             }
             if (!tieneSucesores(tarea)){
-                if (duracionDelProyecto < tarea.getFinTemprano()){
-                    duracionDelProyecto = tarea.getFinTemprano();
+                if (duracionDelProyecto < tarea.obtenerFinTemprano()){
+                    duracionDelProyecto = tarea.obtenerFinTemprano();
                 }
             }
         }        
         for (int i = tareasDelProyecto.size()-1; i >= 0; i--){
             Tarea tarea = tareasDelProyecto.get(i);
             if (!tieneSucesores(tarea)){
-                tarea.setFinTardio(duracionDelProyecto);               
+                tarea.setearFinTardio(duracionDelProyecto);
             }
-            double comienzoTardio = tarea.getFinTardio() - tarea.getDuracionEsperada();
-            tarea.setComienzoTardio(comienzoTardio);            
-            for (Tarea tareaPrecedente : tarea.getPrecedencia().getTareas()){
-                double finTardioActual = tareaPrecedente.getFinTardio();
+            double comienzoTardio = tarea.obtenerFinTardio() - tarea.obtenerDuracionEsperada();
+            tarea.setearComienzoTardio(comienzoTardio);
+            for (Tarea tareaPrecedente : tarea.obtenerPrecedencia().obtenerTareas()){
+                double finTardioActual = tareaPrecedente.obtenerFinTardio();
                 if ((finTardioActual > comienzoTardio) || (finTardioActual == -1)){
-                    tareaPrecedente.setFinTardio(comienzoTardio);
+                    tareaPrecedente.setearFinTardio(comienzoTardio);
                 }
             }
             if (!tarea.tieneTareasPrecedentes()){
-                if (tarea.getComienzoTardio() != 0){
+                if (tarea.obtenerComienzoTardio() != 0){
                     error = true;
                 }
             }
@@ -69,7 +69,7 @@ public class GestorDeCalculos {
     
     private boolean tieneSucesores(Tarea tareaOrigen){
         for (Tarea tarea : tareasDelProyecto){
-            if (tarea.getPrecedencia().esPrecedente(tareaOrigen.getId())){
+            if (tarea.obtenerPrecedencia().esPrecedente(tareaOrigen.obtenerId())){
                 return true;
             }
         }

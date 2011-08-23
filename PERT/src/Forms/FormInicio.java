@@ -11,8 +11,6 @@
 
 package Forms;
 
-import Entidades.FabricaDeProyectos;
-import Entidades.FabricaDeTareas;
 import Entidades.Proyecto;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +54,7 @@ public class FormInicio extends javax.swing.JFrame {
         // Lógica de acceso a los archivos con proyectos almacenados!!!
 
         for(int i = 0; i < proyectos.size(); i++){
-            cmbListaDeProyectos.addItem(proyectos.get(i).getNombre());
+            cmbListaDeProyectos.addItem(proyectos.get(i).obtenerNombre());
         }
         cmbListaDeProyectos.updateUI();       
     }
@@ -67,7 +65,7 @@ public class FormInicio extends javax.swing.JFrame {
      */
     public void agregarProyectoEnListaDeProyectos(Proyecto p){
         proyectos.add(p);
-        cmbListaDeProyectos.addItem(p.getNombre());
+        cmbListaDeProyectos.addItem(p.obtenerNombre());
         cmbListaDeProyectos.updateUI();
     }
 

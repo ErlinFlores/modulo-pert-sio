@@ -18,21 +18,21 @@ public class Precedencia {
         this.tareas = tareas;
     } 
      
-    public int getCantidadDeTareas(){
+    public int obtenerCantidadDeTareas(){
         return tareas.size();
     }
     
-    public void addTarea(Tarea tarea){
+    public void agregarTarea(Tarea tarea){
         this.tareas.add(tarea);
     }
 
-    public boolean removeTarea(Tarea tarea){
+    public boolean borrarTarea(Tarea tarea){
         return this.tareas.remove(tarea);
     }
     
-    public Tarea getTareaByID(int id){
+    public Tarea obtenerTareaPorID(int id){
         for (Tarea tarea : tareas){
-            if (tarea.getId() == id){
+            if (tarea.obtenerId() == id){
                 return tarea;
             }
         }
@@ -41,21 +41,21 @@ public class Precedencia {
     
     public boolean esPrecedente(int id){
         for (Tarea tarea : tareas){
-            if (tarea.getId() == id){
+            if (tarea.obtenerId() == id){
                 return true;
             }
         }
         return false;
     }
     
-    public List<Tarea> getTareas() {
+    public List<Tarea> obtenerTareas() {
         return tareas;
     } 
     
-    public String getTareasConcatenadas(){
+    public String obtenerTareasConcatenadas(){
         String tareasConcatenadas = "";
         for (int i = 0; i < tareas.size(); i++){
-            tareasConcatenadas += String.valueOf(tareas.get(i).getNombre());
+            tareasConcatenadas += String.valueOf(tareas.get(i).obtenerNombre());
             if ((i + 1) < tareas.size()){
                 tareasConcatenadas += ", ";
             }

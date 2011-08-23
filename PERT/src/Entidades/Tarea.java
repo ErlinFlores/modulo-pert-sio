@@ -19,10 +19,10 @@ public class Tarea extends TareaAbstracta{
     private Precedencia precedencia;
     
     public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
-        super.setComienzoTardio(-1);
-        super.setComienzoTemprano(-1);
-        super.setFinTardio(-1);
-        super.setFinTemprano(-1);
+        super.comienzoTemprano = -1;
+        super.finTemprano = -1;
+        super.comienzoTardio = -1;
+        super.finTardio = -1;
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -30,31 +30,35 @@ public class Tarea extends TareaAbstracta{
         this.precedencia = precedencia;
     }    
     
-    public double getDuracionEsperada() {
-        return tiempoEstimado.getDuracionEsperada();
+    public double obtenerDuracionEsperada() {
+        return tiempoEstimado.obtenerDuracionEsperada();
     }
     
     public boolean tieneTareasPrecedentes(){
-        return precedencia.getCantidadDeTareas() > 0;
+        return precedencia.obtenerCantidadDeTareas() > 0;
     }
 
-    public int getId() {
+    public int obtenerId() {
         return id;
     }
 
-    public String getNombre() {
+    public String obtenerNombre() {
         return nombre;
     }
 
-    public String getDescripcion() {
+    public String obtenerDescripcion() {
         return descripcion;
     }
+
+    public void cambiarDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
     
-    public TiempoEstimado getTiempoEstimado() {
+    public TiempoEstimado obtenerTiempoEstimado() {
         return tiempoEstimado;
     }      
 
-    public Precedencia getPrecedencia() {
+    public Precedencia obtenerPrecedencia() {
         return precedencia;
     }  
 }

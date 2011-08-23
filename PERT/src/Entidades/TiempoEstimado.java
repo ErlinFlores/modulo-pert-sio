@@ -21,46 +21,46 @@ public class TiempoEstimado {
         tiempoPesimista = tp;
     }    
 
-    public double getDuracionEsperada() {
+    public double obtenerDuracionEsperada() {
         return (tiempoOptimista+(4*tiempoMasProbable)+tiempoPesimista)/6;
     }
 
-    public double getDesviacionEstandar() {
+    public double obtenerDesviacionEstandar() {
         return (tiempoPesimista-tiempoOptimista)/6;
     }
 
-    public double getVarianza() {
-        double de = getDesviacionEstandar();
+    public double obtenerVarianza() {
+        double de = obtenerDesviacionEstandar();
         return de*de;
     }
 
-    public void setTiempoEstimado(int to, int tm, int tp){
+    public void setearTiempoEstimado(int to, int tm, int tp){
         tiempoOptimista = to;
         tiempoMasProbable = tm;
         tiempoPesimista = tp;
     }
     
-    public void setTiempoOptimista(int to){
+    public void setearTiempoOptimista(int to){
         tiempoOptimista = to;
     }
     
-    public int getTiempoOptimista() {
+    public int obtenerTiempoOptimista() {
         return tiempoOptimista;
     }
 
-    public void setTiempoMasProbable(int tm){
+    public void setearTiempoMasProbable(int tm){
         tiempoMasProbable = tm;
     }
     
-    public int getTiempoMasProbable() {
+    public int obtenerTiempoMasProbable() {
         return tiempoMasProbable;
     }
 
-    public void setTiempoPesimista(int tp){
+    public void setearTiempoPesimista(int tp){
         tiempoPesimista = tp;
     }
     
-    public int getTiempoPesimista() {
+    public int obtenerTiempoPesimista() {
         return tiempoPesimista;
     }    
 }
