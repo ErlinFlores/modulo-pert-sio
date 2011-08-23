@@ -27,11 +27,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnRealizarCalculosTiempos" max="32767" attributes="1"/>
-                      <EmptySpace min="-2" pref="642" max="-2" attributes="0"/>
+                      <Component id="btnRealizarCalculosTiempos" pref="191" max="32767" attributes="1"/>
+                      <EmptySpace min="-2" pref="646" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jScrollPane2" pref="718" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblNombreProyecto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -39,7 +40,7 @@
                           </Group>
                           <Component id="lblTareasProyecto" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jScrollPane1" pref="548" max="32767" attributes="0"/>
+                              <Component id="jScrollPane1" pref="584" max="32767" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="btnAgregar" alignment="0" pref="116" max="32767" attributes="1"/>
@@ -48,18 +49,14 @@
                                   <Component id="btnBorrarTodas" alignment="0" max="32767" attributes="1"/>
                               </Group>
                           </Group>
-                          <Component id="jScrollPane2" alignment="0" min="-2" pref="662" max="-2" attributes="1"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnCalculoDeProbabilidades" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="515" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="btnCalculoDeProbabilidades" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="btnCancelar" pref="99" max="32767" attributes="0"/>
                           <Component id="btnGuardar" alignment="1" pref="99" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -69,41 +66,42 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lblTareasProyecto" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" min="-2" pref="234" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnBorrarTodas" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnRealizarCalculosTiempos" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="227" max="-2" attributes="0"/>
+              <EmptySpace pref="40" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="542" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblTareasProyecto" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" min="-2" pref="234" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnBorrarTodas" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRealizarCalculosTiempos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="227" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnCalculoDeProbabilidades" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="btnCalculoDeProbabilidades" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -150,11 +148,6 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                  <Title/>
-                  <Editor/>
-                  <Renderer/>
-                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
@@ -170,7 +163,12 @@
                   <Editor/>
                   <Renderer/>
                 </Column>
-                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
                   <Renderer/>
@@ -227,6 +225,27 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRealizarCalculosTiemposActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JButton" name="btnGuardar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="btnGuardar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCancelar">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="btnCancelar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnCalculoDeProbabilidades">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="btnCalculoDeProbabilidades"/>
+      </Properties>
+    </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -234,27 +253,28 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblResultados">
+        <Component class="javax.swing.JTable" name="tblResultadoDeCalculos">
           <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.CompoundBorderInfo">
-                <CompoundBorder/>
-              </Border>
-            </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="8" rowCount="0">
+              <Table columnCount="9" rowCount="0">
                 <Column editable="false" title="Nombre" type="java.lang.String"/>
                 <Column editable="false" title="Duraci&#xf3;n" type="java.lang.Double"/>
-                <Column editable="false" title="tComTemp" type="java.lang.Double"/>
-                <Column editable="false" title="tComTard&#xed;o" type="java.lang.Double"/>
-                <Column editable="false" title="tFinTemp" type="java.lang.Double"/>
-                <Column editable="false" title="tFinTard&#xed;o" type="java.lang.Double"/>
+                <Column editable="false" title="Precedencia" type="java.lang.String"/>
+                <Column editable="false" title="tComienzoTemp" type="java.lang.Double"/>
+                <Column editable="false" title="tFinTemprano" type="java.lang.Double"/>
+                <Column editable="false" title="tComienzoTardio" type="java.lang.Double"/>
+                <Column editable="false" title="tFinTardio" type="java.lang.Double"/>
                 <Column editable="false" title="Holgura" type="java.lang.Double"/>
-                <Column editable="false" title="&#xbf;C.C.?" type="java.lang.Boolean"/>
+                <Column editable="false" title="Critica" type="java.lang.Boolean"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
-              <TableColumnModel selectionModel="1">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
                   <Title/>
                   <Editor/>
@@ -297,40 +317,15 @@
                 </Column>
               </TableColumnModel>
             </Property>
-            <Property name="columnSelectionAllowed" type="boolean" value="true"/>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[675, 0]"/>
-            </Property>
             <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
               <JTableSelectionModel selectionMode="0"/>
             </Property>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
             </Property>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnGuardar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="btnGuardar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnCancelar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="btnCancelar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnCalculoDeProbabilidades">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="btnCalculoDeProbabilidades"/>
-      </Properties>
-    </Component>
   </SubComponents>
 </Form>
