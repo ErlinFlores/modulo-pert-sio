@@ -11,13 +11,13 @@ package Entidades;
  */
 public class GestorDeCalculos {
     
-    private ConjuntoDeTareasDeProyecto tareasDelProyecto;
+    private RedDeTareas tareasDelProyecto;
     
-    public GestorDeCalculos(ConjuntoDeTareasDeProyecto tareasDelProyecto){
+    public GestorDeCalculos(RedDeTareas tareasDelProyecto){
         this.tareasDelProyecto = tareasDelProyecto;
     }
     
-    public boolean realizarCalculos(){
+    public boolean realizarCalculosPERT(){
         boolean error = false;
 
         double duracionDelProyecto = 0;        
