@@ -41,7 +41,7 @@ public class FormTarea extends javax.swing.JFrame {
         this.formularioProyecto = formularioProyecto;        
         this.tipoAccion = Accion.crear;
         this.id = -1;
-        this.nombre = fabricaDeTareas.getNombreCandidato();
+        this.nombre = fabricaDeTareas.getNombreDeProximaTarea();
         this.descripcion = "";
         this.tiemposEstimados = null;
         this.tareasPrecedentes = new Precedencia(new ArrayList<Tarea>());

@@ -29,6 +29,8 @@ public class FabricaDeTareas {
     //--------------------------------------------------------------------------
     
     private int proximoId;
+    private final int limiteDeCantidadDeTareas = 26; //cantidad de letras mayúsculas que soporta ASCII.
+    private final int valorPrimerCaracterValidoASCII = 65; //en ascii el 65 representa la letra "A".
     
     private FabricaDeTareas() {
         proximoId = 0;
@@ -45,21 +47,25 @@ public class FabricaDeTareas {
         return id;
     }
     
-    private String getNombre(int valor){           
-        int intDelChar = valor + 65; //en ascii el 65 representa la letra "A".
-        return String.valueOf((char)intDelChar);
+    private String getNombre(int valorRelativoDelCaracter){           
+        int valorRealDelCaracter = valorRelativoDelCaracter + valorPrimerCaracterValidoASCII; 
+        return String.valueOf((char)valorRealDelCaracter);
     }    
     
-    public String getNombreCandidato(){
+    public boolean esPosibleCrearNuevaTarea(){
+        return proximoId < limiteDeCantidadDeTareas;
+    }
+    
+    public String getNombreDeProximaTarea(){
         return getNombre(proximoId);
     }
     
     public int getIdTareaByNombre(String nombre){
-        char[] caracteres = nombre.toCharArray();
-        return ((int)caracteres[0])-65;
+        int valorRealDelCaracter = (int)nombre.toCharArray()[0];
+        return valorRealDelCaracter - valorPrimerCaracterValidoASCII;
     }
     
     public void reset(){
         proximoId = 0;
-    }
+    }   
 }
