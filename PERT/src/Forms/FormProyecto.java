@@ -26,7 +26,7 @@ public class FormProyecto extends javax.swing.JFrame {
     private FormInicio formularioInicio;
     private Accion tipoAccion;
     private String nombre;
-    private ConjuntoDeTareasDeProyecto conjuntoDeTareas;
+    private RedDeTareas redDeTareas;
     
     /** Creates new form FormProyecto */
     public FormProyecto(FormInicio formularioInicio) { //Para crear proyecto nuevo.
@@ -37,7 +37,7 @@ public class FormProyecto extends javax.swing.JFrame {
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.crear;
         this.nombre = "";
-        this.conjuntoDeTareas = new ConjuntoDeTareasDeProyecto(new ArrayList<Tarea>());
+        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
     }
 
     /** Creates new form FormProyecto */
@@ -49,7 +49,7 @@ public class FormProyecto extends javax.swing.JFrame {
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.modificar;
         this.nombre = proyecto.obtenerNombre();
-        this.conjuntoDeTareas = proyecto.obtenerConjuntoDeTareas();
+        this.redDeTareas = proyecto.obtenerRedDeTareas();
         setearCampos();
     }    
 
@@ -79,7 +79,7 @@ public class FormProyecto extends javax.swing.JFrame {
         if (txtNombreProyecto.getText().equals("")){ 
             return false;
         }
-        if (conjuntoDeTareas.obtenerCantidadDeTareas()==0){
+        if (redDeTareas.obtenerCantidadDeTareas()==0){
             return false;
         }
         return true;
@@ -92,7 +92,7 @@ public class FormProyecto extends javax.swing.JFrame {
         if (tipoAccion.equals(tipoAccion.modificar)){            
             txtNombreProyecto.setText(nombre);
             int fila = 0;
-            for (Tarea tarea : conjuntoDeTareas.obtenerTareas()){
+            for (Tarea tarea : redDeTareas.obtenerTareas()){
                 actualizarTablaDeDatosIngresados(fila, true, tarea);
                 fila += 1;
             }
@@ -134,7 +134,7 @@ public class FormProyecto extends javax.swing.JFrame {
             modeloDeTablaDeResultadosCalculados.removeRow(0);
         }
         int fila = 0;
-        for (Tarea tarea : conjuntoDeTareas.obtenerTareas()){//Se ingresan las filas con los datos actuales.            
+        for (Tarea tarea : redDeTareas.obtenerTareas()){//Se ingresan las filas con los datos actuales.            
             modeloDeTablaDeResultadosCalculados.addRow(new Object[fila]);
             tblResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
             tblResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
@@ -177,9 +177,9 @@ public class FormProyecto extends javax.swing.JFrame {
      * también se actualiza la tabla de datos ingresados por el usuario (de tareas).
      * @param tarea (nueva tarea del proyecto).
      */
-    public void agregarTareaEnConjuntoDeTareas(Tarea tarea){        
-        conjuntoDeTareas.agregarTarea(tarea);
-        actualizarTablaDeDatosIngresados(conjuntoDeTareas.obtenerCantidadDeTareas()-1, true, tarea);
+    public void agregarTareaEnRedDeTareas(Tarea tarea){        
+        redDeTareas.agregarTarea(tarea);
+        actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, true, tarea);
     }
     
     /**
@@ -187,7 +187,7 @@ public class FormProyecto extends javax.swing.JFrame {
      * @return 
      */
     public List<Tarea> obtenerListaDeTareasDelProyecto(){
-        return conjuntoDeTareas.obtenerTareas();
+        return redDeTareas.obtenerTareas();
     }       
     
     /**
@@ -198,48 +198,16 @@ public class FormProyecto extends javax.swing.JFrame {
      * @return 
      */
     public List<Tarea> obtenerPosiblesTareasPrecedentes(Tarea tarea){
-        Precedencia tareasPrecedentes = tarea.obtenerPrecedencia();
-        List<Tarea> posiblesTareas = new ArrayList<Tarea>();
-        for (Tarea posibleTareaPrecedente : conjuntoDeTareas.obtenerTareas()){
-            int idPosibleTareaPrecedente = posibleTareaPrecedente.obtenerId();
-            if ((!tareasPrecedentes.esPrecedente(idPosibleTareaPrecedente)) && (idPosibleTareaPrecedente != tarea.obtenerId())){
-                if (!hayCamino(tarea, posibleTareaPrecedente)){
-                    posiblesTareas.add(posibleTareaPrecedente);
-                }
-            }
-        }       
-        return posiblesTareas;
-    }
-    
-    /**
-     * Método que determina si existe un camino entre dos tareas específicas.
-     * @param tareaInicio
-     * @param tareaDestino
-     * @return 
-     */
-    private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
-        Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
-        boolean existeCamino = false;
-        for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerTareas()){
-            if (!(tarea.obtenerId() == tareaInicio.obtenerId())){
-                existeCamino = hayCamino(tareaInicio, tarea);
-            }else{
-                return true;
-            }
-            if (existeCamino){
-                break;
-            }
-        }
-        return existeCamino;
-    }  
-
+        return redDeTareas.obtenerPosiblesTareasPrecedentes(tarea);
+    }    
+   
     /**
      * Método que ejecuta el algoritmo de cálculos de duración esperada de las tareas,
      * tiempos tempranos, tiempos tardíos, holguras y tareas críticas.
      */
     private void realizarCalculosPERT(){
-        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(conjuntoDeTareas);
-        if (gestorDeCalculos.realizarCalculos()){
+        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(redDeTareas);
+        if (gestorDeCalculos.realizarCalculosPERT()){
             actualizarTablaDeCalculosRealizados();
         }
     }
@@ -477,7 +445,7 @@ public class FormProyecto extends javax.swing.JFrame {
         int filaSeleccionada = tblTareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
-            Tarea tarea = conjuntoDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
             FormTarea ft = new FormTarea(this, tarea);
             ft.setVisible(true);
         }else{
@@ -489,9 +457,9 @@ public class FormProyecto extends javax.swing.JFrame {
         int filaSeleccionada = tblTareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
-            Tarea tarea = conjuntoDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            conjuntoDeTareas.borrarTareaDePrecedencias(tarea);
-            conjuntoDeTareas.borrarTarea(tarea);
+            Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            redDeTareas.borrarTareaDePrecedencias(tarea);
+            redDeTareas.borrarTarea(tarea);
             actualizarTablaDeDatosIngresados(filaSeleccionada, false, tarea);
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
@@ -500,10 +468,10 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
-        for (int fila = 0; fila < conjuntoDeTareas.obtenerCantidadDeTareas(); fila++){
+        for (int fila = 0; fila < redDeTareas.obtenerCantidadDeTareas(); fila++){
             actualizarTablaDeDatosIngresados(0, false, null);
         }
-        conjuntoDeTareas = new ConjuntoDeTareasDeProyecto(new ArrayList<Tarea>());
+        redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
         FabricaDeTareas.getInstance().reset();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
@@ -517,7 +485,7 @@ public class FormProyecto extends javax.swing.JFrame {
                 nombre = txtNombreProyecto.getText();
                 switch (tipoAccion){
                     case crear:
-                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, conjuntoDeTareas);
+                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, redDeTareas);
                         formularioInicio.agregarProyectoEnListaDeProyectos(nuevoProyecto);
                         break;
                     case modificar:

@@ -440,7 +440,7 @@ public class FormTarea extends javax.swing.JFrame {
                     case crear:
                         tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
                         Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, tareasPrecedentes);
-                        formularioProyecto.agregarTareaEnConjuntoDeTareas(nuevaTarea);
+                        formularioProyecto.agregarTareaEnRedDeTareas(nuevaTarea);
                         break;
                     case modificar:
                         tiemposEstimados.setearTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);

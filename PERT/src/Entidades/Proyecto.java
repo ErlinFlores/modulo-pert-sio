@@ -14,24 +14,24 @@ public class Proyecto {
 
     private int id;    
     private String nombre;
-    private ConjuntoDeTareasDeProyecto tareas;
+    private RedDeTareas redDeTareas;
     
-    public Proyecto(int id, String nombre, ConjuntoDeTareasDeProyecto tareas){
+    public Proyecto(int id, String nombre, RedDeTareas redDeTareas){
         this.id = id;
         this.nombre = nombre;
-        this.tareas = tareas;
+        this.redDeTareas = redDeTareas;
     }        
 
     public void agregarTarea(Tarea tarea) {
-        tareas.agregarTarea(tarea);
+        redDeTareas.agregarTarea(tarea);
     }
 
     public void borrarTarea(Tarea tarea) {
-        tareas.borrarTarea(tarea);
+        redDeTareas.borrarTarea(tarea);
     }
 
     public int obtenerCantidadDeTareas(){
-        return tareas.obtenerCantidadDeTareas();
+        return redDeTareas.obtenerCantidadDeTareas();
     }      
 
     public int obtenerId() {
@@ -46,7 +46,7 @@ public class Proyecto {
         this.nombre = nombre;
     }
 
-    public ConjuntoDeTareasDeProyecto obtenerConjuntoDeTareas() {
-        return tareas;
+    public RedDeTareas obtenerRedDeTareas() {
+        return redDeTareas;
     }
 }
