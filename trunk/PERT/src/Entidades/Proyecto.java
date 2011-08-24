@@ -5,7 +5,6 @@
 
 package Entidades;
 
-import java.util.List;
 
 /**
  *
@@ -15,24 +14,24 @@ public class Proyecto {
 
     private int id;    
     private String nombre;
-    private List<Tarea> tareas;
+    private ConjuntoDeTareasDeProyecto tareas;
     
-    public Proyecto(int id, String nombre, List<Tarea> tareas){
+    public Proyecto(int id, String nombre, ConjuntoDeTareasDeProyecto tareas){
         this.id = id;
         this.nombre = nombre;
         this.tareas = tareas;
     }        
 
     public void agregarTarea(Tarea tarea) {
-        tareas.add(tarea);
+        tareas.agregarTarea(tarea);
     }
 
     public void borrarTarea(Tarea tarea) {
-        tareas.remove(tarea);
+        tareas.borrarTarea(tarea);
     }
 
     public int obtenerCantidadDeTareas(){
-        return tareas.size();
+        return tareas.obtenerCantidadDeTareas();
     }      
 
     public int obtenerId() {
@@ -43,11 +42,11 @@ public class Proyecto {
         return nombre;
     }
 
-    public void cambiarNombre(String nombre) {
+    public void setearNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public List<Tarea> obtenerTareas() {
+    public ConjuntoDeTareasDeProyecto obtenerConjuntoDeTareas() {
         return tareas;
     }
 }

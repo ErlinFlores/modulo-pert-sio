@@ -4,7 +4,6 @@
  */
 package Entidades;
 
-import java.util.List;
 
 /**
  *
@@ -36,7 +35,7 @@ public class FabricaDeProyectos {
         proximoId = 0;
     }
     
-    public Proyecto crearProyecto(String nombre, List<Tarea> tareas){
+    public Proyecto crearProyecto(String nombre, ConjuntoDeTareasDeProyecto tareas){
         return new Proyecto(getId(), nombre, tareas);
     }   
     

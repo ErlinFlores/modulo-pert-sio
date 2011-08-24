@@ -4,7 +4,6 @@
  */
 package Entidades;
 
-import java.util.List;
 
 /**
  *
@@ -12,17 +11,17 @@ import java.util.List;
  */
 public class GestorDeCalculos {
     
-    private Proyecto proyecto;
+    private ConjuntoDeTareasDeProyecto tareasDelProyecto;
     
-    public GestorDeCalculos(Proyecto proyecto){
-        this.proyecto = proyecto;
+    public GestorDeCalculos(ConjuntoDeTareasDeProyecto tareasDelProyecto){
+        this.tareasDelProyecto = tareasDelProyecto;
     }
     
     public boolean realizarCalculos(){
         boolean error = false;
 
         double duracionDelProyecto = 0;        
-        for (Tarea tarea : proyecto.obtenerTareas()){
+        for (Tarea tarea : tareasDelProyecto.obtenerTareas()){
             if (!tarea.tieneTareasPrecedentes()){
                 tarea.setearComienzoTemprano(0);
                 tarea.setearFinTemprano(tarea.obtenerDuracionEsperada());
@@ -37,15 +36,15 @@ public class GestorDeCalculos {
                 tarea.setearComienzoTemprano(finTempranoMasGrandeDeLosPrecedentes);
                 tarea.setearFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.obtenerDuracionEsperada());
             }
-            if (!proyecto.existeAlgunSucesor(tarea)){
+            if (!tareasDelProyecto.existeAlgunaTareaSucesora(tarea)){
                 if (duracionDelProyecto < tarea.obtenerFinTemprano()){
                     duracionDelProyecto = tarea.obtenerFinTemprano();
                 }
             }
         }        
-        for (int i = proyecto.obtenerCantidadDeTareas() - 1; i >= 0; i--){
-            Tarea tarea = proyecto.obtenerTareas().get(i);
-            if (!proyecto.existeAlgunSucesor(tarea)){
+        for (int i = tareasDelProyecto.obtenerCantidadDeTareas() - 1; i >= 0; i--){
+            Tarea tarea = tareasDelProyecto.obtenerTareas().get(i);
+            if (!tareasDelProyecto.existeAlgunaTareaSucesora(tarea)){
                 tarea.setearFinTardio(duracionDelProyecto);
             }
             double comienzoTardio = tarea.obtenerFinTardio() - tarea.obtenerDuracionEsperada();
