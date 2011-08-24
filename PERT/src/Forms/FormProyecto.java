@@ -11,18 +11,10 @@
 
 package Forms;
 
-import Entidades.Accion;
-import Entidades.GestorDeCalculos;
-import Entidades.FabricaDeProyectos;
-import Entidades.FabricaDeTareas;
-import Entidades.Precedencia;
-import Entidades.Proyecto;
-import Entidades.Tarea;
-import Entidades.TiempoEstimado;
+import Entidades.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -33,12 +25,11 @@ public class FormProyecto extends javax.swing.JFrame {
 
     private FormInicio formularioInicio;
     private Accion tipoAccion;
-    private Proyecto proyecto;
     private String nombre;
-    private List<Tarea> tareas;
+    private ConjuntoDeTareasDeProyecto conjuntoDeTareas;
     
     /** Creates new form FormProyecto */
-    public FormProyecto(FormInicio formularioInicio) { //Crear proyecto nuevo
+    public FormProyecto(FormInicio formularioInicio) { //Para crear proyecto nuevo.
         initComponents();
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();
@@ -46,24 +37,24 @@ public class FormProyecto extends javax.swing.JFrame {
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.crear;
         this.nombre = "";
-        this.tareas = new ArrayList<Tarea>();
+        this.conjuntoDeTareas = new ConjuntoDeTareasDeProyecto(new ArrayList<Tarea>());
     }
 
-    public FormProyecto(FormInicio formularioInicio, Proyecto proyecto) { //Abrir proyecto existente
+    /** Creates new form FormProyecto */
+    public FormProyecto(FormInicio formularioInicio, Proyecto proyecto) { //Para abrir proyecto existente.
         initComponents();
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();
         setearEtiquetas();
-        this.proyecto = proyecto;
         this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.modificar;
         this.nombre = proyecto.obtenerNombre();
-        this.tareas = proyecto.obtenerTareas();
+        this.conjuntoDeTareas = proyecto.obtenerConjuntoDeTareas();
         setearCampos();
     }    
 
     /**
-     * Se setean las etiquetas de la pantalla.
+     * Se setean las etiquetas de la pantalla según el idioma configurado.
      */
     private void setearEtiquetas(){
         setTitle("Proyecto"); // Manejo de idioma!!!
@@ -79,42 +70,72 @@ public class FormProyecto extends javax.swing.JFrame {
         this.btnCalculoDeProbabilidades.setText("Cálculo de probabilidades");
     }
     
+    /**
+     * Previo al almacenamiento en la estructura de datos de los datos ingresados por el usuario,
+     * se verifica que los mismos sean correctos.
+     * @return (si son válidos o no los datos ingresados por el usuario).
+     */
+    private boolean controlarDatosDeEntradaDelUsuario(){
+        if (txtNombreProyecto.getText().equals("")){ 
+            return false;
+        }
+        if (conjuntoDeTareas.obtenerCantidadDeTareas()==0){
+            return false;
+        }
+        return true;
+    } 
+    
+    /**
+     * Se setean los campos de la pantalla con los datos correspondientes (solo en caso de ser una modificación).
+     */
     private void setearCampos(){        
         if (tipoAccion.equals(tipoAccion.modificar)){            
             txtNombreProyecto.setText(nombre);
             int fila = 0;
-            for (Tarea tarea : tareas){
-                modificarTabla(tblTareasProyecto, fila, true, tarea);
+            for (Tarea tarea : conjuntoDeTareas.obtenerTareas()){
+                actualizarTablaDeDatosIngresados(fila, true, tarea);
                 fila += 1;
             }
         }
     }    
     
-    private void modificarTabla(JTable tabla, int fila, boolean nuevaFila, Tarea tarea){
-        DefaultTableModel modeloTabla = (DefaultTableModel)tabla.getModel();
+    /**
+     * Se modifica la tabla de tareas del proyecto en la cual se muestran los datos ingresados por el usuario
+     * acerca de cada una de ellas (nombre, descripción, precedencia y tiempos estimados).
+     * @param fila (fila de la tabla a agregar o eliminar).
+     * @param nuevaFila (determina si se trata de una nueva fila a agregar o de eliminar una existente).
+     * @param tarea (tarea que forma parte de la modificación).
+     */
+    private void actualizarTablaDeDatosIngresados(int fila, boolean nuevaFila, Tarea tarea){
+        DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)tblTareasProyecto.getModel();
         if (nuevaFila){
-            modeloTabla.addRow(new Object[fila]);
-            tabla.setValueAt(tarea.obtenerNombre(), fila, 0);
-            tabla.setValueAt(tarea.obtenerDescripcion(), fila, 1);
-            tabla.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tabla.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
-            tabla.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
-            tabla.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
+            modeloDeTablaDeDatosIngresados.addRow(new Object[fila]);
+            tblTareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
+            tblTareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
+            tblTareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+            tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
+            tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
+            tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
         }else{
-            modeloTabla.removeRow(fila);
+            modeloDeTablaDeDatosIngresados.removeRow(fila);
         }      
-        tabla.updateUI();
+        tblTareasProyecto.updateUI();
     }
     
-    private void actualizarTablaDeCalculos(List<Tarea> tareasDelProyecto){
-        DefaultTableModel modeloTabla = (DefaultTableModel)tblResultadoDeCalculos.getModel();
-        int cantidadDeFilas = modeloTabla.getRowCount();
-        for (int i = 0; i < cantidadDeFilas; i++){
-            modeloTabla.removeRow(0);
+    /**
+     * Se modifica la tabla de tareas del proyecto en la cual se muestran los resultados calculados
+     * en base a los datos ingresados por el usuario (duración esperada, tiempos tempranos y tardíos,
+     * holgura y si es tarea crítica).
+     */
+    private void actualizarTablaDeCalculosRealizados(){
+        DefaultTableModel modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tblResultadoDeCalculos.getModel();
+        int cantidadDeFilasActual = modeloDeTablaDeResultadosCalculados.getRowCount();
+        for (int i = 0; i < cantidadDeFilasActual; i++){//Se eliminan todas las filas actuales. O sea, se limpia la tabla.
+            modeloDeTablaDeResultadosCalculados.removeRow(0);
         }
         int fila = 0;
-        for (Tarea tarea : tareasDelProyecto){            
-            modeloTabla.addRow(new Object[fila]);
+        for (Tarea tarea : conjuntoDeTareas.obtenerTareas()){//Se ingresan las filas con los datos actuales.            
+            modeloDeTablaDeResultadosCalculados.addRow(new Object[fila]);
             tblResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
             tblResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
             tblResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
@@ -124,43 +145,62 @@ public class FormProyecto extends javax.swing.JFrame {
             tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
             tblResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
             tblResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
-            System.out.print(tarea.obtenerNombre()+": ");
-            System.out.print(tarea.obtenerDuracionEsperada()+" / ");
-            System.out.print(tarea.obtenerPrecedencia().obtenerTareasConcatenadas()+" // ");
-            System.out.print(tarea.obtenerComienzoTemprano()+" / ");
-            System.out.print(tarea.obtenerFinTemprano()+" / ");
-            System.out.print(tarea.obtenerComienzoTardio()+" / ");
-            System.out.print(tarea.obtenerFinTardio()+" / ");
-            System.out.print(tarea.obtenerHolgura()+" / ");
-            System.out.println(tarea.esTareaCritica());
             fila += 1;            
         }
         tblResultadoDeCalculos.updateUI();
+    }     
+
+    /**
+     * Al modificar una tarea especifica, también se actualiza dicha tarea
+     * en la tabla de datos ingresados por el usuario.
+     * @param id
+     * @param descripcion
+     * @param tiemposEstimados
+     * @param tareasPrecedentes 
+     */
+    public void actualizarTareaEnTablaDeDatosIngresados(int id, String descripcion, TiempoEstimado tiemposEstimados, Precedencia tareasPrecedentes){
+        for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
+            String nombreTarea = (String)tblTareasProyecto.getValueAt(i, 0);
+            int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
+            if (idTarea == id){
+                tblTareasProyecto.setValueAt(descripcion, i, 1);
+                tblTareasProyecto.setValueAt(tareasPrecedentes.obtenerTareasConcatenadas(), i, 2);
+                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoOptimista(), i, 3);
+                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoMasProbable(), i, 4);
+                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoPesimista(), i, 5);
+            }
+        }
     }
     
     /**
-     * Antes de ingresar los datos ingresados por el usuario a la estructura de datos interna del programa, se verifican que cumplan las restricciones.
-     * @return
+     * Se almacena una tarea en el conjunto de tareas del proyecto y
+     * también se actualiza la tabla de datos ingresados por el usuario (de tareas).
+     * @param tarea (nueva tarea del proyecto).
      */
-    private boolean controlarDatosDeEntradaDelUsuario(){
-        if (txtNombreProyecto.getText().equals("")){ // Se puede agregar más restricciones en cuanto a los caracteres permitidos!!!
-            return false;
-        }
-        if (tareas.isEmpty()){
-            return false;
-        }
-        return true;
-    }   
-
-    public void agregarTareaEnListaDeTareas(Tarea tarea){        
-        modificarTabla(tblTareasProyecto, tareas.size(), true, tarea);
-        tareas.add(tarea);
-    }    
+    public void agregarTareaEnConjuntoDeTareas(Tarea tarea){        
+        conjuntoDeTareas.agregarTarea(tarea);
+        actualizarTablaDeDatosIngresados(conjuntoDeTareas.obtenerCantidadDeTareas()-1, true, tarea);
+    }
     
+    /**
+     * Se devuelve la lista de tareas del conjunto de tareas del proyecto.
+     * @return 
+     */
+    public List<Tarea> obtenerListaDeTareasDelProyecto(){
+        return conjuntoDeTareas.obtenerTareas();
+    }       
+    
+    /**
+     * Se obtiene una lista de tareas candidatas a ser precedentes de una tarea determinada, teniendo
+     * en cuenta que dichas tareas candidatas no sean sucesoras de dicha tarea (evitando asi un ciclo en la red,
+     * los cuales no estan permitidos).
+     * @param tarea
+     * @return 
+     */
     public List<Tarea> obtenerPosiblesTareasPrecedentes(Tarea tarea){
         Precedencia tareasPrecedentes = tarea.obtenerPrecedencia();
         List<Tarea> posiblesTareas = new ArrayList<Tarea>();
-        for (Tarea posibleTareaPrecedente : tareas){
+        for (Tarea posibleTareaPrecedente : conjuntoDeTareas.obtenerTareas()){
             int idPosibleTareaPrecedente = posibleTareaPrecedente.obtenerId();
             if ((!tareasPrecedentes.esPrecedente(idPosibleTareaPrecedente)) && (idPosibleTareaPrecedente != tarea.obtenerId())){
                 if (!hayCamino(tarea, posibleTareaPrecedente)){
@@ -171,10 +211,12 @@ public class FormProyecto extends javax.swing.JFrame {
         return posiblesTareas;
     }
     
-    /*private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
-        return false;
-    }*/
-    
+    /**
+     * Método que determina si existe un camino entre dos tareas específicas.
+     * @param tareaInicio
+     * @param tareaDestino
+     * @return 
+     */
     private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
         Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
         boolean existeCamino = false;
@@ -189,49 +231,19 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         }
         return existeCamino;
-    }
-    
+    }  
+
     /**
-     * Dada una tarea, se determina si forma parte de un camino en la red en el cual existen otras tareas sucesoras.
-     * @param lt
-     * @param i
-     * @return
+     * Método que ejecuta el algoritmo de cálculos de duración esperada de las tareas,
+     * tiempos tempranos, tiempos tardíos, holguras y tareas críticas.
      */
-  /*  private boolean tieneSucesores(int i){
-        Tarea tareaDeAnalisis = tareas.get(i);
-        for (int j = 0; j < tareas.size(); j++){
-            if (j != i){
-                Tarea tAux = tareas.get(j);
-                List<Tarea> precedencias = tAux.getPrecedencia();
-                for (int h = 0; h < precedencias.size(); h++){
-                    Tarea tPrec = precedencias.get(h);
-                    if (tareaDeAnalisis.equals(tPrec)){
-                        return true;
-                    }
-                }
-            }
+    private void realizarCalculosPERT(){
+        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(conjuntoDeTareas);
+        if (gestorDeCalculos.realizarCalculos()){
+            actualizarTablaDeCalculosRealizados();
         }
-        return false;
-    }*/
-
-    public List<Tarea> obtenerListaDeTareasDelProyecto(){
-        return tareas;
     }
     
-    public void actualizarTareaEnTabla(int id, String descripcion, TiempoEstimado tiemposEstimados, Precedencia tareasPrecedentes){
-        for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
-            String nombreTarea = (String)tblTareasProyecto.getValueAt(i, 0);
-            int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
-            if (idTarea == id){
-                tblTareasProyecto.setValueAt(descripcion, i, 1);
-                tblTareasProyecto.setValueAt(tareasPrecedentes.obtenerTareasConcatenadas(), i, 2);
-                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoOptimista(), i, 3);
-                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoMasProbable(), i, 4);
-                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoPesimista(), i, 5);
-            }
-        }
-    }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -462,33 +474,41 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int i = tblTareasProyecto.getSelectedRow();
-        Tarea t = tareas.get(i);
-        FormTarea ft = new FormTarea(this, t);
-        ft.setVisible(true);
+        int filaSeleccionada = tblTareasProyecto.getSelectedRow();
+        if (filaSeleccionada >= 0){
+            String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
+            Tarea tarea = conjuntoDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            FormTarea ft = new FormTarea(this, tarea);
+            ft.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        int i = tblTareasProyecto.getSelectedRow();
-/*        if (!(tieneSucesores(i))){
-            tareas.remove(i);
-            tblTareasProyecto.remove(i);
-            tblTareasProyecto.updateUI();
-        }*/
+        int filaSeleccionada = tblTareasProyecto.getSelectedRow();
+        if (filaSeleccionada >= 0){
+            String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
+            Tarea tarea = conjuntoDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            conjuntoDeTareas.borrarTareaDePrecedencias(tarea);
+            conjuntoDeTareas.borrarTarea(tarea);
+            actualizarTablaDeDatosIngresados(filaSeleccionada, false, tarea);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        }
+        realizarCalculosPERT();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
-        for (int fila = 0; fila < tareas.size(); fila++){
-            modificarTabla(tblTareasProyecto, 0, false, null);
+        for (int fila = 0; fila < conjuntoDeTareas.obtenerCantidadDeTareas(); fila++){
+            actualizarTablaDeDatosIngresados(0, false, null);
         }
-        tareas = new ArrayList<Tarea>();
+        conjuntoDeTareas = new ConjuntoDeTareasDeProyecto(new ArrayList<Tarea>());
         FabricaDeTareas.getInstance().reset();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(proyecto);
-        List<Tarea> tareasDelProyecto = gestorDeCalculos.realizarCalculos();
-        actualizarTablaDeCalculos(tareasDelProyecto);
+        realizarCalculosPERT();
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -497,7 +517,7 @@ public class FormProyecto extends javax.swing.JFrame {
                 nombre = txtNombreProyecto.getText();
                 switch (tipoAccion){
                     case crear:
-                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, tareas);
+                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, conjuntoDeTareas);
                         formularioInicio.agregarProyectoEnListaDeProyectos(nuevoProyecto);
                         break;
                     case modificar:

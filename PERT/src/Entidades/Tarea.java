@@ -5,7 +5,6 @@
 
 package Entidades;
 
-
 /**
  *
  * @author Manuel Lorenze
@@ -50,7 +49,7 @@ public class Tarea extends TareaAbstracta{
         return descripcion;
     }
 
-    public void cambiarDescripcion(String descripcion) {
+    public void setearDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
     
