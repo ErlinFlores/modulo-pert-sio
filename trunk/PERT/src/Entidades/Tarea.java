@@ -18,15 +18,12 @@ public class Tarea extends TareaAbstracta{
     private Precedencia precedencia;
     
     public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
-        super.comienzoTemprano = -1;
-        super.finTemprano = -1;
-        super.comienzoTardio = -1;
-        super.finTardio = -1;
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoEstimado = tiempoEstimado;
         this.precedencia = precedencia;
+        resetearTiemposCalculables();
     }    
     
     public double obtenerDuracionEsperada() {
@@ -59,5 +56,5 @@ public class Tarea extends TareaAbstracta{
 
     public Precedencia obtenerPrecedencia() {
         return precedencia;
-    }  
+    }    
 }
