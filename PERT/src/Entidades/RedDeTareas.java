@@ -105,4 +105,10 @@ public class RedDeTareas {
     public List<Tarea> obtenerTareas(){
         return tareas;
     }
+    
+    public void resetearTiemposCalculables(){
+        for (Tarea tarea : tareas){
+            tarea.resetearTiemposCalculables();
+        }
+    }
 }

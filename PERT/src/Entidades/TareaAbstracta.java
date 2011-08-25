@@ -54,4 +54,11 @@ public abstract class TareaAbstracta {
     public boolean esTareaCritica(){
         return obtenerHolgura() == 0;
     }
+    
+    public void resetearTiemposCalculables(){
+        this.comienzoTemprano = -1;
+        this.finTemprano = -1;
+        this.comienzoTardio = -1;
+        this.finTardio = -1;     
+    }
 }

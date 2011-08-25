@@ -155,21 +155,22 @@ public class FormProyecto extends javax.swing.JFrame {
      * en la tabla de datos ingresados por el usuario.
      * @param id
      * @param descripcion
-     * @param tiemposEstimados
-     * @param tareasPrecedentes 
      */
-    public void actualizarTareaEnTablaDeDatosIngresados(int id, String descripcion, TiempoEstimado tiemposEstimados, Precedencia tareasPrecedentes){
+    public void actualizarTarea(int id, String descripcion){
+        Tarea tareaModificada = redDeTareas.obtenerTareaPorID(id);
+        tareaModificada.setearDescripcion(descripcion);
         for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
             String nombreTarea = (String)tblTareasProyecto.getValueAt(i, 0);
             int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
             if (idTarea == id){
                 tblTareasProyecto.setValueAt(descripcion, i, 1);
-                tblTareasProyecto.setValueAt(tareasPrecedentes.obtenerTareasConcatenadas(), i, 2);
-                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoOptimista(), i, 3);
-                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoMasProbable(), i, 4);
-                tblTareasProyecto.setValueAt(tiemposEstimados.obtenerTiempoPesimista(), i, 5);
+                tblTareasProyecto.setValueAt(tareaModificada.obtenerPrecedencia().obtenerTareasConcatenadas(), i, 2);
+                tblTareasProyecto.setValueAt(tareaModificada.obtenerTiempoEstimado().obtenerTiempoOptimista(), i, 3);
+                tblTareasProyecto.setValueAt(tareaModificada.obtenerTiempoEstimado().obtenerTiempoMasProbable(), i, 4);
+                tblTareasProyecto.setValueAt(tareaModificada.obtenerTiempoEstimado().obtenerTiempoPesimista(), i, 5);
             }
         }
+        realizarCalculosPERT();
     }
     
     /**
@@ -209,6 +210,8 @@ public class FormProyecto extends javax.swing.JFrame {
         GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(redDeTareas);
         if (gestorDeCalculos.realizarCalculosPERT()){
             actualizarTablaDeCalculosRealizados();
+        }else{
+            JOptionPane.showMessageDialog(this, "Hubo error en los cálculos sobre la red de tareas");
         }
     }
     
@@ -437,8 +440,12 @@ public class FormProyecto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        FormTarea ft = new FormTarea(this);
-        ft.setVisible(true);
+        if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
+            FormTarea ft = new FormTarea(this);
+            ft.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(this, "No se pueden crear más tareas (límite = 26)");
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -447,7 +454,7 @@ public class FormProyecto extends javax.swing.JFrame {
             String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
             Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
             FormTarea ft = new FormTarea(this, tarea);
-            ft.setVisible(true);
+            ft.setVisible(true);            
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         }
@@ -461,10 +468,10 @@ public class FormProyecto extends javax.swing.JFrame {
             redDeTareas.borrarTareaDePrecedencias(tarea);
             redDeTareas.borrarTarea(tarea);
             actualizarTablaDeDatosIngresados(filaSeleccionada, false, tarea);
+            realizarCalculosPERT();
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
-        }
-        realizarCalculosPERT();
+        }        
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed

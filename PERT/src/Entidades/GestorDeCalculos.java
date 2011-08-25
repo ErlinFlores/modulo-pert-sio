@@ -11,17 +11,21 @@ package Entidades;
  */
 public class GestorDeCalculos {
     
-    private RedDeTareas tareasDelProyecto;
+    private RedDeTareas redDeTareas;
     
-    public GestorDeCalculos(RedDeTareas tareasDelProyecto){
-        this.tareasDelProyecto = tareasDelProyecto;
+    public GestorDeCalculos(RedDeTareas redDeTareas){
+        this.redDeTareas = redDeTareas;
+        redDeTareas.resetearTiemposCalculables();
     }
     
     public boolean realizarCalculosPERT(){
-        boolean error = false;
-
+        if (redDeTareas.obtenerCantidadDeTareas() == 0){
+            return true;
+        }
+        
+        boolean alMenosUnaTareaTieneComienzoTardioCero = false;
         double duracionDelProyecto = 0;        
-        for (Tarea tarea : tareasDelProyecto.obtenerTareas()){
+        for (Tarea tarea : redDeTareas.obtenerTareas()){
             if (!tarea.tieneTareasPrecedentes()){
                 tarea.setearComienzoTemprano(0);
                 tarea.setearFinTemprano(tarea.obtenerDuracionEsperada());
@@ -36,15 +40,15 @@ public class GestorDeCalculos {
                 tarea.setearComienzoTemprano(finTempranoMasGrandeDeLosPrecedentes);
                 tarea.setearFinTemprano(finTempranoMasGrandeDeLosPrecedentes + tarea.obtenerDuracionEsperada());
             }
-            if (!tareasDelProyecto.existeAlgunaTareaSucesora(tarea)){
+            if (!redDeTareas.existeAlgunaTareaSucesora(tarea)){
                 if (duracionDelProyecto < tarea.obtenerFinTemprano()){
                     duracionDelProyecto = tarea.obtenerFinTemprano();
                 }
             }
         }        
-        for (int i = tareasDelProyecto.obtenerCantidadDeTareas() - 1; i >= 0; i--){
-            Tarea tarea = tareasDelProyecto.obtenerTareas().get(i);
-            if (!tareasDelProyecto.existeAlgunaTareaSucesora(tarea)){
+        for (int i = redDeTareas.obtenerCantidadDeTareas() - 1; i >= 0; i--){
+            Tarea tarea = redDeTareas.obtenerTareas().get(i);
+            if (!redDeTareas.existeAlgunaTareaSucesora(tarea)){
                 tarea.setearFinTardio(duracionDelProyecto);
             }
             double comienzoTardio = tarea.obtenerFinTardio() - tarea.obtenerDuracionEsperada();
@@ -56,11 +60,11 @@ public class GestorDeCalculos {
                 }
             }
             if (!tarea.tieneTareasPrecedentes()){
-                if (tarea.obtenerComienzoTardio() != 0){
-                    error = true;
+                if (tarea.obtenerComienzoTardio() == 0){
+                    alMenosUnaTareaTieneComienzoTardioCero = true;
                 }
             }
-        }
-        return !error;
+        }        
+        return alMenosUnaTareaTieneComienzoTardioCero;
     }
 }
