@@ -181,6 +181,7 @@ public class FormProyecto extends javax.swing.JFrame {
     public void agregarTareaEnRedDeTareas(Tarea tarea){        
         redDeTareas.agregarTarea(tarea);
         actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, true, tarea);
+        realizarCalculosPERT();
     }
     
     /**
@@ -270,6 +271,7 @@ public class FormProyecto extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblTareasProyecto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblTareasProyecto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblTareasProyecto.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblTareasProyecto);
@@ -480,6 +482,7 @@ public class FormProyecto extends javax.swing.JFrame {
         }
         redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
         FabricaDeTareas.getInstance().reset();
+        realizarCalculosPERT();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
