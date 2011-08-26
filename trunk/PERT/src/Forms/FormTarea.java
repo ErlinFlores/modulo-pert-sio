@@ -163,11 +163,11 @@ public class FormTarea extends javax.swing.JFrame {
         txtDescripcionTarea = new javax.swing.JTextField();
         jPanelTiemposEstimados = new javax.swing.JPanel();
         lblTiempoOptimista = new javax.swing.JLabel();
-        txtTiempoOptimista = new javax.swing.JTextField();
         lblTiempoMasProbable = new javax.swing.JLabel();
         txtTiempoMasProbable = new javax.swing.JTextField();
         lblTiempoPesimista = new javax.swing.JLabel();
         txtTiempoPesimista = new javax.swing.JTextField();
+        txtTiempoOptimista = new javax.swing.JTextField();
         jPanelPrecedencias = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPrecedencia = new javax.swing.JTable();
@@ -190,19 +190,24 @@ public class FormTarea extends javax.swing.JFrame {
 
         lblDescripciónTarea.setText("lblDescripcionTarea");
 
+        txtDescripcionTarea.setText("Tarea");
+
         jPanelTiemposEstimados.setBorder(javax.swing.BorderFactory.createTitledBorder("Tiempos estimados"));
 
         lblTiempoOptimista.setText("lblTiempoOptimista");
 
-        txtTiempoOptimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
         lblTiempoMasProbable.setText("lblTiempoMasProbable");
 
         txtTiempoMasProbable.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTiempoMasProbable.setText("2");
 
         lblTiempoPesimista.setText("lblTiempoPesimista");
 
         txtTiempoPesimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTiempoPesimista.setText("3");
+
+        txtTiempoOptimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTiempoOptimista.setText("1");
 
         javax.swing.GroupLayout jPanelTiemposEstimadosLayout = new javax.swing.GroupLayout(jPanelTiemposEstimados);
         jPanelTiemposEstimados.setLayout(jPanelTiemposEstimadosLayout);
@@ -228,12 +233,12 @@ public class FormTarea extends javax.swing.JFrame {
             .addGroup(jPanelTiemposEstimadosLayout.createSequentialGroup()
                 .addGroup(jPanelTiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTiempoOptimista)
-                    .addComponent(txtTiempoOptimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTiempoMasProbable)
                     .addComponent(txtTiempoMasProbable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTiempoPesimista)
-                    .addComponent(txtTiempoPesimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtTiempoPesimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTiempoOptimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanelPrecedencias.setBorder(javax.swing.BorderFactory.createTitledBorder("Precedencias"));
