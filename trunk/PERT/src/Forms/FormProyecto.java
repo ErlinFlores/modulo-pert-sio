@@ -27,6 +27,7 @@ public class FormProyecto extends javax.swing.JFrame {
     private Accion tipoAccion;
     private String nombre;
     private RedDeTareas redDeTareas;
+    private UnidadDeTiempo unidadDeTiempo;
     
     /** Creates new form FormProyecto */
     public FormProyecto(FormInicio formularioInicio) { //Para crear proyecto nuevo.
@@ -38,6 +39,7 @@ public class FormProyecto extends javax.swing.JFrame {
         this.tipoAccion = Accion.crear;
         this.nombre = "";
         this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
+        this.unidadDeTiempo = UnidadDeTiempo.dias;
     }
 
     /** Creates new form FormProyecto */
@@ -50,6 +52,7 @@ public class FormProyecto extends javax.swing.JFrame {
         this.tipoAccion = Accion.modificar;
         this.nombre = proyecto.obtenerNombre();
         this.redDeTareas = proyecto.obtenerRedDeTareas();
+        this.unidadDeTiempo = proyecto.obtenerUnidadDeTiempo();
         setearCampos();
     }    
 
@@ -67,7 +70,6 @@ public class FormProyecto extends javax.swing.JFrame {
         this.btnGuardar.setText("Guardar");
         this.btnCancelar.setText("Cancelar");
         this.btnRealizarCalculosTiempos.setText("Realizar cálculos de tiempos");
-        this.btnCalculoDeProbabilidades.setText("Cálculo de probabilidades");
     }
     
     /**
@@ -86,14 +88,14 @@ public class FormProyecto extends javax.swing.JFrame {
     } 
     
     /**
-     * Se setean los campos de la pantalla con los datos correspondientes (solo en caso de ser una modificación).
+     * Se setean los campos de la pantalla por primera vez, con los datos correspondientes (solo en caso de ser una modificación).
      */
     private void setearCampos(){        
         if (tipoAccion.equals(tipoAccion.modificar)){            
             txtNombreProyecto.setText(nombre);
             int fila = 0;
             for (Tarea tarea : redDeTareas.obtenerTareas()){
-                actualizarTablaDeDatosIngresados(fila, true, tarea);
+                actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
                 fila += 1;
             }
         }
@@ -106,71 +108,40 @@ public class FormProyecto extends javax.swing.JFrame {
      * @param nuevaFila (determina si se trata de una nueva fila a agregar o de eliminar una existente).
      * @param tarea (tarea que forma parte de la modificación).
      */
-    private void actualizarTablaDeDatosIngresados(int fila, boolean nuevaFila, Tarea tarea){
+    private void actualizarTablaDeDatosIngresados(int fila, Accion accion, Tarea tarea){
         DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)tblTareasProyecto.getModel();
-        if (nuevaFila){
-            modeloDeTablaDeDatosIngresados.addRow(new Object[fila]);
-            tblTareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
+        if (accion.equals(Accion.eliminar)){
+            modeloDeTablaDeDatosIngresados.removeRow(fila);            
+        }else{ 
+            if (accion.equals(Accion.crear)) {
+                modeloDeTablaDeDatosIngresados.addRow(new Object[fila]);
+                tblTareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
+            }            
             tblTareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
             tblTareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
             tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
             tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
             tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
-        }else{
-            modeloDeTablaDeDatosIngresados.removeRow(fila);
         }      
         tblTareasProyecto.updateUI();
-    }
-    
-    /**
-     * Se modifica la tabla de tareas del proyecto en la cual se muestran los resultados calculados
-     * en base a los datos ingresados por el usuario (duración esperada, tiempos tempranos y tardíos,
-     * holgura y si es tarea crítica).
-     */
-    private void actualizarTablaDeCalculosRealizados(){
-        DefaultTableModel modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tblResultadoDeCalculos.getModel();
-        int cantidadDeFilasActual = modeloDeTablaDeResultadosCalculados.getRowCount();
-        for (int i = 0; i < cantidadDeFilasActual; i++){//Se eliminan todas las filas actuales. O sea, se limpia la tabla.
-            modeloDeTablaDeResultadosCalculados.removeRow(0);
-        }
-        int fila = 0;
-        for (Tarea tarea : redDeTareas.obtenerTareas()){//Se ingresan las filas con los datos actuales.            
-            modeloDeTablaDeResultadosCalculados.addRow(new Object[fila]);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTemprano(), fila, 3);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTemprano(), fila, 4);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
-            tblResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
-            fila += 1;            
-        }
-        tblResultadoDeCalculos.updateUI();
-    }     
+    }        
 
     /**
      * Al modificar una tarea especifica, también se actualiza dicha tarea
      * en la tabla de datos ingresados por el usuario.
-     * @param id
+     * @param idTarea
      * @param descripcion
-     */
-    public void actualizarTarea(int id, String descripcion){
-        Tarea tareaModificada = redDeTareas.obtenerTareaPorID(id);
-        tareaModificada.setearDescripcion(descripcion);
+     */    
+    public void modificarTarea(int idTarea, String descripcion){
+        Tarea tareaModificada = redDeTareas.modificarTarea(idTarea, descripcion);
         for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
-            String nombreTarea = (String)tblTareasProyecto.getValueAt(i, 0);
-            int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
-            if (idTarea == id){
-                tblTareasProyecto.setValueAt(descripcion, i, 1);
-                tblTareasProyecto.setValueAt(tareaModificada.obtenerPrecedencia().obtenerTareasConcatenadas(), i, 2);
-                tblTareasProyecto.setValueAt(tareaModificada.obtenerTiempoEstimado().obtenerTiempoOptimista(), i, 3);
-                tblTareasProyecto.setValueAt(tareaModificada.obtenerTiempoEstimado().obtenerTiempoMasProbable(), i, 4);
-                tblTareasProyecto.setValueAt(tareaModificada.obtenerTiempoEstimado().obtenerTiempoPesimista(), i, 5);
+            String nombreTareaAux = (String)tblTareasProyecto.getValueAt(i, 0);
+            int idTareaAux = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTareaAux);
+            if (idTareaAux == idTarea){
+                actualizarTablaDeDatosIngresados(i, Accion.modificar, tareaModificada);
+                break;
             }
-        }
-        realizarCalculosPERT();
+        }        
     }
     
     /**
@@ -178,10 +149,9 @@ public class FormProyecto extends javax.swing.JFrame {
      * también se actualiza la tabla de datos ingresados por el usuario (de tareas).
      * @param tarea (nueva tarea del proyecto).
      */
-    public void agregarTareaEnRedDeTareas(Tarea tarea){        
+    public void agregarTarea(Tarea tarea){        
         redDeTareas.agregarTarea(tarea);
-        actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, true, tarea);
-        realizarCalculosPERT();
+        actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, Accion.crear, tarea);
     }
     
     /**
@@ -208,12 +178,9 @@ public class FormProyecto extends javax.swing.JFrame {
      * tiempos tempranos, tiempos tardíos, holguras y tareas críticas.
      */
     private void realizarCalculosPERT(){
-        GestorDeCalculos gestorDeCalculos = new GestorDeCalculos(redDeTareas);
-        if (gestorDeCalculos.realizarCalculosPERT()){
-            actualizarTablaDeCalculosRealizados();
-        }else{
+        if (!redDeTareas.realizarCalculosPERT()){
             JOptionPane.showMessageDialog(this, "Hubo error en los cálculos sobre la red de tareas");
-        }
+        }   
     }
     
     /** This method is called from within the constructor to
@@ -237,9 +204,6 @@ public class FormProyecto extends javax.swing.JFrame {
         btnRealizarCalculosTiempos = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        btnCalculoDeProbabilidades = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblResultadoDeCalculos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -257,7 +221,7 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -331,44 +295,6 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
-        btnCalculoDeProbabilidades.setText("btnCalculoDeProbabilidades");
-
-        tblResultadoDeCalculos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Duración", "Precedencia", "tComienzoTemp", "tFinTemprano", "tComienzoTardio", "tFinTardio", "Holgura", "Critica"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblResultadoDeCalculos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblResultadoDeCalculos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tblResultadoDeCalculos);
-        tblResultadoDeCalculos.getColumnModel().getColumn(0).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(1).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(2).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(3).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(4).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(5).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(6).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(7).setResizable(false);
-        tblResultadoDeCalculos.getColumnModel().getColumn(8).setResizable(false);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -377,30 +303,31 @@ public class FormProyecto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
+                        .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(646, 646, 646))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNombreProyecto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lblTareasProyecto)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                    .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBorrarTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(btnCalculoDeProbabilidades))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
-                        .addGap(10, 10, 10))))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                            .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(btnBorrarTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,30 +339,23 @@ public class FormProyecto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lblTareasProyecto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBorrarTodas)))
+                        .addComponent(btnBorrarTodas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRealizarCalculosTiempos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(542, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar))
-                    .addComponent(btnCalculoDeProbabilidades))
-                .addContainerGap())
+                    .addComponent(btnRealizarCalculosTiempos)
+                    .addComponent(btnCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -466,11 +386,8 @@ public class FormProyecto extends javax.swing.JFrame {
         int filaSeleccionada = tblTareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
-            Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            redDeTareas.borrarTareaDePrecedencias(tarea);
-            redDeTareas.borrarTarea(tarea);
-            actualizarTablaDeDatosIngresados(filaSeleccionada, false, tarea);
-            realizarCalculosPERT();
+            redDeTareas.borrarTarea(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            actualizarTablaDeDatosIngresados(filaSeleccionada, Accion.eliminar, null);
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         }        
@@ -478,15 +395,20 @@ public class FormProyecto extends javax.swing.JFrame {
 
     private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
         for (int fila = 0; fila < redDeTareas.obtenerCantidadDeTareas(); fila++){
-            actualizarTablaDeDatosIngresados(0, false, null);
+            actualizarTablaDeDatosIngresados(0, Accion.eliminar, null);
         }
         redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
         FabricaDeTareas.getInstance().reset();
-        realizarCalculosPERT();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
     private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
-        realizarCalculosPERT();
+        if (redDeTareas.obtenerCantidadDeTareas() > 0){
+            if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
+                realizarCalculosPERT();
+            }
+            FormResultado formResultado = new FormResultado(redDeTareas, unidadDeTiempo);
+            formResultado.setVisible(true);
+        }
     }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -495,7 +417,7 @@ public class FormProyecto extends javax.swing.JFrame {
                 nombre = txtNombreProyecto.getText();
                 switch (tipoAccion){
                     case crear:
-                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, redDeTareas);
+                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, redDeTareas, unidadDeTiempo);
                         formularioInicio.agregarProyectoEnListaDeProyectos(nuevoProyecto);
                         break;
                     case modificar:
@@ -531,16 +453,13 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarTodas;
-    private javax.swing.JButton btnCalculoDeProbabilidades;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRealizarCalculosTiempos;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNombreProyecto;
     private javax.swing.JLabel lblTareasProyecto;
-    private javax.swing.JTable tblResultadoDeCalculos;
     private javax.swing.JTable tblTareasProyecto;
     private javax.swing.JTextField txtNombreProyecto;
     // End of variables declaration//GEN-END:variables

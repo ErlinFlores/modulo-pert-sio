@@ -25,11 +25,7 @@ public class Tarea extends TareaAbstracta{
         this.precedencia = precedencia;
         resetearTiemposCalculables();
     }    
-    
-    public double obtenerDuracionEsperada() {
-        return tiempoEstimado.obtenerDuracionEsperada();
-    }
-    
+
     public boolean tieneTareasPrecedentes(){
         return precedencia.obtenerCantidadDeTareas() > 0;
     }
@@ -57,4 +53,16 @@ public class Tarea extends TareaAbstracta{
     public Precedencia obtenerPrecedencia() {
         return precedencia;
     }    
+    
+    public double obtenerDuracionEsperada() {
+        return tiempoEstimado.obtenerDuracionEsperada();
+    }
+
+    public double obtenerDesviacionEstandar() {
+        return tiempoEstimado.obtenerDesviacionEstandar();
+    }
+
+    public double obtenerVarianza() {
+        return tiempoEstimado.obtenerVarianza();
+    }
 }

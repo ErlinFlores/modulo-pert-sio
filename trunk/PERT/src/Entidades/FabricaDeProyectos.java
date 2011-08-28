@@ -35,8 +35,8 @@ public class FabricaDeProyectos {
         proximoId = 0;
     }
     
-    public Proyecto crearProyecto(String nombre, RedDeTareas tareas){
-        return new Proyecto(getId(), nombre, tareas);
+    public Proyecto crearProyecto(String nombre, RedDeTareas redDeTareas, UnidadDeTiempo unidadDeTiempo){
+        return new Proyecto(getId(), nombre, redDeTareas, unidadDeTiempo);
     }   
     
     private int getId(){
