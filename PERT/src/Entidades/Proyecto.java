@@ -15,20 +15,14 @@ public class Proyecto {
     private int id;    
     private String nombre;
     private RedDeTareas redDeTareas;
+    private UnidadDeTiempo unidadDeTiempo;
     
-    public Proyecto(int id, String nombre, RedDeTareas redDeTareas){
+    public Proyecto(int id, String nombre, RedDeTareas redDeTareas, UnidadDeTiempo unidadDeTiempo){
         this.id = id;
         this.nombre = nombre;
         this.redDeTareas = redDeTareas;
+        this.unidadDeTiempo = unidadDeTiempo;
     }        
-
-    public void agregarTarea(Tarea tarea) {
-        redDeTareas.agregarTarea(tarea);
-    }
-
-    public void borrarTarea(Tarea tarea) {
-        redDeTareas.borrarTarea(tarea);
-    }
 
     public int obtenerCantidadDeTareas(){
         return redDeTareas.obtenerCantidadDeTareas();
@@ -48,5 +42,9 @@ public class Proyecto {
 
     public RedDeTareas obtenerRedDeTareas() {
         return redDeTareas;
+    }
+    
+    public UnidadDeTiempo obtenerUnidadDeTiempo(){
+        return unidadDeTiempo;
     }
 }
