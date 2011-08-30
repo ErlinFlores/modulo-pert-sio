@@ -157,6 +157,11 @@ public class FormResultado extends javax.swing.JFrame {
         tblResultadoDeCalculos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         btnSalir.setText("btnSalir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del proyecto"));
 
@@ -167,7 +172,7 @@ public class FormResultado extends javax.swing.JFrame {
         txtDuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
         txtDuracionDelProyecto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        tblCaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        tblCaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12));
         tblCaminosCriticos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -266,6 +271,10 @@ public class FormResultado extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
