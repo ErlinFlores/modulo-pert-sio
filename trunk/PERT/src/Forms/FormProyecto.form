@@ -36,6 +36,10 @@
                               <Component id="lblNombreProyecto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="txtNombreProyecto" min="-2" pref="200" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                              <Component id="lblUnidadDeTiempo" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="cmbUnidadDeTiempo" min="-2" pref="76" max="-2" attributes="0"/>
                           </Group>
                           <Component id="lblTareasProyecto" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
@@ -73,6 +77,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblUnidadDeTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmbUnidadDeTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblTareasProyecto" min="-2" max="-2" attributes="0"/>
@@ -234,6 +240,26 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblUnidadDeTiempo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lblUnidadDeTiempo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbUnidadDeTiempo">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="horas"/>
+            <StringItem index="1" value="dias"/>
+            <StringItem index="2" value="meses"/>
+          </StringArray>
+        </Property>
+        <Property name="selectedIndex" type="int" value="1"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbUnidadDeTiempoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
