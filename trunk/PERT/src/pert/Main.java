@@ -5,7 +5,7 @@
 
 package pert;
 
-import Forms.FormInicio;
+import Forms.FormProyecto;
 
 /**
  *
@@ -22,7 +22,7 @@ public class Main {
     }
 
     public void inicializar(String paisIdioma, String lenguajeIdioma){
-        FormInicio formInicio = new FormInicio(paisIdioma, lenguajeIdioma);
+        FormProyecto formInicio = new FormProyecto(paisIdioma, lenguajeIdioma);
         //i.setSize(800, 600);
         formInicio.setVisible(true);
     }
