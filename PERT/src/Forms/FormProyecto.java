@@ -14,6 +14,7 @@ package Forms;
 import Entidades.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,40 +24,27 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormProyecto extends javax.swing.JFrame {
 
-    private FormInicio formularioInicio;
+    private Locale lugarConfigurado;    
     private Accion tipoAccion;
     private String nombre;
+    private String descripcion;
     private RedDeTareas redDeTareas;
     private UnidadDeTiempo unidadDeTiempo;
     
     /** Creates new form FormProyecto */
-    public FormProyecto(FormInicio formularioInicio) { //Para crear proyecto nuevo.
+    public FormProyecto(String paisIdioma, String lenguajeIdioma) {
+        lugarConfigurado = new Locale(paisIdioma, lenguajeIdioma);
         initComponents();
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();
         setearEtiquetas();        
-        this.formularioInicio = formularioInicio;
         this.tipoAccion = Accion.crear;
         this.nombre = "";
+        this.descripcion = "";
         this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
         this.unidadDeTiempo = UnidadDeTiempo.dias;
-        setearComboBoxDeUnidadDeTiempo();
-    }
-
-    /** Creates new form FormProyecto */
-    public FormProyecto(FormInicio formularioInicio, Proyecto proyecto) { //Para abrir proyecto existente.
-        initComponents();
-        FabricaDeProyectos.getInstance().reset();
-        FabricaDeTareas.getInstance().reset();
-        setearEtiquetas();        
-        this.formularioInicio = formularioInicio;
-        this.tipoAccion = Accion.modificar;
-        this.nombre = proyecto.obtenerNombre();
-        this.redDeTareas = proyecto.obtenerRedDeTareas();
-        this.unidadDeTiempo = proyecto.obtenerUnidadDeTiempo();
-        setearComboBoxDeUnidadDeTiempo();
-        setearCampos();
-    }    
+        setearOpcionesDeUnidadDeTiempo(2);
+    }  
 
     /**
      * Se setean las etiquetas de la pantalla según el idioma configurado.
@@ -65,44 +53,69 @@ public class FormProyecto extends javax.swing.JFrame {
         setTitle("Proyecto"); // Manejo de idioma!!!
         this.lblNombreProyecto.setText("Nombre del proyecto: ");
         this.lblTareasProyecto.setText("Tareas del proyecto: ");
-        this.lblUnidadDeTiempo.setText("Unidad de tiempo: ");
         this.btnAgregar.setText("Agregar");
         this.btnBorrar.setText("Borrar");
         this.btnBorrarTodas.setText("Borrar todas");
         this.btnModificar.setText("Modificar");
-        this.btnGuardar.setText("Guardar");
-        this.btnCancelar.setText("Cancelar");
-        this.btnRealizarCalculosTiempos.setText("Realizar cálculos de tiempos");        
+        this.btnSalir.setText("Salir");
+        this.btnRealizarAnalisisDePERT.setText("Realizar cálculos de tiempos");        
     }
 
-    private void setearComboBoxDeUnidadDeTiempo(){
-        switch (unidadDeTiempo){
-            case horas:{
-                this.cmbUnidadDeTiempo.setSelectedIndex(0);
-                break;
+    private void setearOpcionesDeUnidadDeTiempo(int valor){
+        if (!(valor == 0)){          
+            switch (valor){
+                case 1:{
+                    this.jrbHoras.setSelected(true);
+                    this.jrbDias.setSelected(false);
+                    this.jrbMeses.setSelected(false);
+                    break;
+                }
+                case 2:{
+                    this.jrbHoras.setSelected(false);
+                    this.jrbDias.setSelected(true);
+                    this.jrbMeses.setSelected(false);
+                    break;
+                }
+                case 3:{
+                    this.jrbHoras.setSelected(false);
+                    this.jrbDias.setSelected(false);
+                    this.jrbMeses.setSelected(true);
+                    break;
+                }
+                default:{
+                    setearOpcionesDeUnidadDeTiempo(2);
+                    break;
+                }
             }
-            case dias:{
-                this.cmbUnidadDeTiempo.setSelectedIndex(1);
-                break;
-            }
-            case meses:{
-                this.cmbUnidadDeTiempo.setSelectedIndex(2);
-                break;
-            }
+        }else{
+            switch (unidadDeTiempo){
+                case horas:{
+                    setearOpcionesDeUnidadDeTiempo(1);
+                    break;
+                }
+                case dias:{
+                    setearOpcionesDeUnidadDeTiempo(2);
+                    break;
+                }
+                case meses:{
+                    setearOpcionesDeUnidadDeTiempo(3);
+                    break;
+                }                
+            } 
         }
     }
 
     private void setearUnidadDeTiempo(int indice){
         switch (indice){
-            case 0:{
+            case 1:{
                 this.unidadDeTiempo = UnidadDeTiempo.horas;
                 break;
             }
-            case 1:{
+            case 2:{
                 this.unidadDeTiempo = UnidadDeTiempo.dias;
                 break;
             }
-            case 2:{
+            case 3:{
                 this.unidadDeTiempo = UnidadDeTiempo.meses;
                 break;
             }
@@ -115,7 +128,7 @@ public class FormProyecto extends javax.swing.JFrame {
      * @return (si son válidos o no los datos ingresados por el usuario).
      */
     private boolean controlarDatosDeEntradaDelUsuario(){
-        if (txtNombreProyecto.getText().equals("")){ 
+        if ((txtNombreProyecto.getText().equals("") && (txtNombreProyecto.getText().length() > 50))){ 
             return false;
         }
         if (redDeTareas.obtenerCantidadDeTareas()==0){
@@ -238,14 +251,20 @@ public class FormProyecto extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnBorrarTodas = new javax.swing.JButton();
-        btnRealizarCalculosTiempos = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
-        lblUnidadDeTiempo = new javax.swing.JLabel();
-        cmbUnidadDeTiempo = new javax.swing.JComboBox();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        btnRealizarAnalisisDePERT = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jrbHoras = new javax.swing.JRadioButton();
+        jrbDias = new javax.swing.JRadioButton();
+        jrbMeses = new javax.swing.JRadioButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTADescripcionDelProyecto = new javax.swing.JTextArea();
+        lblNombreProyecto1 = new javax.swing.JLabel();
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenuNuevo = new javax.swing.JMenu();
+        jMenuAbrir = new javax.swing.JMenu();
+        jMenuGuardar = new javax.swing.JMenu();
+        jMenuAyuda = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -316,44 +335,97 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
-        btnRealizarCalculosTiempos.setText("btnRealizarCalculosTiempos");
-        btnRealizarCalculosTiempos.addActionListener(new java.awt.event.ActionListener() {
+        btnRealizarAnalisisDePERT.setText("btnRealizarAnalisisDePERT");
+        btnRealizarAnalisisDePERT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRealizarCalculosTiemposActionPerformed(evt);
+                btnRealizarAnalisisDePERTActionPerformed(evt);
             }
         });
 
-        btnGuardar.setText("btnGuardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("btnSalir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
-        btnCancelar.setText("btnCancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("UnidadDeTiempo"));
+
+        jrbHoras.setText("jRadioButton1");
+        jrbHoras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                jrbHorasActionPerformed(evt);
             }
         });
 
-        lblUnidadDeTiempo.setText("lblUnidadDeTiempo");
-
-        cmbUnidadDeTiempo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "horas", "dias", "meses" }));
-        cmbUnidadDeTiempo.setSelectedIndex(1);
-        cmbUnidadDeTiempo.addActionListener(new java.awt.event.ActionListener() {
+        jrbDias.setText("jRadioButton2");
+        jrbDias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbUnidadDeTiempoActionPerformed(evt);
+                jrbDiasActionPerformed(evt);
             }
         });
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jrbMeses.setText("jRadioButton3");
+        jrbMeses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrbMesesActionPerformed(evt);
+            }
+        });
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jrbHoras)
+                .addGap(18, 18, 18)
+                .addComponent(jrbDias)
+                .addGap(18, 18, 18)
+                .addComponent(jrbMeses)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jrbHoras)
+                    .addComponent(jrbDias)
+                    .addComponent(jrbMeses))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
-        setJMenuBar(jMenuBar1);
+        jTADescripcionDelProyecto.setColumns(20);
+        jTADescripcionDelProyecto.setRows(5);
+        jScrollPane2.setViewportView(jTADescripcionDelProyecto);
+
+        lblNombreProyecto1.setText("lblDescripcionProyecto");
+
+        jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jMenuNuevo.setText("Nuevo");
+        jMenuNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuNuevoMouseClicked(evt);
+            }
+        });
+        jMenuNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuNuevoActionPerformed(evt);
+            }
+        });
+        jMenuBar.add(jMenuNuevo);
+
+        jMenuAbrir.setText("Abrir");
+        jMenuBar.add(jMenuAbrir);
+
+        jMenuGuardar.setText("Guardar");
+        jMenuBar.add(jMenuGuardar);
+
+        jMenuAyuda.setText("Ayuda");
+        jMenuBar.add(jMenuAyuda);
+
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -363,48 +435,54 @@ public class FormProyecto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnRealizarCalculosTiempos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(636, 636, 636))
-                    .addComponent(lblTareasProyecto)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNombreProyecto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblUnidadDeTiempo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cmbUnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE))
+                                .addComponent(txtNombreProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblNombreProyecto1))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lblTareasProyecto)
+                                        .addGap(572, 572, 572)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                    .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnBorrarTodas))))))
+                                .addComponent(btnRealizarAnalisisDePERT, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                                .addGap(487, 487, 487)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBorrarTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombreProyecto)
-                    .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblUnidadDeTiempo)
-                    .addComponent(cmbUnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addComponent(lblTareasProyecto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombreProyecto)
+                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblNombreProyecto1))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(lblTareasProyecto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -413,14 +491,13 @@ public class FormProyecto extends javax.swing.JFrame {
                         .addComponent(btnBorrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrarTodas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar))
+                        .addGap(100, 100, 100))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRealizarCalculosTiempos)
-                    .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRealizarAnalisisDePERT)
+                    .addComponent(btnSalir))
+                .addContainerGap())
         );
 
         pack();
@@ -466,7 +543,7 @@ public class FormProyecto extends javax.swing.JFrame {
         FabricaDeTareas.getInstance().reset();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
-    private void btnRealizarCalculosTiemposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarCalculosTiemposActionPerformed
+    private void btnRealizarAnalisisDePERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarAnalisisDePERTActionPerformed
         if (redDeTareas.obtenerCantidadDeTareas() > 0){
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
                 realizarCalculosPERT();
@@ -474,37 +551,40 @@ public class FormProyecto extends javax.swing.JFrame {
             FormResultado formResultado = new FormResultado(redDeTareas, unidadDeTiempo);
             formResultado.setVisible(true);
         }
-    }//GEN-LAST:event_btnRealizarCalculosTiemposActionPerformed
+    }//GEN-LAST:event_btnRealizarAnalisisDePERTActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try{
-            if (controlarDatosDeEntradaDelUsuario()){
-                nombre = txtNombreProyecto.getText();
-                switch (tipoAccion){
-                    case crear:
-                        Proyecto nuevoProyecto = FabricaDeProyectos.getInstance().crearProyecto(nombre, redDeTareas, unidadDeTiempo);
-                        formularioInicio.agregarProyectoEnListaDeProyectos(nuevoProyecto);
-                        break;
-                    case modificar:
-                        // En teoría no hay que modificar nada en este sector. Modificación por referencia.
-                        break;
-                }
-            }else{
-                JOptionPane.showMessageDialog(this, "ERROR: Hay campos con valores no válidos.");
-            }
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, ex);
-        }
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    private void jrbHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbHorasActionPerformed
+        this.setearOpcionesDeUnidadDeTiempo(1);
+        this.setearUnidadDeTiempo(1);
+    }//GEN-LAST:event_jrbHorasActionPerformed
 
-    private void cmbUnidadDeTiempoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbUnidadDeTiempoActionPerformed
-        setearUnidadDeTiempo(this.cmbUnidadDeTiempo.getSelectedIndex());
-    }//GEN-LAST:event_cmbUnidadDeTiempoActionPerformed
+    private void jrbDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbDiasActionPerformed
+        this.setearOpcionesDeUnidadDeTiempo(2);
+        this.setearUnidadDeTiempo(2);
+    }//GEN-LAST:event_jrbDiasActionPerformed
+
+    private void jrbMesesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbMesesActionPerformed
+        this.setearOpcionesDeUnidadDeTiempo(3);
+        this.setearUnidadDeTiempo(3);
+    }//GEN-LAST:event_jrbMesesActionPerformed
+
+    private void jMenuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNuevoActionPerformed
+
+    }//GEN-LAST:event_jMenuNuevoActionPerformed
+
+    private void jMenuNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuNuevoMouseClicked
+        this.nombre = "";
+        this.txtNombreProyecto.setText("");
+        this.descripcion = "";
+        this.jTADescripcionDelProyecto.setText("");
+        this.setearOpcionesDeUnidadDeTiempo(2);
+        this.setearUnidadDeTiempo(2);
+        this.btnBorrarTodasActionPerformed(null);
+    }//GEN-LAST:event_jMenuNuevoMouseClicked
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -522,18 +602,24 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarTodas;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnRealizarCalculosTiempos;
-    private javax.swing.JComboBox cmbUnidadDeTiempo;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JButton btnRealizarAnalisisDePERT;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JMenu jMenuAbrir;
+    private javax.swing.JMenu jMenuAyuda;
+    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenu jMenuGuardar;
+    private javax.swing.JMenu jMenuNuevo;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTADescripcionDelProyecto;
+    private javax.swing.JRadioButton jrbDias;
+    private javax.swing.JRadioButton jrbHoras;
+    private javax.swing.JRadioButton jrbMeses;
     private javax.swing.JLabel lblNombreProyecto;
+    private javax.swing.JLabel lblNombreProyecto1;
     private javax.swing.JLabel lblTareasProyecto;
-    private javax.swing.JLabel lblUnidadDeTiempo;
     private javax.swing.JTable tblTareasProyecto;
     private javax.swing.JTextField txtNombreProyecto;
     // End of variables declaration//GEN-END:variables
