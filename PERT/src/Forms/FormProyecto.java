@@ -15,7 +15,11 @@ import Entidades.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,8 +27,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Manuel Lorenze
  */
 public class FormProyecto extends javax.swing.JFrame {
-
-    private Locale lugarConfigurado;    
+  
+    ResourceBundle etiquetas;
     private Accion tipoAccion;
     private String nombre;
     private String descripcion;
@@ -32,9 +36,9 @@ public class FormProyecto extends javax.swing.JFrame {
     private UnidadDeTiempo unidadDeTiempo;
     
     /** Creates new form FormProyecto */
-    public FormProyecto(String paisIdioma, String lenguajeIdioma) {
-        lugarConfigurado = new Locale(paisIdioma, lenguajeIdioma);
+    public FormProyecto(String lenguajeIdioma, String paisIdioma) {
         initComponents();
+        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", new Locale(lenguajeIdioma, paisIdioma));
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();
         setearEtiquetas();        
@@ -50,15 +54,38 @@ public class FormProyecto extends javax.swing.JFrame {
      * Se setean las etiquetas de la pantalla según el idioma configurado.
      */
     private void setearEtiquetas(){
-        setTitle("Proyecto"); // Manejo de idioma!!!
-        this.lblNombreProyecto.setText("Nombre del proyecto: ");
-        this.lblTareasProyecto.setText("Tareas del proyecto: ");
-        this.btnAgregar.setText("Agregar");
-        this.btnBorrar.setText("Borrar");
-        this.btnBorrarTodas.setText("Borrar todas");
-        this.btnModificar.setText("Modificar");
-        this.btnSalir.setText("Salir");
-        this.btnRealizarAnalisisDePERT.setText("Realizar cálculos de tiempos");        
+        setTitle(etiquetas.getString("titulo"));
+        this.jMenu.setText(etiquetas.getString("menu"));
+        this.jmiNuevo.setText(etiquetas.getString("nuevo"));
+        this.jmiAbrir.setText(etiquetas.getString("abrir"));
+        this.jmiGuardar.setText(etiquetas.getString("guardar"));
+        this.jmiCambiarIdioma.setText(etiquetas.getString("cambiarIdioma"));
+        this.jmiSalir.setText(etiquetas.getString("salir"));
+        this.jMenuAyuda.setText(etiquetas.getString("ayuda"));
+        this.lblNombreProyecto.setText(etiquetas.getString("nombreProyecto"));
+        this.lblTareasProyecto.setText(etiquetas.getString("tareasProyecto"));
+        this.lblDescripcionProyecto.setText(etiquetas.getString("descripcionProyecto"));
+        ((TitledBorder)jplUnidadDeTiempo.getBorder()).setTitle(etiquetas.getString("unidadDeTiempo"));
+        this.jrbHoras.setText(etiquetas.getString("horas"));
+        this.jrbDias.setText(etiquetas.getString("dias"));
+        this.jrbMeses.setText(etiquetas.getString("meses"));        
+        this.btnAgregar.setText(etiquetas.getString("agregar"));
+        this.btnModificar.setText(etiquetas.getString("modificar"));
+        this.btnBorrar.setText(etiquetas.getString("borrar"));
+        this.btnBorrarTodas.setText(etiquetas.getString("borrarTodas"));        
+        this.btnSalir.setText(etiquetas.getString("salir"));
+        this.btnAnalisisDePERT.setText(etiquetas.getString("analisisDePERT")); 
+        /**String[] columnasDeTablaDeTareas = {
+            etiquetas.getString("nombreTarea"),
+            etiquetas.getString("descripcionTarea"),
+            etiquetas.getString("precedenciaTarea"),
+            etiquetas.getString("tiempoOptimistaTarea"),
+            etiquetas.getString("tiempoMasProbableTarea"),
+            etiquetas.getString("tiempoPesimistaTarea")
+        };
+        Object[][] datos = {{"1", "2", "3", "4", "5", "6"}};
+        DefaultTableModel modeloDeTablaDeTareas = new DefaultTableModel(datos, columnasDeTablaDeTareas);
+        this.tblTareasProyecto= new JTable(modeloDeTablaDeTareas);**/
     }
 
     private void setearOpcionesDeUnidadDeTiempo(int valor){
@@ -159,7 +186,7 @@ public class FormProyecto extends javax.swing.JFrame {
      * @param tarea (tarea que forma parte de la modificación).
      */
     private void actualizarTablaDeDatosIngresados(int fila, Accion accion, Tarea tarea){
-        DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)tblTareasProyecto.getModel();
+        DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)this.tblTareasProyecto.getModel();
         if (accion.equals(Accion.eliminar)){
             modeloDeTablaDeDatosIngresados.removeRow(fila);            
         }else{ 
@@ -251,19 +278,24 @@ public class FormProyecto extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         btnBorrar = new javax.swing.JButton();
         btnBorrarTodas = new javax.swing.JButton();
-        btnRealizarAnalisisDePERT = new javax.swing.JButton();
+        btnAnalisisDePERT = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jplUnidadDeTiempo = new javax.swing.JPanel();
         jrbHoras = new javax.swing.JRadioButton();
         jrbDias = new javax.swing.JRadioButton();
         jrbMeses = new javax.swing.JRadioButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTADescripcionDelProyecto = new javax.swing.JTextArea();
-        lblNombreProyecto1 = new javax.swing.JLabel();
+        lblDescripcionProyecto = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
-        jMenuNuevo = new javax.swing.JMenu();
-        jMenuAbrir = new javax.swing.JMenu();
-        jMenuGuardar = new javax.swing.JMenu();
+        jMenu = new javax.swing.JMenu();
+        jmiNuevo = new javax.swing.JMenuItem();
+        jmiAbrir = new javax.swing.JMenuItem();
+        jmiGuardar = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jmiCambiarIdioma = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jmiSalir = new javax.swing.JMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -335,10 +367,10 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
-        btnRealizarAnalisisDePERT.setText("btnRealizarAnalisisDePERT");
-        btnRealizarAnalisisDePERT.addActionListener(new java.awt.event.ActionListener() {
+        btnAnalisisDePERT.setText("btnAnalisisDePERT");
+        btnAnalisisDePERT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRealizarAnalisisDePERTActionPerformed(evt);
+                btnAnalisisDePERTActionPerformed(evt);
             }
         });
 
@@ -349,34 +381,34 @@ public class FormProyecto extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("UnidadDeTiempo"));
+        jplUnidadDeTiempo.setBorder(javax.swing.BorderFactory.createTitledBorder("UnidadDeTiempo"));
 
-        jrbHoras.setText("jRadioButton1");
+        jrbHoras.setText("jrbHoras");
         jrbHoras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jrbHorasActionPerformed(evt);
             }
         });
 
-        jrbDias.setText("jRadioButton2");
+        jrbDias.setText("jrbDias");
         jrbDias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jrbDiasActionPerformed(evt);
             }
         });
 
-        jrbMeses.setText("jRadioButton3");
+        jrbMeses.setText("jrbMeses");
         jrbMeses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jrbMesesActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jplUnidadDeTiempoLayout = new javax.swing.GroupLayout(jplUnidadDeTiempo);
+        jplUnidadDeTiempo.setLayout(jplUnidadDeTiempoLayout);
+        jplUnidadDeTiempoLayout.setHorizontalGroup(
+            jplUnidadDeTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jplUnidadDeTiempoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jrbHoras)
                 .addGap(18, 18, 18)
@@ -385,10 +417,10 @@ public class FormProyecto extends javax.swing.JFrame {
                 .addComponent(jrbMeses)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jplUnidadDeTiempoLayout.setVerticalGroup(
+            jplUnidadDeTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jplUnidadDeTiempoLayout.createSequentialGroup()
+                .addGroup(jplUnidadDeTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrbHoras)
                     .addComponent(jrbDias)
                     .addComponent(jrbMeses))
@@ -399,28 +431,41 @@ public class FormProyecto extends javax.swing.JFrame {
         jTADescripcionDelProyecto.setRows(5);
         jScrollPane2.setViewportView(jTADescripcionDelProyecto);
 
-        lblNombreProyecto1.setText("lblDescripcionProyecto");
+        lblDescripcionProyecto.setText("lblDescripcionProyecto");
 
+        jMenuBar.setBorder(null);
         jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jMenuNuevo.setText("Nuevo");
-        jMenuNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenu.setText("Menú");
+        jMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuNuevoMouseClicked(evt);
+                jMenuMouseClicked(evt);
             }
         });
-        jMenuNuevo.addActionListener(new java.awt.event.ActionListener() {
+
+        jmiNuevo.setText("Nuevo");
+        jMenu.add(jmiNuevo);
+
+        jmiAbrir.setText("Abrir");
+        jMenu.add(jmiAbrir);
+
+        jmiGuardar.setText("Guardar");
+        jMenu.add(jmiGuardar);
+        jMenu.add(jSeparator1);
+
+        jmiCambiarIdioma.setText("Cambiar idioma");
+        jmiCambiarIdioma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuNuevoActionPerformed(evt);
+                jmiCambiarIdiomaActionPerformed(evt);
             }
         });
-        jMenuBar.add(jMenuNuevo);
+        jMenu.add(jmiCambiarIdioma);
+        jMenu.add(jSeparator2);
 
-        jMenuAbrir.setText("Abrir");
-        jMenuBar.add(jMenuAbrir);
+        jmiSalir.setText("Salir");
+        jMenu.add(jmiSalir);
 
-        jMenuGuardar.setText("Guardar");
-        jMenuBar.add(jMenuGuardar);
+        jMenuBar.add(jMenu);
 
         jMenuAyuda.setText("Ayuda");
         jMenuBar.add(jMenuAyuda);
@@ -441,8 +486,8 @@ public class FormProyecto extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtNombreProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(lblNombreProyecto1))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblDescripcionProyecto))
+                            .addComponent(jplUnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -455,7 +500,7 @@ public class FormProyecto extends javax.swing.JFrame {
                                         .addGap(572, 572, 572)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRealizarAnalisisDePERT, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                                .addComponent(btnAnalisisDePERT, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
                                 .addGap(487, 487, 487)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -475,9 +520,9 @@ public class FormProyecto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNombreProyecto)
                             .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNombreProyecto1))
+                            .addComponent(lblDescripcionProyecto))
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jplUnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE))
                 .addGap(20, 20, 20)
                 .addComponent(lblTareasProyecto)
@@ -495,7 +540,7 @@ public class FormProyecto extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRealizarAnalisisDePERT)
+                    .addComponent(btnAnalisisDePERT)
                     .addComponent(btnSalir))
                 .addContainerGap())
         );
@@ -543,7 +588,7 @@ public class FormProyecto extends javax.swing.JFrame {
         FabricaDeTareas.getInstance().reset();
     }//GEN-LAST:event_btnBorrarTodasActionPerformed
 
-    private void btnRealizarAnalisisDePERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRealizarAnalisisDePERTActionPerformed
+    private void btnAnalisisDePERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisDePERTActionPerformed
         if (redDeTareas.obtenerCantidadDeTareas() > 0){
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
                 realizarCalculosPERT();
@@ -551,7 +596,7 @@ public class FormProyecto extends javax.swing.JFrame {
             FormResultado formResultado = new FormResultado(redDeTareas, unidadDeTiempo);
             formResultado.setVisible(true);
         }
-    }//GEN-LAST:event_btnRealizarAnalisisDePERTActionPerformed
+    }//GEN-LAST:event_btnAnalisisDePERTActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         this.dispose();
@@ -572,11 +617,7 @@ public class FormProyecto extends javax.swing.JFrame {
         this.setearUnidadDeTiempo(3);
     }//GEN-LAST:event_jrbMesesActionPerformed
 
-    private void jMenuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuNuevoActionPerformed
-
-    }//GEN-LAST:event_jMenuNuevoActionPerformed
-
-    private void jMenuNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuNuevoMouseClicked
+    private void jMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuMouseClicked
         this.nombre = "";
         this.txtNombreProyecto.setText("");
         this.descripcion = "";
@@ -584,7 +625,11 @@ public class FormProyecto extends javax.swing.JFrame {
         this.setearOpcionesDeUnidadDeTiempo(2);
         this.setearUnidadDeTiempo(2);
         this.btnBorrarTodasActionPerformed(null);
-    }//GEN-LAST:event_jMenuNuevoMouseClicked
+    }//GEN-LAST:event_jMenuMouseClicked
+
+    private void jmiCambiarIdiomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCambiarIdiomaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jmiCambiarIdiomaActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -600,25 +645,30 @@ public class FormProyecto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAnalisisDePERT;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnBorrarTodas;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnRealizarAnalisisDePERT;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JMenu jMenuAbrir;
+    private javax.swing.JMenu jMenu;
     private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenu jMenuGuardar;
-    private javax.swing.JMenu jMenuNuevo;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextArea jTADescripcionDelProyecto;
+    private javax.swing.JMenuItem jmiAbrir;
+    private javax.swing.JMenuItem jmiCambiarIdioma;
+    private javax.swing.JMenuItem jmiGuardar;
+    private javax.swing.JMenuItem jmiNuevo;
+    private javax.swing.JMenuItem jmiSalir;
+    private javax.swing.JPanel jplUnidadDeTiempo;
     private javax.swing.JRadioButton jrbDias;
     private javax.swing.JRadioButton jrbHoras;
     private javax.swing.JRadioButton jrbMeses;
+    private javax.swing.JLabel lblDescripcionProyecto;
     private javax.swing.JLabel lblNombreProyecto;
-    private javax.swing.JLabel lblNombreProyecto1;
     private javax.swing.JLabel lblTareasProyecto;
     private javax.swing.JTable tblTareasProyecto;
     private javax.swing.JTextField txtNombreProyecto;

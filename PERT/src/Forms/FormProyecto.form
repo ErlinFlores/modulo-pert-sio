@@ -4,29 +4,55 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar">
       <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="null"/>
+        </Property>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Cursor predeterminado"/>
         </Property>
       </Properties>
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenuNuevo">
+        <Menu class="javax.swing.JMenu" name="jMenu">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nuevo"/>
+            <Property name="text" type="java.lang.String" value="Men&#xfa;"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuNuevoMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuNuevoActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jMenuMouseClicked"/>
           </Events>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuAbrir">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Abrir"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuGuardar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Guardar"/>
-          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiNuevo">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Nuevo"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiAbrir">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Abrir"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiGuardar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Guardar"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiCambiarIdioma">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cambiar idioma"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiCambiarIdiomaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiSalir">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Salir"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuAyuda">
           <Properties>
@@ -69,9 +95,9 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="txtNombreProyecto" pref="222" max="32767" attributes="1"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lblNombreProyecto1" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblDescripcionProyecto" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jplUnidadDeTiempo" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="323" max="-2" attributes="1"/>
@@ -89,7 +115,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="btnRealizarAnalisisDePERT" pref="177" max="32767" attributes="1"/>
+                              <Component id="btnAnalisisDePERT" pref="177" max="32767" attributes="1"/>
                               <EmptySpace min="-2" pref="487" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -117,10 +143,10 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNombreProyecto1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDescripcionProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
+                      <Component id="jplUnidadDeTiempo" min="-2" max="-2" attributes="1"/>
                   </Group>
                   <Component id="jScrollPane2" min="0" pref="0" max="32767" attributes="1"/>
               </Group>
@@ -142,7 +168,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnRealizarAnalisisDePERT" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnAnalisisDePERT" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSalir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -261,12 +287,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarTodasActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnRealizarAnalisisDePERT">
+    <Component class="javax.swing.JButton" name="btnAnalisisDePERT">
       <Properties>
-        <Property name="text" type="java.lang.String" value="btnRealizarAnalisisDePERT"/>
+        <Property name="text" type="java.lang.String" value="btnAnalisisDePERT"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRealizarAnalisisDePERTActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnalisisDePERTActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSalir">
@@ -277,7 +303,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="jplUnidadDeTiempo">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -316,7 +342,7 @@
       <SubComponents>
         <Component class="javax.swing.JRadioButton" name="jrbHoras">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jRadioButton1"/>
+            <Property name="text" type="java.lang.String" value="jrbHoras"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbHorasActionPerformed"/>
@@ -324,7 +350,7 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="jrbDias">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jRadioButton2"/>
+            <Property name="text" type="java.lang.String" value="jrbDias"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbDiasActionPerformed"/>
@@ -332,7 +358,7 @@
         </Component>
         <Component class="javax.swing.JRadioButton" name="jrbMeses">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jRadioButton3"/>
+            <Property name="text" type="java.lang.String" value="jrbMeses"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbMesesActionPerformed"/>
@@ -355,7 +381,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblNombreProyecto1">
+    <Component class="javax.swing.JLabel" name="lblDescripcionProyecto">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblDescripcionProyecto"/>
       </Properties>

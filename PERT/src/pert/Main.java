@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Main principal = new Main();
-        principal.inicializar("UY","es");
+        principal.inicializar("es","UY");
     }
 
     public void inicializar(String paisIdioma, String lenguajeIdioma){
