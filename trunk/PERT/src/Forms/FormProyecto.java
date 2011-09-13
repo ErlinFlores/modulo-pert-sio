@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormProyecto extends javax.swing.JFrame {
   
+    Locale lugarConfigurado;
     ResourceBundle etiquetas;
     private Accion tipoAccion;
     private String nombre;
@@ -38,7 +39,8 @@ public class FormProyecto extends javax.swing.JFrame {
     /** Creates new form FormProyecto */
     public FormProyecto(String lenguajeIdioma, String paisIdioma) {
         initComponents();
-        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", new Locale(lenguajeIdioma, paisIdioma));
+        lugarConfigurado = new Locale(lenguajeIdioma, paisIdioma);
+        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();
         setearEtiquetas();        
@@ -55,11 +57,11 @@ public class FormProyecto extends javax.swing.JFrame {
      */
     private void setearEtiquetas(){
         setTitle(etiquetas.getString("titulo"));
-        this.jMenu.setText(etiquetas.getString("menu"));
+        this.jMenuArchivo.setText(etiquetas.getString("archivo"));
         this.jmiNuevo.setText(etiquetas.getString("nuevo"));
         this.jmiAbrir.setText(etiquetas.getString("abrir"));
         this.jmiGuardar.setText(etiquetas.getString("guardar"));
-        this.jmiCambiarIdioma.setText(etiquetas.getString("cambiarIdioma"));
+        this.jMenuIdioma.setText(etiquetas.getString("idioma"));
         this.jmiSalir.setText(etiquetas.getString("salir"));
         this.jMenuAyuda.setText(etiquetas.getString("ayuda"));
         this.lblNombreProyecto.setText(etiquetas.getString("nombreProyecto"));
@@ -288,14 +290,16 @@ public class FormProyecto extends javax.swing.JFrame {
         jTADescripcionDelProyecto = new javax.swing.JTextArea();
         lblDescripcionProyecto = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
-        jMenu = new javax.swing.JMenu();
+        jMenuArchivo = new javax.swing.JMenu();
         jmiNuevo = new javax.swing.JMenuItem();
         jmiAbrir = new javax.swing.JMenuItem();
         jmiGuardar = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jmiCambiarIdioma = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jmiSalir = new javax.swing.JMenuItem();
+        jMenuIdioma = new javax.swing.JMenu();
+        jmiEspañol = new javax.swing.JMenuItem();
+        jmiInglés = new javax.swing.JMenuItem();
+        jmiPortugues = new javax.swing.JMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -436,36 +440,55 @@ public class FormProyecto extends javax.swing.JFrame {
         jMenuBar.setBorder(null);
         jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jMenu.setText("Menú");
-        jMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+        jMenuArchivo.setText("Archivo");
+        jMenuArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuMouseClicked(evt);
+                jMenuArchivoMouseClicked(evt);
             }
         });
 
         jmiNuevo.setText("Nuevo");
-        jMenu.add(jmiNuevo);
+        jMenuArchivo.add(jmiNuevo);
 
         jmiAbrir.setText("Abrir");
-        jMenu.add(jmiAbrir);
+        jMenuArchivo.add(jmiAbrir);
 
         jmiGuardar.setText("Guardar");
-        jMenu.add(jmiGuardar);
-        jMenu.add(jSeparator1);
-
-        jmiCambiarIdioma.setText("Cambiar idioma");
-        jmiCambiarIdioma.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiCambiarIdiomaActionPerformed(evt);
-            }
-        });
-        jMenu.add(jmiCambiarIdioma);
-        jMenu.add(jSeparator2);
+        jMenuArchivo.add(jmiGuardar);
+        jMenuArchivo.add(jSeparator1);
 
         jmiSalir.setText("Salir");
-        jMenu.add(jmiSalir);
+        jMenuArchivo.add(jmiSalir);
 
-        jMenuBar.add(jMenu);
+        jMenuBar.add(jMenuArchivo);
+
+        jMenuIdioma.setText("Idioma");
+
+        jmiEspañol.setText("Español");
+        jmiEspañol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiEspañolActionPerformed(evt);
+            }
+        });
+        jMenuIdioma.add(jmiEspañol);
+
+        jmiInglés.setText("Inglés");
+        jmiInglés.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiInglésActionPerformed(evt);
+            }
+        });
+        jMenuIdioma.add(jmiInglés);
+
+        jmiPortugues.setText("Portugués");
+        jmiPortugues.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPortuguesActionPerformed(evt);
+            }
+        });
+        jMenuIdioma.add(jmiPortugues);
+
+        jMenuBar.add(jMenuIdioma);
 
         jMenuAyuda.setText("Ayuda");
         jMenuBar.add(jMenuAyuda);
@@ -617,7 +640,7 @@ public class FormProyecto extends javax.swing.JFrame {
         this.setearUnidadDeTiempo(3);
     }//GEN-LAST:event_jrbMesesActionPerformed
 
-    private void jMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuMouseClicked
+    private void jMenuArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuArchivoMouseClicked
         this.nombre = "";
         this.txtNombreProyecto.setText("");
         this.descripcion = "";
@@ -625,11 +648,25 @@ public class FormProyecto extends javax.swing.JFrame {
         this.setearOpcionesDeUnidadDeTiempo(2);
         this.setearUnidadDeTiempo(2);
         this.btnBorrarTodasActionPerformed(null);
-    }//GEN-LAST:event_jMenuMouseClicked
+}//GEN-LAST:event_jMenuArchivoMouseClicked
 
-    private void jmiCambiarIdiomaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiCambiarIdiomaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jmiCambiarIdiomaActionPerformed
+    private void jmiEspañolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEspañolActionPerformed
+        lugarConfigurado = new Locale("es", "UY");
+        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.setearEtiquetas();
+    }//GEN-LAST:event_jmiEspañolActionPerformed
+
+    private void jmiInglésActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInglésActionPerformed
+        lugarConfigurado = new Locale("en", "US");
+        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.setearEtiquetas();
+    }//GEN-LAST:event_jmiInglésActionPerformed
+
+    private void jmiPortuguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPortuguesActionPerformed
+        lugarConfigurado = new Locale("po", "BR");
+        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.setearEtiquetas();
+    }//GEN-LAST:event_jmiPortuguesActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -650,18 +687,20 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrarTodas;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JMenu jMenu;
+    private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenu jMenuIdioma;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextArea jTADescripcionDelProyecto;
     private javax.swing.JMenuItem jmiAbrir;
-    private javax.swing.JMenuItem jmiCambiarIdioma;
+    private javax.swing.JMenuItem jmiEspañol;
     private javax.swing.JMenuItem jmiGuardar;
+    private javax.swing.JMenuItem jmiInglés;
     private javax.swing.JMenuItem jmiNuevo;
+    private javax.swing.JMenuItem jmiPortugues;
     private javax.swing.JMenuItem jmiSalir;
     private javax.swing.JPanel jplUnidadDeTiempo;
     private javax.swing.JRadioButton jrbDias;
