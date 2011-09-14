@@ -12,10 +12,12 @@
 package Forms;
 
 import Entidades.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
@@ -262,6 +264,21 @@ public class FormProyecto extends javax.swing.JFrame {
         }   
     }
     
+    private void salirDelSistema(){
+        int seleccion = JOptionPane.showOptionDialog(
+           this,
+           etiquetas.getString("mensajeSalirProyecto"), 
+           etiquetas.getString("tituloSalirProyecto"), 
+           JOptionPane.OK_CANCEL_OPTION,
+           JOptionPane.WARNING_MESSAGE,
+           null,    
+           new Object[] { etiquetas.getString("ok"), etiquetas.getString("cancelar") },   
+           "OK");
+        if (seleccion == 0){
+            this.dispose();
+        }
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -294,6 +311,7 @@ public class FormProyecto extends javax.swing.JFrame {
         jmiNuevo = new javax.swing.JMenuItem();
         jmiAbrir = new javax.swing.JMenuItem();
         jmiGuardar = new javax.swing.JMenuItem();
+        jmiGuardarComo = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jmiSalir = new javax.swing.JMenuItem();
         jMenuIdioma = new javax.swing.JMenu();
@@ -441,29 +459,47 @@ public class FormProyecto extends javax.swing.JFrame {
         jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jMenuArchivo.setText("Archivo");
-        jMenuArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuArchivoMouseClicked(evt);
+
+        jmiNuevo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jmiNuevo.setText("Nuevo");
+        jmiNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNuevoActionPerformed(evt);
             }
         });
-
-        jmiNuevo.setText("Nuevo");
         jMenuArchivo.add(jmiNuevo);
 
+        jmiAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jmiAbrir.setText("Abrir");
+        jmiAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAbrirActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jmiAbrir);
 
+        jmiGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jmiGuardar.setText("Guardar");
         jMenuArchivo.add(jmiGuardar);
+
+        jmiGuardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jmiGuardarComo.setText("Guardar como");
+        jMenuArchivo.add(jmiGuardarComo);
         jMenuArchivo.add(jSeparator1);
 
         jmiSalir.setText("Salir");
+        jmiSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiSalirActionPerformed(evt);
+            }
+        });
         jMenuArchivo.add(jmiSalir);
 
         jMenuBar.add(jMenuArchivo);
 
         jMenuIdioma.setText("Idioma");
 
+        jmiEspañol.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jmiEspañol.setText("Español");
         jmiEspañol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -472,6 +508,7 @@ public class FormProyecto extends javax.swing.JFrame {
         });
         jMenuIdioma.add(jmiEspañol);
 
+        jmiInglés.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jmiInglés.setText("Inglés");
         jmiInglés.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -480,6 +517,7 @@ public class FormProyecto extends javax.swing.JFrame {
         });
         jMenuIdioma.add(jmiInglés);
 
+        jmiPortugues.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jmiPortugues.setText("Portugués");
         jmiPortugues.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -622,7 +660,7 @@ public class FormProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnalisisDePERTActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        this.dispose();
+        salirDelSistema();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void jrbHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbHorasActionPerformed
@@ -639,16 +677,6 @@ public class FormProyecto extends javax.swing.JFrame {
         this.setearOpcionesDeUnidadDeTiempo(3);
         this.setearUnidadDeTiempo(3);
     }//GEN-LAST:event_jrbMesesActionPerformed
-
-    private void jMenuArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuArchivoMouseClicked
-        this.nombre = "";
-        this.txtNombreProyecto.setText("");
-        this.descripcion = "";
-        this.jTADescripcionDelProyecto.setText("");
-        this.setearOpcionesDeUnidadDeTiempo(2);
-        this.setearUnidadDeTiempo(2);
-        this.btnBorrarTodasActionPerformed(null);
-}//GEN-LAST:event_jMenuArchivoMouseClicked
 
     private void jmiEspañolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEspañolActionPerformed
         lugarConfigurado = new Locale("es", "UY");
@@ -667,6 +695,41 @@ public class FormProyecto extends javax.swing.JFrame {
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         this.setearEtiquetas();
     }//GEN-LAST:event_jmiPortuguesActionPerformed
+
+    private void jmiNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNuevoActionPerformed
+        int seleccion = JOptionPane.showOptionDialog(
+           this,
+           etiquetas.getString("mensajeNuevoProyecto"), 
+           etiquetas.getString("tituloNuevoProyecto"), 
+           JOptionPane.OK_CANCEL_OPTION,
+           JOptionPane.WARNING_MESSAGE,
+           null,    
+           new Object[] { etiquetas.getString("ok"), etiquetas.getString("cancelar") },   
+           "OK");
+        if (seleccion == 0){
+            this.nombre = "";
+            this.txtNombreProyecto.setText("");
+            this.descripcion = "";
+            this.jTADescripcionDelProyecto.setText("");
+            this.setearOpcionesDeUnidadDeTiempo(2);
+            this.setearUnidadDeTiempo(2);
+            this.btnBorrarTodasActionPerformed(null);
+        }        
+    }//GEN-LAST:event_jmiNuevoActionPerformed
+
+    private void jmiSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalirActionPerformed
+        salirDelSistema();   
+    }//GEN-LAST:event_jmiSalirActionPerformed
+
+    private void jmiAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrirActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showOpenDialog(jmiAbrir);
+        if (seleccion == JFileChooser.APPROVE_OPTION)
+        {
+           File fichero = fileChooser.getSelectedFile();
+           // y a trabajar con fichero ....
+        }
+    }//GEN-LAST:event_jmiAbrirActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -698,6 +761,7 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiAbrir;
     private javax.swing.JMenuItem jmiEspañol;
     private javax.swing.JMenuItem jmiGuardar;
+    private javax.swing.JMenuItem jmiGuardarComo;
     private javax.swing.JMenuItem jmiInglés;
     private javax.swing.JMenuItem jmiNuevo;
     private javax.swing.JMenuItem jmiPortugues;
