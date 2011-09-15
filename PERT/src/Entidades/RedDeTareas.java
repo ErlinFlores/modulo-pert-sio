@@ -127,6 +127,10 @@ public class RedDeTareas {
         return duracionDelProyecto;
     }
     
+    public double obtenerDesviacionEstandarDelProyecto(){
+        return caminosCriticos.get(0).obtenerDesviacionEstandar();
+    }
+    
     public List<CaminoCritico> obtenerCaminosCriticos(){
         return caminosCriticos;
     }

@@ -36,4 +36,16 @@ public class CaminoCritico {
         }
         return tareasConcatenadas;
     }
+    
+    public double obtenerVarianza(){
+        double varianza = 0;
+        for (Tarea tarea : tareas){
+            varianza += tarea.obtenerVarianza();
+        }
+        return varianza;
+    }
+    
+    public double obtenerDesviacionEstandar(){
+        return Math.sqrt(this.obtenerVarianza());
+    }
 }

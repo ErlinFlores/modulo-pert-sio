@@ -256,9 +256,9 @@
                 <Column editable="false" title="Nombre" type="java.lang.String"/>
                 <Column editable="false" title="Descripci&#xf3;n" type="java.lang.String"/>
                 <Column editable="false" title="Precedencia" type="java.lang.String"/>
-                <Column editable="false" title="tO" type="java.lang.String"/>
-                <Column editable="false" title="tM" type="java.lang.String"/>
-                <Column editable="false" title="tP" type="java.lang.String"/>
+                <Column editable="false" title="tO" type="java.lang.Double"/>
+                <Column editable="false" title="tM" type="java.lang.Double"/>
+                <Column editable="false" title="tP" type="java.lang.Double"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
