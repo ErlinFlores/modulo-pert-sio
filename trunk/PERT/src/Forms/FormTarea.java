@@ -84,12 +84,12 @@ public class FormTarea extends javax.swing.JFrame {
         if (txtDescripcionTarea.getText().equals("")){
             return false;
         }
-        int to = Integer.parseInt(txtTiempoOptimista.getText());
-        int tmp = Integer.parseInt(txtTiempoMasProbable.getText());
-        int tp = Integer.parseInt(txtTiempoPesimista.getText());
-     /*   if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
+        double to = Double.parseDouble(txtTiempoOptimista.getText());
+        double tmp = Double.parseDouble(txtTiempoMasProbable.getText());
+        double tp = Double.parseDouble(txtTiempoPesimista.getText());
+        if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
             return false;
-        }*/
+        }
         return true;
     }
     
@@ -107,9 +107,9 @@ public class FormTarea extends javax.swing.JFrame {
                 indiceFila += 1;
             }            
             txtDescripcionTarea.setText(descripcion);
-            txtTiempoOptimista.setText(Integer.toString(tiemposEstimados.obtenerTiempoOptimista()));
-            txtTiempoMasProbable.setText(Integer.toString(tiemposEstimados.obtenerTiempoMasProbable()));
-            txtTiempoPesimista.setText(Integer.toString(tiemposEstimados.obtenerTiempoPesimista()));
+            txtTiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista()));
+            txtTiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable()));
+            txtTiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista()));
         }
     }
     
@@ -438,9 +438,9 @@ public class FormTarea extends javax.swing.JFrame {
         try{
             if (controlarDatosDeEntradaDelUsuario()){
                 descripcion = txtDescripcionTarea.getText();
-                int tiempoOptimista = Integer.parseInt(txtTiempoOptimista.getText());
-                int tiempoMasProbable = Integer.parseInt(txtTiempoMasProbable.getText());
-                int tiempoPesimista = Integer.parseInt(txtTiempoPesimista.getText());
+                double tiempoOptimista = Double.parseDouble(txtTiempoOptimista.getText());
+                double tiempoMasProbable = Double.parseDouble(txtTiempoMasProbable.getText());
+                double tiempoPesimista = Double.parseDouble(txtTiempoPesimista.getText());
                 switch (tipoAccion){
                     case crear:
                         tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);

@@ -11,11 +11,11 @@ package Entidades;
  */
 public class TiempoEstimado {
 
-    private int tiempoOptimista;
-    private int tiempoMasProbable;
-    private int tiempoPesimista;
+    private double tiempoOptimista;
+    private double tiempoMasProbable;
+    private double tiempoPesimista;
     
-    public TiempoEstimado(int to, int tm, int tp){
+    public TiempoEstimado(double to, double tm, double tp){
         tiempoOptimista = to;
         tiempoMasProbable = tm;
         tiempoPesimista = tp;
@@ -34,33 +34,33 @@ public class TiempoEstimado {
         return de*de;
     }
 
-    public void setearTiempoEstimado(int to, int tm, int tp){
+    public void setearTiempoEstimado(double to, double tm, double tp){
         tiempoOptimista = to;
         tiempoMasProbable = tm;
         tiempoPesimista = tp;
     }
     
-    public void setearTiempoOptimista(int to){
+    public void setearTiempoOptimista(double to){
         tiempoOptimista = to;
     }
     
-    public int obtenerTiempoOptimista() {
+    public double obtenerTiempoOptimista() {
         return tiempoOptimista;
     }
 
-    public void setearTiempoMasProbable(int tm){
+    public void setearTiempoMasProbable(double tm){
         tiempoMasProbable = tm;
     }
     
-    public int obtenerTiempoMasProbable() {
+    public double obtenerTiempoMasProbable() {
         return tiempoMasProbable;
     }
 
-    public void setearTiempoPesimista(int tp){
+    public void setearTiempoPesimista(double tp){
         tiempoPesimista = tp;
     }
     
-    public int obtenerTiempoPesimista() {
+    public double obtenerTiempoPesimista() {
         return tiempoPesimista;
     }    
 }
