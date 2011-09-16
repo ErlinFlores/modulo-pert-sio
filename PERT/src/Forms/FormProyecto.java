@@ -11,6 +11,7 @@
 
 package Forms;
 
+import Demo.Demo1;
 import Entidades.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -19,8 +20,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -171,16 +170,24 @@ public class FormProyecto extends javax.swing.JFrame {
     /**
      * Se setean los campos de la pantalla por primera vez, con los datos correspondientes (solo en caso de ser una modificación).
      */
-    private void setearCampos(){        
-        if (tipoAccion.equals(tipoAccion.modificar)){            
-            txtNombreProyecto.setText(nombre);
-            int fila = 0;
-            for (Tarea tarea : redDeTareas.obtenerTareas()){
-                actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
-                fila += 1;
-            }
+    private void setearCampos(){                                              
+        txtNombreProyecto.setText(nombre);
+        setearOpcionesDeUnidadDeTiempo(0);
+        this.jTADescripcionDelProyecto.setText(descripcion);
+        int fila = 0;
+        for (Tarea tarea : redDeTareas.obtenerTareas()){
+            actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
+            fila += 1;
         }
     }    
+    
+    private void limpiarPantallaProyecto(){
+        btnBorrarTodasActionPerformed(null);
+        this.txtNombreProyecto.setText("");
+        this.jTADescripcionDelProyecto.setText("");        
+        setearUnidadDeTiempo(2);
+        setearOpcionesDeUnidadDeTiempo(2);
+    }
     
     /**
      * Se modifica la tabla de tareas del proyecto en la cual se muestran los datos ingresados por el usuario
@@ -319,6 +326,8 @@ public class FormProyecto extends javax.swing.JFrame {
         jmiInglés = new javax.swing.JMenuItem();
         jmiPortugues = new javax.swing.JMenuItem();
         jMenuAyuda = new javax.swing.JMenu();
+        jMenuDemos = new javax.swing.JMenu();
+        jmiDemo1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -531,6 +540,18 @@ public class FormProyecto extends javax.swing.JFrame {
         jMenuAyuda.setText("Ayuda");
         jMenuBar.add(jMenuAyuda);
 
+        jMenuDemos.setText("Demos");
+
+        jmiDemo1.setText("Demo 1 (10 tareas)");
+        jmiDemo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiDemo1ActionPerformed(evt);
+            }
+        });
+        jMenuDemos.add(jmiDemo1);
+
+        jMenuBar.add(jMenuDemos);
+
         setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -731,6 +752,17 @@ public class FormProyecto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jmiAbrirActionPerformed
 
+    private void jmiDemo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDemo1ActionPerformed
+        limpiarPantallaProyecto();       
+        Demo1 demo1 = new Demo1();
+        this.tipoAccion = demo1.obtenerTipoAccion();
+        this.nombre = demo1.obtenerNombre();
+        this.descripcion = demo1.obtenerDescripcion();
+        this.unidadDeTiempo = demo1.obtenerUnidadDeTiempo();
+        this.redDeTareas = demo1.obtenerRedDeTareas();
+        setearCampos();
+    }//GEN-LAST:event_jmiDemo1ActionPerformed
+
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
     * @param args the command line arguments
@@ -753,12 +785,14 @@ public class FormProyecto extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuArchivo;
     private javax.swing.JMenu jMenuAyuda;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenu jMenuDemos;
     private javax.swing.JMenu jMenuIdioma;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextArea jTADescripcionDelProyecto;
     private javax.swing.JMenuItem jmiAbrir;
+    private javax.swing.JMenuItem jmiDemo1;
     private javax.swing.JMenuItem jmiEspañol;
     private javax.swing.JMenuItem jmiGuardar;
     private javax.swing.JMenuItem jmiGuardarComo;
