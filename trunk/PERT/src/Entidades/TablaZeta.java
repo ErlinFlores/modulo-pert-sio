@@ -4,6 +4,8 @@
  */
 package Entidades;
 
+import EntradaSalida.ManejadorDeArchivos;
+
 /**
  *
  * @author Manuel Lorenze
@@ -28,16 +30,27 @@ public class TablaZeta {
     
     //-------------------------------------------------------------------------- 
     
+    private double[][] tablaZ;
+    
     private TablaZeta(){
         this.cargarTabla();
     }
     
     private void cargarTabla(){
-        //Levantar de un archivo la tabla Zeta.
+        tablaZ = ManejadorDeArchivos.cargarTablaZ();
     }
     
     public double obtenerProbabilidad(double zeta){
-        return 0.6;
+        if ((-3.0 <= zeta) && (zeta <= 3.0)){
+            double zetaAbs = Math.abs(zeta);
+            int fila = (int)(zetaAbs*10);
+            int columna = (int)(Math.round(((zetaAbs*10) - fila)*10));
+            if (zeta >= 0){
+                return tablaZ[fila][columna];
+            }
+            return 1 - tablaZ[fila][columna];
+        }
+        return -1;
     }
     
     public double obtenerZeta(double probabilidad){

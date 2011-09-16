@@ -112,6 +112,21 @@
             <Property name="text" type="java.lang.String" value="Ayuda"/>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuDemos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Demos"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiDemo1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Demo 1 (10 tareas)"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiDemo1ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>
