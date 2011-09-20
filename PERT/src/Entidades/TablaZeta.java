@@ -69,6 +69,7 @@ public class TablaZeta {
                 if ((diferenciaAnterior <= diferenciaActual) && !((filaActual == 0) && (columnaActual == 0))){
                     return (filaAnterior/10.0)+(columnaAnterior/100.0);
                 }                
+                diferenciaAnterior = diferenciaActual;
                 columnaAnterior = columnaActual;
             }
             filaAnterior = filaActual;

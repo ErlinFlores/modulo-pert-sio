@@ -54,6 +54,10 @@ public class RedDeTareas {
         }
     }
     
+    public int obtenerCantidadDeCaminosCriticos(){
+        return caminosCriticos.size();
+    }
+    
     public Tarea obtenerTareaPorID(int id){
         for (Tarea tarea : tareas){
             if (tarea.obtenerId() == id){
@@ -127,8 +131,35 @@ public class RedDeTareas {
         return duracionDelProyecto;
     }
     
-    public double obtenerDesviacionEstandarDelProyecto(){
-        return caminosCriticos.get(0).obtenerDesviacionEstandar();
+    public double obtenerDesviacionEstandarDelProyecto(EstrategiaDeSeleccionDeDesvEst estrategia){
+        switch (estrategia){
+            case suma:{
+                double sumaDesvEst = 0;
+                for (CaminoCritico caminoCritico : caminosCriticos){
+                    sumaDesvEst += caminoCritico.obtenerDesviacionEstandar();
+                }
+                return sumaDesvEst;
+            }
+            case promedio:{
+                double sumaDesvEst = 0;
+                for (CaminoCritico caminoCritico : caminosCriticos){
+                    sumaDesvEst += caminoCritico.obtenerDesviacionEstandar();
+                }
+                return sumaDesvEst/caminosCriticos.size();
+            }    
+            case mayor:{
+                double mayorDesvEst = -1;
+                for (CaminoCritico caminoCritico : caminosCriticos){
+                    if (caminoCritico.obtenerDesviacionEstandar() > mayorDesvEst){
+                        mayorDesvEst = caminoCritico.obtenerDesviacionEstandar();
+                    }
+                }
+                return mayorDesvEst;
+            }
+            default:{
+                return -1;
+            }
+        }        
     }
     
     public List<CaminoCritico> obtenerCaminosCriticos(){
