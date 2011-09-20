@@ -26,17 +26,17 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="882" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="921" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace pref="452" max="32767" attributes="0"/>
+                              <EmptySpace pref="491" max="32767" attributes="0"/>
                               <Component id="btnSalir" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
-                              <Component id="jtpDuraciones" min="-2" pref="418" max="-2" attributes="0"/>
+                              <Component id="jtpDuraciones" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -51,14 +51,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="227" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" alignment="1" attributes="1">
-                      <Component id="jtpDuraciones" min="-2" pref="143" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jtpDuraciones" max="32767" attributes="1"/>
+                  <Component id="jPanel1" alignment="0" min="-2" max="-2" attributes="1"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -197,7 +195,7 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="103" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="61" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -288,20 +286,26 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnCalcularProbabilidad" alignment="1" max="32767" attributes="1"/>
-                          <Component id="jLabel1" alignment="1" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="txtTiempo" min="-2" pref="45" max="-2" attributes="1"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="panelEstrategiaP" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="1">
+                                      <Component id="btnCalcularProbabilidad" min="-2" pref="150" max="-2" attributes="1"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="txtProbabilidadSegunDuracion" max="32767" attributes="1"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="lblProbabilidades" min="-2" max="-2" attributes="1"/>
+                                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                      <Component id="txtTiempoParaProbabilidad" min="-2" pref="45" max="-2" attributes="1"/>
+                                  </Group>
+                              </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="lblInfoUnidadDeTiempo" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txtProbabilidad" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="151" max="32767" attributes="0"/>
+                      <EmptySpace pref="28" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -310,22 +314,24 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblProbabilidades" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtTiempoParaProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblInfoUnidadDeTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnCalcularProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtProbabilidadSegunDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="49" max="32767" attributes="0"/>
+                      <EmptySpace pref="35" max="32767" attributes="0"/>
+                      <Component id="panelEstrategiaP" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="txtTiempo">
+            <Component class="javax.swing.JTextField" name="txtTiempoParaProbabilidad">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
@@ -335,9 +341,9 @@
                 <Property name="text" type="java.lang.String" value="dias o menos."/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="lblProbabilidades">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Probabilidad de terminar en"/>
+                <Property name="text" type="java.lang.String" value="Cual es la probabilidad de terminar en"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnCalcularProbabilidad">
@@ -348,7 +354,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularProbabilidadActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtProbabilidad">
+            <Component class="javax.swing.JTextField" name="txtProbabilidadSegunDuracion">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="1"/>
@@ -356,6 +362,69 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
+            <Container class="javax.swing.JPanel" name="panelEstrategiaP">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Estrategia de selecci&#xf3;n de Desv. Est."/>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jrbSumaP" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jrbPromedioP" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jrbMayorP" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="107" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jrbSumaP" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jrbPromedioP" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jrbMayorP" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JRadioButton" name="jrbSumaP">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Suma"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbSumaPActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="jrbPromedioP">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promedio"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbPromedioPActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="jrbMayorP">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Mayor"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbMayorPActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -370,15 +439,137 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="413" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnCalcularDuracion" alignment="1" max="32767" attributes="1"/>
+                                  <Component id="jLabel2" alignment="1" max="32767" attributes="1"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtProbabilidadParaDuracion" max="32767" attributes="1"/>
+                                  <Component id="txtDuracionSegunProbabilidad" alignment="0" pref="91" max="32767" attributes="1"/>
+                              </Group>
+                          </Group>
+                          <Component id="panelEstrategiaD" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="115" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtProbabilidadParaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnCalcularDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtDuracionSegunProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="35" max="32767" attributes="0"/>
+                      <Component id="panelEstrategiaD" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="jLabel2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cual es la duraci&#xf3;n seg&#xfa;n una probabilidad de "/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnCalcularDuracion">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Calcular duraci&#xf3;n"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularDuracionActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtDuracionSegunProbabilidad">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Times New Roman" size="14" style="1"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="txtProbabilidadParaDuracion">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+              </Properties>
+            </Component>
+            <Container class="javax.swing.JPanel" name="panelEstrategiaD">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                    <TitledBorder title="Estrategia de selecci&#xf3;n de Desv. Est."/>
+                  </Border>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jrbSumaD" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jrbPromedioD" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jrbMayorD" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="107" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jrbSumaD" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jrbPromedioD" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jrbMayorD" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JRadioButton" name="jrbSumaD">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Suma"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbSumaDActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="jrbPromedioD">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Promedio"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbPromedioDActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="jrbMayorD">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Mayor"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbMayorDActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+          </SubComponents>
         </Container>
       </SubComponents>
     </Container>
