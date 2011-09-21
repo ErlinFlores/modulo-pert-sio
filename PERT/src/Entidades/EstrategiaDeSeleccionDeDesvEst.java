@@ -11,5 +11,6 @@ package Entidades;
 public enum EstrategiaDeSeleccionDeDesvEst {
     suma,
     promedio,
-    mayor
+    mayor,
+    ninguna
 }
