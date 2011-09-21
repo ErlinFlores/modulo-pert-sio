@@ -51,4 +51,8 @@ public class GestorProbabilistico {
         }
         return -1;
     }
+    
+    public void setearDesviacionEstandarDelProyecto(double desviacionEstandarDelProyecto){
+        this.desviacionEstandarDelProyecto = desviacionEstandarDelProyecto;
+    }
 }
