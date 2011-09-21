@@ -4,6 +4,9 @@
  */
 package Entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Manuel Lorenze
@@ -29,15 +32,22 @@ public class FabricaDeTareas {
     //--------------------------------------------------------------------------
     
     private int proximoId;
+    private List<Integer> listaDeIdTareaEliminadas;
     private final int limiteDeCantidadDeTareas = 26; //cantidad de letras mayúsculas que soporta ASCII.
     private final int valorPrimerCaracterValidoASCII = 65; //en ascii el 65 representa la letra "A".
     
     private FabricaDeTareas() {
         proximoId = 0;
+        listaDeIdTareaEliminadas = new ArrayList<Integer>();
     }
     
     public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
-        int id = getId();
+        int id;
+        if (listaDeIdTareaEliminadas.size() > 0){
+            id = listaDeIdTareaEliminadas.remove(0);
+        }else{
+            id = getId();
+        }
         return new Tarea(id, getNombre(id), descripcion, tiempoEstimado, precedencia);
     }   
     
@@ -57,7 +67,13 @@ public class FabricaDeTareas {
     }
     
     public String getNombreDeProximaTarea(){
-        return getNombre(proximoId);
+        String nombre = "";
+        if (listaDeIdTareaEliminadas.size() > 0){
+            nombre = getNombre(listaDeIdTareaEliminadas.get(0));
+        }else{
+            nombre = getNombre(proximoId);
+        }
+        return nombre;
     }
     
     public int getIdTareaByNombre(String nombre){
@@ -67,5 +83,18 @@ public class FabricaDeTareas {
     
     public void reset(){
         proximoId = 0;
-    }   
+    }
+
+    public void restaurarIdTarea(int idTarea){
+        boolean almacenado = false;
+        for (int i = 0; i < listaDeIdTareaEliminadas.size(); i++){
+            if (listaDeIdTareaEliminadas.get(i) > idTarea){
+                listaDeIdTareaEliminadas.add(i, idTarea);
+                almacenado = true;
+            }
+        }
+        if (!almacenado){
+            listaDeIdTareaEliminadas.add(idTarea);
+        }
+    }
 }
