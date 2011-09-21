@@ -148,7 +148,7 @@ public class RedDeTareas {
                 return sumaDesvEst/caminosCriticos.size();
             }    
             case mayor:{
-                double mayorDesvEst = -1;
+                double mayorDesvEst = 0;
                 for (CaminoCritico caminoCritico : caminosCriticos){
                     if (caminoCritico.obtenerDesviacionEstandar() > mayorDesvEst){
                         mayorDesvEst = caminoCritico.obtenerDesviacionEstandar();
@@ -156,10 +156,14 @@ public class RedDeTareas {
                 }
                 return mayorDesvEst;
             }
-            default:{
-                return -1;
+            case ninguna:{
+                if (caminosCriticos.size() == 1){
+                    return caminosCriticos.get(0).obtenerDesviacionEstandar();
+                }
+                break;
             }
         }        
+        return -1;
     }
     
     public List<CaminoCritico> obtenerCaminosCriticos(){
