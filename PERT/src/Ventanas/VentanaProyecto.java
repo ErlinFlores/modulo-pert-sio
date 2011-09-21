@@ -685,8 +685,10 @@ public class VentanaProyecto extends javax.swing.JFrame {
         int filaSeleccionada = tblTareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
-            redDeTareas.borrarTarea(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
+            redDeTareas.borrarTarea(idTarea);
             actualizarTablaDeDatosIngresados(filaSeleccionada, Accion.eliminar, null);
+            FabricaDeTareas.getInstance().restaurarIdTarea(idTarea);
         }else{
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         }        
