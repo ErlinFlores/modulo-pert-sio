@@ -10,7 +10,6 @@ import Entidades.Precedencia;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
 import Entidades.TiempoEstimado;
-import Entidades.UnidadDeTiempo;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,21 +17,21 @@ import java.util.List;
  *
  * @author Manuel Lorenze
  */
-public class Demo1 {
+public class Demo1 implements IDemo{
     
     private Accion tipoAccion;
     private String nombre;
-    private String descripcion;    
-    private UnidadDeTiempo unidadDeTiempo;
+    private String unidadDeTiempo;
+    private String descripcion;       
     private RedDeTareas redDeTareas;
     
     public Demo1(){
-        tipoAccion = Accion.crear;
-        nombre = "Proyecto Demo 1";
-        descripcion = "Ejemplo de un proyecto de 10 tareas.";
-        unidadDeTiempo = UnidadDeTiempo.dias;
-        redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
         FabricaDeTareas.getInstance().reset();
+        tipoAccion = Accion.modificar;
+        nombre = "Proyecto Demo 1";
+        unidadDeTiempo = "dias";
+        descripcion = "Ejemplo de un proyecto de 10 tareas.";        
+        redDeTareas = new RedDeTareas(new ArrayList<Tarea>());        
         agregarTareas();
     }
     
@@ -117,13 +116,13 @@ public class Demo1 {
         return nombre;
     }
     
-    public String obtenerDescripcion(){
-        return descripcion;
-    }
-    
-    public UnidadDeTiempo obtenerUnidadDeTiempo(){
+    public String obtenerUnidadDeTiempo(){
         return unidadDeTiempo;
     }
+    
+    public String obtenerDescripcion(){
+        return descripcion;
+    }   
     
     public RedDeTareas obtenerRedDeTareas(){
         return redDeTareas;
