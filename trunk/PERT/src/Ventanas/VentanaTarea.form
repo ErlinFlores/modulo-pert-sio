@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
   </Properties>
@@ -22,27 +22,26 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="530" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblIdTarea" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_NombreTarea" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="txtNombreTarea" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="campoTexto_NombreTarea" min="-2" pref="40" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblDescripciónTarea" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_DescripcionTarea" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="txtDescripcionTarea" min="-2" pref="265" max="-2" attributes="0"/>
+                      <Component id="campoTexto_DescripcionTarea" min="-2" pref="265" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_Guardar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_Cancelar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="jPanelTiemposEstimados" alignment="0" max="32767" attributes="1"/>
-                      <Component id="jPanelPrecedencias" alignment="0" max="32767" attributes="1"/>
+                      <Component id="panel_TiemposEstimados" alignment="0" max="32767" attributes="1"/>
+                      <Component id="panel_Precedencias" alignment="0" max="32767" attributes="1"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -51,23 +50,22 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="332" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtNombreTarea" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblDescripciónTarea" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtDescripcionTarea" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblIdTarea" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="campoTexto_NombreTarea" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="label_DescripcionTarea" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="campoTexto_DescripcionTarea" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="label_NombreTarea" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelTiemposEstimados" min="-2" max="-2" attributes="0"/>
+              <Component id="panel_TiemposEstimados" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelPrecedencias" min="-2" max="-2" attributes="0"/>
+              <Component id="panel_Precedencias" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="boton_Cancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="boton_Guardar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -75,7 +73,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="txtNombreTarea">
+    <Component class="javax.swing.JTextField" name="campoTexto_NombreTarea">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -84,16 +82,16 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblIdTarea">
+    <Component class="javax.swing.JLabel" name="label_NombreTarea">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblNombreTarea"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanelTiemposEstimados">
+    <Container class="javax.swing.JPanel" name="panel_TiemposEstimados">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Tiempos estimados"/>
+            <TitledBorder title="lblTiemposEstimados"/>
           </Border>
         </Property>
       </Properties>
@@ -103,17 +101,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lblTiempoOptimista" min="-2" max="-2" attributes="0"/>
+                  <Component id="label_TiempoOptimista" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtTiempoOptimista" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="campoTexto_TiempoOptimista" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Component id="lblTiempoMasProbable" min="-2" max="-2" attributes="0"/>
+                  <Component id="label_TiempoMasProbable" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtTiempoMasProbable" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="campoTexto_TiempoMasProbable" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="lblTiempoPesimista" min="-2" max="-2" attributes="0"/>
+                  <Component id="label_TiempoPesimista" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="txtTiempoPesimista" min="-2" pref="40" max="-2" attributes="0"/>
+                  <Component id="campoTexto_TiempoPesimista" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -122,12 +120,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblTiempoOptimista" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblTiempoMasProbable" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtTiempoMasProbable" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblTiempoPesimista" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtTiempoPesimista" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtTiempoOptimista" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TiempoOptimista" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TiempoMasProbable" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoTexto_TiempoMasProbable" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TiempoPesimista" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoTexto_TiempoPesimista" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoTexto_TiempoOptimista" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="12" max="32767" attributes="0"/>
               </Group>
@@ -135,34 +133,34 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblTiempoOptimista">
+        <Component class="javax.swing.JLabel" name="label_TiempoOptimista">
           <Properties>
             <Property name="text" type="java.lang.String" value="lblTiempoOptimista"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblTiempoMasProbable">
+        <Component class="javax.swing.JLabel" name="label_TiempoMasProbable">
           <Properties>
             <Property name="text" type="java.lang.String" value="lblTiempoMasProbable"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTiempoMasProbable">
+        <Component class="javax.swing.JTextField" name="campoTexto_TiempoMasProbable">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="2"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblTiempoPesimista">
+        <Component class="javax.swing.JLabel" name="label_TiempoPesimista">
           <Properties>
             <Property name="text" type="java.lang.String" value="lblTiempoPesimista"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTiempoPesimista">
+        <Component class="javax.swing.JTextField" name="campoTexto_TiempoPesimista">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="3"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtTiempoOptimista">
+        <Component class="javax.swing.JTextField" name="campoTexto_TiempoOptimista">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="1"/>
@@ -170,32 +168,32 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnCancelar">
+    <Component class="javax.swing.JButton" name="boton_Cancelar">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnCancelar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_CancelarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtDescripcionTarea">
+    <Component class="javax.swing.JTextField" name="campoTexto_DescripcionTarea">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tarea"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnGuardar">
+    <Component class="javax.swing.JButton" name="boton_Guardar">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnGuardar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_GuardarActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JPanel" name="jPanelPrecedencias">
+    <Container class="javax.swing.JPanel" name="panel_Precedencias">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Precedencias"/>
+            <TitledBorder title="lblPrecedencias"/>
           </Border>
         </Property>
       </Properties>
@@ -210,16 +208,16 @@
                           <Component id="jScrollPane1" min="-2" pref="202" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="btnAgregarPrecedencia" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
-                              <Component id="btnSacarPrecedencia" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                              <Component id="boton_AgregarPrecedente" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
+                              <Component id="boton_QuitarPrecedente" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="lblTareasPrecedentes" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TareasPrecedentes" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jScrollPane2" alignment="0" min="-2" pref="202" max="-2" attributes="0"/>
-                      <Component id="lblTareasDisponiblesComoPrecedencia" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TareasDisponiblesComoPrecedentes" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -229,16 +227,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblTareasPrecedentes" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblTareasDisponiblesComoPrecedencia" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TareasPrecedentes" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_TareasDisponiblesComoPrecedentes" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="btnAgregarPrecedencia" min="-2" max="-2" attributes="0"/>
+                          <Component id="boton_AgregarPrecedente" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="btnSacarPrecedencia" min="-2" max="-2" attributes="0"/>
+                          <Component id="boton_QuitarPrecedente" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
@@ -256,7 +254,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tblPrecedencia">
+            <Component class="javax.swing.JTable" name="tabla_TareasPrecedentes">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="2" rowCount="0">
@@ -278,7 +276,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tblPosiblesPrecedencias">
+            <Component class="javax.swing.JTable" name="ttabla_TareasDisponiblesComoPrecedentes">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="2" rowCount="0">
@@ -293,35 +291,35 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="btnAgregarPrecedencia">
+        <Component class="javax.swing.JButton" name="boton_AgregarPrecedente">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarPrecedenciaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_AgregarPrecedenteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnSacarPrecedencia">
+        <Component class="javax.swing.JButton" name="boton_QuitarPrecedente">
           <Properties>
             <Property name="text" type="java.lang.String" value="&gt;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSacarPrecedenciaActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_QuitarPrecedenteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblTareasPrecedentes">
+        <Component class="javax.swing.JLabel" name="label_TareasPrecedentes">
           <Properties>
             <Property name="text" type="java.lang.String" value="lblTareasPrecedentes"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="lblTareasDisponiblesComoPrecedencia">
+        <Component class="javax.swing.JLabel" name="label_TareasDisponiblesComoPrecedentes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="lblTareasDisponiblesComoPrecedencias"/>
+            <Property name="text" type="java.lang.String" value="lblTareasDisponiblesComoPrecedentes"/>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblDescripci&#xf3;nTarea">
+    <Component class="javax.swing.JLabel" name="label_DescripcionTarea">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblDescripcionTarea"/>
       </Properties>

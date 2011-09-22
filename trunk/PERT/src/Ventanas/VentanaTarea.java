@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -72,24 +73,29 @@ public class VentanaTarea extends javax.swing.JDialog {
      */
     private void setearEtiquetas(){
         setTitle("Tarea"); // Manejo de idioma!!!
-        this.lblIdTarea.setText("Nombre: ");
-        this.lblTareasDisponiblesComoPrecedencia.setText("Tareas disponibles");
-        this.lblTareasPrecedentes.setText("Tareas precedentes");
-        this.lblDescripciónTarea.setText("Descripción de la tarea: ");
-        this.lblTiempoOptimista.setText("Tiempo optimista");
-        this.lblTiempoMasProbable.setText("Tiempo más probable");
-        this.lblTiempoPesimista.setText("Tiempo pesimista");
-        this.btnGuardar.setText("Guardar");
-        this.btnCancelar.setText("Cancelar");
+        this.label_NombreTarea.setText("Nombre: ");
+        this.label_DescripcionTarea.setText("Descripción de la tarea: ");
+        
+        ((TitledBorder)this.panel_TiemposEstimados.getBorder()).setTitle("Tiempos estimados");
+        this.label_TiempoOptimista.setText("Tiempo optimista");
+        this.label_TiempoMasProbable.setText("Tiempo más probable");
+        this.label_TiempoPesimista.setText("Tiempo pesimista");
+        
+        ((TitledBorder)this.panel_Precedencias.getBorder()).setTitle("Precedencias");
+        this.label_TareasPrecedentes.setText("Tareas precedentes");
+        this.label_TareasDisponiblesComoPrecedentes.setText("Tareas disponibles");    
+        
+        this.boton_Guardar.setText("Guardar");
+        this.boton_Cancelar.setText("Cancelar");
     }
     
-    private boolean controlarDatosDeEntradaDelUsuario(){
-        if (txtDescripcionTarea.getText().equals("")){
+    private boolean validarDatosDeEntradaDelUsuario(){
+        if (campoTexto_DescripcionTarea.getText().equals("")){
             return false;
         }
-        double to = Double.parseDouble(txtTiempoOptimista.getText());
-        double tmp = Double.parseDouble(txtTiempoMasProbable.getText());
-        double tp = Double.parseDouble(txtTiempoPesimista.getText());
+        double to = Double.parseDouble(campoTexto_TiempoOptimista.getText());
+        double tmp = Double.parseDouble(campoTexto_TiempoMasProbable.getText());
+        double tp = Double.parseDouble(campoTexto_TiempoPesimista.getText());
         if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
             return false;
         }
@@ -99,20 +105,20 @@ public class VentanaTarea extends javax.swing.JDialog {
     private void setearDatosDeTarea(){
         int indiceFila = 0;        
         for (Tarea tarea : posiblesTareasPrecedentes){      
-            modificarTabla(tblPosiblesPrecedencias, indiceFila, true, tarea);
+            modificarTabla(ttabla_TareasDisponiblesComoPrecedentes, indiceFila, true, tarea);
             indiceFila += 1;
         }
-        txtNombreTarea.setText(nombre);
+        campoTexto_NombreTarea.setText(nombre);
         if (tipoAccion == Accion.modificar){
             indiceFila = 0;
             for (Tarea tarea : tareasPrecedentes.obtenerTareas()){
-                modificarTabla(tblPrecedencia, indiceFila, true, tarea);
+                modificarTabla(tabla_TareasPrecedentes, indiceFila, true, tarea);
                 indiceFila += 1;
             }            
-            txtDescripcionTarea.setText(descripcion);
-            txtTiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista()));
-            txtTiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable()));
-            txtTiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista()));
+            campoTexto_DescripcionTarea.setText(descripcion);
+            campoTexto_TiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista()));
+            campoTexto_TiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable()));
+            campoTexto_TiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista()));
         }
     }
     
@@ -129,13 +135,13 @@ public class VentanaTarea extends javax.swing.JDialog {
     }  
     
     private Tarea quitarTareaDePosiblesPrecedenciasSegunSeleccion(int filaSeleccionada){
-        String nombreTarea = (String)tblPosiblesPrecedencias.getValueAt(filaSeleccionada, 0);
+        String nombreTarea = (String)ttabla_TareasDisponiblesComoPrecedentes.getValueAt(filaSeleccionada, 0);
         int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
         for (Tarea tarea : posiblesTareasPrecedentes){
             if (tarea.obtenerId() == idTarea){
                 Tarea nuevaTareaPrecedente = tarea;
                 posiblesTareasPrecedentes.remove(tarea);
-                modificarTabla(tblPosiblesPrecedencias, filaSeleccionada, false, null);
+                modificarTabla(ttabla_TareasDisponiblesComoPrecedentes, filaSeleccionada, false, null);
                 return nuevaTareaPrecedente;
             }
         }
@@ -143,11 +149,11 @@ public class VentanaTarea extends javax.swing.JDialog {
     }
     
     private Tarea quitarTareaDePrecedenciasSegunSeleccion(int filaSeleccionada){
-        String nombreTarea = (String)tblPrecedencia.getValueAt(filaSeleccionada, 0);
+        String nombreTarea = (String)tabla_TareasPrecedentes.getValueAt(filaSeleccionada, 0);
         int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
         Tarea nuevaPosibleTareaPrecedente = tareasPrecedentes.obtenerTareaPorID(idTarea);
         tareasPrecedentes.borrarTarea(nuevaPosibleTareaPrecedente);
-        modificarTabla(tblPrecedencia, filaSeleccionada, false, null);
+        modificarTabla(tabla_TareasPrecedentes, filaSeleccionada, false, null);
         return nuevaPosibleTareaPrecedente;
     }
     
@@ -160,105 +166,105 @@ public class VentanaTarea extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtNombreTarea = new javax.swing.JTextField();
-        lblIdTarea = new javax.swing.JLabel();
-        jPanelTiemposEstimados = new javax.swing.JPanel();
-        lblTiempoOptimista = new javax.swing.JLabel();
-        lblTiempoMasProbable = new javax.swing.JLabel();
-        txtTiempoMasProbable = new javax.swing.JTextField();
-        lblTiempoPesimista = new javax.swing.JLabel();
-        txtTiempoPesimista = new javax.swing.JTextField();
-        txtTiempoOptimista = new javax.swing.JTextField();
-        btnCancelar = new javax.swing.JButton();
-        txtDescripcionTarea = new javax.swing.JTextField();
-        btnGuardar = new javax.swing.JButton();
-        jPanelPrecedencias = new javax.swing.JPanel();
+        campoTexto_NombreTarea = new javax.swing.JTextField();
+        label_NombreTarea = new javax.swing.JLabel();
+        panel_TiemposEstimados = new javax.swing.JPanel();
+        label_TiempoOptimista = new javax.swing.JLabel();
+        label_TiempoMasProbable = new javax.swing.JLabel();
+        campoTexto_TiempoMasProbable = new javax.swing.JTextField();
+        label_TiempoPesimista = new javax.swing.JLabel();
+        campoTexto_TiempoPesimista = new javax.swing.JTextField();
+        campoTexto_TiempoOptimista = new javax.swing.JTextField();
+        boton_Cancelar = new javax.swing.JButton();
+        campoTexto_DescripcionTarea = new javax.swing.JTextField();
+        boton_Guardar = new javax.swing.JButton();
+        panel_Precedencias = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPrecedencia = new javax.swing.JTable();
+        tabla_TareasPrecedentes = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblPosiblesPrecedencias = new javax.swing.JTable();
-        btnAgregarPrecedencia = new javax.swing.JButton();
-        btnSacarPrecedencia = new javax.swing.JButton();
-        lblTareasPrecedentes = new javax.swing.JLabel();
-        lblTareasDisponiblesComoPrecedencia = new javax.swing.JLabel();
-        lblDescripciónTarea = new javax.swing.JLabel();
+        ttabla_TareasDisponiblesComoPrecedentes = new javax.swing.JTable();
+        boton_AgregarPrecedente = new javax.swing.JButton();
+        boton_QuitarPrecedente = new javax.swing.JButton();
+        label_TareasPrecedentes = new javax.swing.JLabel();
+        label_TareasDisponiblesComoPrecedentes = new javax.swing.JLabel();
+        label_DescripcionTarea = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        txtNombreTarea.setEditable(false);
-        txtNombreTarea.setFont(new java.awt.Font("Tahoma", 1, 11));
-        txtNombreTarea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_NombreTarea.setEditable(false);
+        campoTexto_NombreTarea.setFont(new java.awt.Font("Tahoma", 1, 11));
+        campoTexto_NombreTarea.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        lblIdTarea.setText("lblNombreTarea");
+        label_NombreTarea.setText("lblNombreTarea");
 
-        jPanelTiemposEstimados.setBorder(javax.swing.BorderFactory.createTitledBorder("Tiempos estimados"));
+        panel_TiemposEstimados.setBorder(javax.swing.BorderFactory.createTitledBorder("lblTiemposEstimados"));
 
-        lblTiempoOptimista.setText("lblTiempoOptimista");
+        label_TiempoOptimista.setText("lblTiempoOptimista");
 
-        lblTiempoMasProbable.setText("lblTiempoMasProbable");
+        label_TiempoMasProbable.setText("lblTiempoMasProbable");
 
-        txtTiempoMasProbable.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTiempoMasProbable.setText("2");
+        campoTexto_TiempoMasProbable.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_TiempoMasProbable.setText("2");
 
-        lblTiempoPesimista.setText("lblTiempoPesimista");
+        label_TiempoPesimista.setText("lblTiempoPesimista");
 
-        txtTiempoPesimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTiempoPesimista.setText("3");
+        campoTexto_TiempoPesimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_TiempoPesimista.setText("3");
 
-        txtTiempoOptimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtTiempoOptimista.setText("1");
+        campoTexto_TiempoOptimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_TiempoOptimista.setText("1");
 
-        javax.swing.GroupLayout jPanelTiemposEstimadosLayout = new javax.swing.GroupLayout(jPanelTiemposEstimados);
-        jPanelTiemposEstimados.setLayout(jPanelTiemposEstimadosLayout);
-        jPanelTiemposEstimadosLayout.setHorizontalGroup(
-            jPanelTiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTiemposEstimadosLayout.createSequentialGroup()
+        javax.swing.GroupLayout panel_TiemposEstimadosLayout = new javax.swing.GroupLayout(panel_TiemposEstimados);
+        panel_TiemposEstimados.setLayout(panel_TiemposEstimadosLayout);
+        panel_TiemposEstimadosLayout.setHorizontalGroup(
+            panel_TiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_TiemposEstimadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTiempoOptimista)
+                .addComponent(label_TiempoOptimista)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTiempoOptimista, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoTexto_TiempoOptimista, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblTiempoMasProbable)
+                .addComponent(label_TiempoMasProbable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTiempoMasProbable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoTexto_TiempoMasProbable, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblTiempoPesimista)
+                .addComponent(label_TiempoPesimista)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTiempoPesimista, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoTexto_TiempoPesimista, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanelTiemposEstimadosLayout.setVerticalGroup(
-            jPanelTiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTiemposEstimadosLayout.createSequentialGroup()
-                .addGroup(jPanelTiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTiempoOptimista)
-                    .addComponent(lblTiempoMasProbable)
-                    .addComponent(txtTiempoMasProbable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTiempoPesimista)
-                    .addComponent(txtTiempoPesimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTiempoOptimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        panel_TiemposEstimadosLayout.setVerticalGroup(
+            panel_TiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_TiemposEstimadosLayout.createSequentialGroup()
+                .addGroup(panel_TiemposEstimadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_TiempoOptimista)
+                    .addComponent(label_TiempoMasProbable)
+                    .addComponent(campoTexto_TiempoMasProbable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_TiempoPesimista)
+                    .addComponent(campoTexto_TiempoPesimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoTexto_TiempoOptimista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        btnCancelar.setText("btnCancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        boton_Cancelar.setText("btnCancelar");
+        boton_Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                boton_CancelarActionPerformed(evt);
             }
         });
 
-        txtDescripcionTarea.setText("Tarea");
+        campoTexto_DescripcionTarea.setText("Tarea");
 
-        btnGuardar.setText("btnGuardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        boton_Guardar.setText("btnGuardar");
+        boton_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                boton_GuardarActionPerformed(evt);
             }
         });
 
-        jPanelPrecedencias.setBorder(javax.swing.BorderFactory.createTitledBorder("Precedencias"));
+        panel_Precedencias.setBorder(javax.swing.BorderFactory.createTitledBorder("lblPrecedencias"));
 
-        tblPrecedencia.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_TareasPrecedentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -281,9 +287,9 @@ public class VentanaTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblPrecedencia);
+        jScrollPane1.setViewportView(tabla_TareasPrecedentes);
 
-        tblPosiblesPrecedencias.setModel(new javax.swing.table.DefaultTableModel(
+        ttabla_TareasDisponiblesComoPrecedentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -306,126 +312,124 @@ public class VentanaTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblPosiblesPrecedencias);
+        jScrollPane2.setViewportView(ttabla_TareasDisponiblesComoPrecedentes);
 
-        btnAgregarPrecedencia.setText("<");
-        btnAgregarPrecedencia.addActionListener(new java.awt.event.ActionListener() {
+        boton_AgregarPrecedente.setText("<");
+        boton_AgregarPrecedente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarPrecedenciaActionPerformed(evt);
+                boton_AgregarPrecedenteActionPerformed(evt);
             }
         });
 
-        btnSacarPrecedencia.setText(">");
-        btnSacarPrecedencia.addActionListener(new java.awt.event.ActionListener() {
+        boton_QuitarPrecedente.setText(">");
+        boton_QuitarPrecedente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSacarPrecedenciaActionPerformed(evt);
+                boton_QuitarPrecedenteActionPerformed(evt);
             }
         });
 
-        lblTareasPrecedentes.setText("lblTareasPrecedentes");
+        label_TareasPrecedentes.setText("lblTareasPrecedentes");
 
-        lblTareasDisponiblesComoPrecedencia.setText("lblTareasDisponiblesComoPrecedencias");
+        label_TareasDisponiblesComoPrecedentes.setText("lblTareasDisponiblesComoPrecedentes");
 
-        javax.swing.GroupLayout jPanelPrecedenciasLayout = new javax.swing.GroupLayout(jPanelPrecedencias);
-        jPanelPrecedencias.setLayout(jPanelPrecedenciasLayout);
-        jPanelPrecedenciasLayout.setHorizontalGroup(
-            jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelPrecedenciasLayout.createSequentialGroup()
+        javax.swing.GroupLayout panel_PrecedenciasLayout = new javax.swing.GroupLayout(panel_Precedencias);
+        panel_Precedencias.setLayout(panel_PrecedenciasLayout);
+        panel_PrecedenciasLayout.setHorizontalGroup(
+            panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_PrecedenciasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPrecedenciasLayout.createSequentialGroup()
+                .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_PrecedenciasLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
-                        .addGroup(jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAgregarPrecedencia, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSacarPrecedencia, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(lblTareasPrecedentes))
+                        .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(boton_AgregarPrecedente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(boton_QuitarPrecedente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(label_TareasPrecedentes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTareasDisponiblesComoPrecedencia))
+                    .addComponent(label_TareasDisponiblesComoPrecedentes))
                 .addContainerGap())
         );
-        jPanelPrecedenciasLayout.setVerticalGroup(
-            jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelPrecedenciasLayout.createSequentialGroup()
-                .addGroup(jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTareasPrecedentes)
-                    .addComponent(lblTareasDisponiblesComoPrecedencia))
+        panel_PrecedenciasLayout.setVerticalGroup(
+            panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_PrecedenciasLayout.createSequentialGroup()
+                .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_TareasPrecedentes)
+                    .addComponent(label_TareasDisponiblesComoPrecedentes))
                 .addGap(8, 8, 8)
-                .addGroup(jPanelPrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelPrecedenciasLayout.createSequentialGroup()
+                .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel_PrecedenciasLayout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(btnAgregarPrecedencia)
+                        .addComponent(boton_AgregarPrecedente)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSacarPrecedencia))
+                        .addComponent(boton_QuitarPrecedente))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblDescripciónTarea.setText("lblDescripcionTarea");
+        label_DescripcionTarea.setText("lblDescripcionTarea");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblIdTarea)
+                        .addComponent(label_NombreTarea)
                         .addGap(10, 10, 10)
-                        .addComponent(txtNombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoTexto_NombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lblDescripciónTarea)
+                        .addComponent(label_DescripcionTarea)
                         .addGap(10, 10, 10)
-                        .addComponent(txtDescripcionTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(campoTexto_DescripcionTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnGuardar)
+                        .addComponent(boton_Guardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancelar))
+                        .addComponent(boton_Cancelar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanelTiemposEstimados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanelPrecedencias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(panel_TiemposEstimados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panel_Precedencias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDescripciónTarea)
-                    .addComponent(txtDescripcionTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblIdTarea))
+                    .addComponent(campoTexto_NombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_DescripcionTarea)
+                    .addComponent(campoTexto_DescripcionTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_NombreTarea))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTiemposEstimados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_TiemposEstimados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelPrecedencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_Precedencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnGuardar))
+                    .addComponent(boton_Cancelar)
+                    .addComponent(boton_Guardar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void boton_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CancelarActionPerformed
         this.dispose();
-}//GEN-LAST:event_btnCancelarActionPerformed
+}//GEN-LAST:event_boton_CancelarActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void boton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_GuardarActionPerformed
         try{
-            if (controlarDatosDeEntradaDelUsuario()){
-                descripcion = txtDescripcionTarea.getText();
-                double tiempoOptimista = Double.parseDouble(txtTiempoOptimista.getText());
-                double tiempoMasProbable = Double.parseDouble(txtTiempoMasProbable.getText());
-                double tiempoPesimista = Double.parseDouble(txtTiempoPesimista.getText());
+            if (validarDatosDeEntradaDelUsuario()){
+                descripcion = campoTexto_DescripcionTarea.getText();
+                double tiempoOptimista = Double.parseDouble(campoTexto_TiempoOptimista.getText());
+                double tiempoMasProbable = Double.parseDouble(campoTexto_TiempoMasProbable.getText());
+                double tiempoPesimista = Double.parseDouble(campoTexto_TiempoPesimista.getText());
                 switch (tipoAccion){
                     case crear:
                         tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
@@ -444,27 +448,27 @@ public class VentanaTarea extends javax.swing.JDialog {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, ex);
         }
-}//GEN-LAST:event_btnGuardarActionPerformed
+}//GEN-LAST:event_boton_GuardarActionPerformed
 
-    private void btnAgregarPrecedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPrecedenciaActionPerformed
-        int filaSeleccionada = tblPosiblesPrecedencias.getSelectedRow();
+    private void boton_AgregarPrecedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarPrecedenteActionPerformed
+        int filaSeleccionada = ttabla_TareasDisponiblesComoPrecedentes.getSelectedRow();
         if (filaSeleccionada != -1){
             Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);
             int nuevaFila = tareasPrecedentes.obtenerCantidadDeTareas();
             tareasPrecedentes.agregarTarea(nuevaTareaPrecedente);
-            modificarTabla(tblPrecedencia, nuevaFila, true, nuevaTareaPrecedente);
+            modificarTabla(tabla_TareasPrecedentes, nuevaFila, true, nuevaTareaPrecedente);
         }
-}//GEN-LAST:event_btnAgregarPrecedenciaActionPerformed
+}//GEN-LAST:event_boton_AgregarPrecedenteActionPerformed
 
-    private void btnSacarPrecedenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacarPrecedenciaActionPerformed
-        int filaSeleccionada = tblPrecedencia.getSelectedRow();
+    private void boton_QuitarPrecedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_QuitarPrecedenteActionPerformed
+        int filaSeleccionada = tabla_TareasPrecedentes.getSelectedRow();
         if (filaSeleccionada != -1){
             Tarea nuevaPosibleTareaPrecedente = quitarTareaDePrecedenciasSegunSeleccion(filaSeleccionada);
             int nuevaFila = posiblesTareasPrecedentes.size();
             posiblesTareasPrecedentes.add(nuevaPosibleTareaPrecedente);
-            modificarTabla(tblPosiblesPrecedencias, nuevaFila, true, nuevaPosibleTareaPrecedente);
+            modificarTabla(ttabla_TareasDisponiblesComoPrecedentes, nuevaFila, true, nuevaPosibleTareaPrecedente);
         }
-}//GEN-LAST:event_btnSacarPrecedenciaActionPerformed
+}//GEN-LAST:event_boton_QuitarPrecedenteActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -486,27 +490,27 @@ public class VentanaTarea extends javax.swing.JDialog {
         });
     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregarPrecedencia;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnSacarPrecedencia;
-    private javax.swing.JPanel jPanelPrecedencias;
-    private javax.swing.JPanel jPanelTiemposEstimados;
+    private javax.swing.JButton boton_AgregarPrecedente;
+    private javax.swing.JButton boton_Cancelar;
+    private javax.swing.JButton boton_Guardar;
+    private javax.swing.JButton boton_QuitarPrecedente;
+    private javax.swing.JTextField campoTexto_DescripcionTarea;
+    private javax.swing.JTextField campoTexto_NombreTarea;
+    private javax.swing.JTextField campoTexto_TiempoMasProbable;
+    private javax.swing.JTextField campoTexto_TiempoOptimista;
+    private javax.swing.JTextField campoTexto_TiempoPesimista;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblDescripciónTarea;
-    private javax.swing.JLabel lblIdTarea;
-    private javax.swing.JLabel lblTareasDisponiblesComoPrecedencia;
-    private javax.swing.JLabel lblTareasPrecedentes;
-    private javax.swing.JLabel lblTiempoMasProbable;
-    private javax.swing.JLabel lblTiempoOptimista;
-    private javax.swing.JLabel lblTiempoPesimista;
-    private javax.swing.JTable tblPosiblesPrecedencias;
-    private javax.swing.JTable tblPrecedencia;
-    private javax.swing.JTextField txtDescripcionTarea;
-    private javax.swing.JTextField txtNombreTarea;
-    private javax.swing.JTextField txtTiempoMasProbable;
-    private javax.swing.JTextField txtTiempoOptimista;
-    private javax.swing.JTextField txtTiempoPesimista;
+    private javax.swing.JLabel label_DescripcionTarea;
+    private javax.swing.JLabel label_NombreTarea;
+    private javax.swing.JLabel label_TareasDisponiblesComoPrecedentes;
+    private javax.swing.JLabel label_TareasPrecedentes;
+    private javax.swing.JLabel label_TiempoMasProbable;
+    private javax.swing.JLabel label_TiempoOptimista;
+    private javax.swing.JLabel label_TiempoPesimista;
+    private javax.swing.JPanel panel_Precedencias;
+    private javax.swing.JPanel panel_TiemposEstimados;
+    private javax.swing.JTable tabla_TareasPrecedentes;
+    private javax.swing.JTable ttabla_TareasDisponiblesComoPrecedentes;
     // End of variables declaration//GEN-END:variables
 }
