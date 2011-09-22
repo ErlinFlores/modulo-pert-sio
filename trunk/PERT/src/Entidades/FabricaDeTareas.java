@@ -32,23 +32,23 @@ public class FabricaDeTareas {
     //--------------------------------------------------------------------------
     
     private int proximoId;
-    private List<Integer> listaDeIdTareaEliminadas;
+    private List<Integer> listaDeIdsDeTareasEliminadas;
     private final int limiteDeCantidadDeTareas = 26; //cantidad de letras mayúsculas que soporta ASCII.
     private final int valorPrimerCaracterValidoASCII = 65; //en ascii el 65 representa la letra "A".
     
     private FabricaDeTareas() {
         proximoId = 0;
-        listaDeIdTareaEliminadas = new ArrayList<Integer>();
+        listaDeIdsDeTareasEliminadas = new ArrayList<Integer>();
     }
     
     public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
         int id;
-        if (listaDeIdTareaEliminadas.size() > 0){
-            id = listaDeIdTareaEliminadas.remove(0);
+        if (listaDeIdsDeTareasEliminadas.size() > 0){
+            id = listaDeIdsDeTareasEliminadas.remove(0);
         }else{
             id = getId();
         }
-        return new Tarea(id, getNombre(id), descripcion, tiempoEstimado, precedencia);
+        return new Tarea(id, getNombreByIdTarea(id), descripcion, tiempoEstimado, precedencia);
     }   
     
     private int getId(){
@@ -57,21 +57,24 @@ public class FabricaDeTareas {
         return id;
     }
     
-    private String getNombre(int valorRelativoDelCaracter){           
+    private String getNombreByIdTarea(int valorRelativoDelCaracter){           
         int valorRealDelCaracter = valorRelativoDelCaracter + valorPrimerCaracterValidoASCII; 
         return String.valueOf((char)valorRealDelCaracter);
     }    
     
     public boolean esPosibleCrearNuevaTarea(){
+        if (listaDeIdsDeTareasEliminadas.size() > 0){
+            return true;
+        }
         return proximoId < limiteDeCantidadDeTareas;
     }
     
     public String getNombreDeProximaTarea(){
         String nombre = "";
-        if (listaDeIdTareaEliminadas.size() > 0){
-            nombre = getNombre(listaDeIdTareaEliminadas.get(0));
+        if (listaDeIdsDeTareasEliminadas.size() > 0){
+            nombre = getNombreByIdTarea(listaDeIdsDeTareasEliminadas.get(0));
         }else{
-            nombre = getNombre(proximoId);
+            nombre = getNombreByIdTarea(proximoId);
         }
         return nombre;
     }
@@ -83,18 +86,19 @@ public class FabricaDeTareas {
     
     public void reset(){
         proximoId = 0;
+        listaDeIdsDeTareasEliminadas = new ArrayList<Integer>();        
     }
 
     public void restaurarIdTarea(int idTarea){
         boolean almacenado = false;
-        for (int i = 0; i < listaDeIdTareaEliminadas.size(); i++){
-            if (listaDeIdTareaEliminadas.get(i) > idTarea){
-                listaDeIdTareaEliminadas.add(i, idTarea);
+        for (int i = 0; i < listaDeIdsDeTareasEliminadas.size(); i++){
+            if (listaDeIdsDeTareasEliminadas.get(i) > idTarea){
+                listaDeIdsDeTareasEliminadas.add(i, idTarea);
                 almacenado = true;
             }
         }
         if (!almacenado){
-            listaDeIdTareaEliminadas.add(idTarea);
+            listaDeIdsDeTareasEliminadas.add(idTarea);
         }
     }
 }
