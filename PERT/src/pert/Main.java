@@ -23,7 +23,6 @@ public class Main {
 
     public void inicializar(String paisIdioma, String lenguajeIdioma){
         VentanaProyecto ventanaProyecto = new VentanaProyecto(paisIdioma, lenguajeIdioma);
-        //i.setSize(800, 600);
         ventanaProyecto.setVisible(true);
     }
 }
