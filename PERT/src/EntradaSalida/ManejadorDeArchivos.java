@@ -11,11 +11,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Clase que se encarga de gestionar las lecturas y escrituras a los archivos
+ * que se usan en el programa.
  * @author Manuel Lorenze
  */
 public class ManejadorDeArchivos {
     
+    /**
+     * Método que carga la tabla Zeta en memoria a través de un archivo que
+     * contiene los datos correspondientes.
+     * @return 
+     */
     public static double[][] cargarTablaZ(){
         try {
             CsvReader lectorDeDatos = new CsvReader("Archivos/TablaZnormalEstandar.csv");
