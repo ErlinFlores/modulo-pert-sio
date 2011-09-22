@@ -6,7 +6,7 @@
 package Entidades;
 
 /**
- *
+ * Clase que representa los tiempos estimados de una tarea determinada.
  * @author Manuel Lorenze
  */
 public class TiempoEstimado {

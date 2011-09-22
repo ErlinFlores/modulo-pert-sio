@@ -5,7 +5,7 @@
 package Entidades;
 
 /**
- *
+ * Clase que representa información relativa a una tarea por los cálculos PERT.
  * @author Manuel Lorenze
  */
 public abstract class TareaAbstracta {

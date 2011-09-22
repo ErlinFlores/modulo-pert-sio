@@ -6,7 +6,7 @@
 package Entidades;
 
 /**
- *
+ * Clase que representa una tarea.
  * @author Manuel Lorenze
  */
 public class Tarea extends TareaAbstracta{
