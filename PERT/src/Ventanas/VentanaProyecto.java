@@ -248,7 +248,14 @@ public class VentanaProyecto extends javax.swing.JFrame {
         }
     }
     
+    private void limpiarTablaDeTareas(){
+        for (int fila = 0; fila < redDeTareas.obtenerCantidadDeTareas(); fila++){
+            actualizarTablaDeDatosIngresados(0, Accion.eliminar, null);
+        }
+    }
+    
     private void cargarProyectoDemo(IDemo demo){
+        limpiarTablaDeTareas();
         this.nombre = demo.obtenerNombre();
         this.unidadDeTiempo = demo.obtenerUnidadDeTiempo();
         this.descripcion = demo.obtenerDescripcion();        
@@ -658,9 +665,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_BorrarTareaActionPerformed
 
     private void boton_BorrarTodasLasTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_BorrarTodasLasTareasActionPerformed
-        for (int fila = 0; fila < redDeTareas.obtenerCantidadDeTareas(); fila++){
-            actualizarTablaDeDatosIngresados(0, Accion.eliminar, null);
-        }
+        limpiarTablaDeTareas();
         redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
         campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
         FabricaDeTareas.getInstance().reset();
