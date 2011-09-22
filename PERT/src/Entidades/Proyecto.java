@@ -15,9 +15,9 @@ public class Proyecto {
     private int id;    
     private String nombre;
     private RedDeTareas redDeTareas;
-    private UnidadDeTiempo unidadDeTiempo;
+    private String unidadDeTiempo;
     
-    public Proyecto(int id, String nombre, RedDeTareas redDeTareas, UnidadDeTiempo unidadDeTiempo){
+    public Proyecto(int id, String nombre, RedDeTareas redDeTareas, String unidadDeTiempo){
         this.id = id;
         this.nombre = nombre;
         this.redDeTareas = redDeTareas;
@@ -44,7 +44,7 @@ public class Proyecto {
         return redDeTareas;
     }
     
-    public UnidadDeTiempo obtenerUnidadDeTiempo(){
+    public String obtenerUnidadDeTiempo(){
         return unidadDeTiempo;
     }
 }
