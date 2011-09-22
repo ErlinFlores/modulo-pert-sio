@@ -12,6 +12,9 @@
 package Ventanas;
 
 import Demo.Demo1;
+import Demo.Demo2;
+import Demo.Demo3;
+import Demo.IDemo;
 import Entidades.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -31,53 +34,65 @@ public class VentanaProyecto extends javax.swing.JFrame {
   
     Locale lugarConfigurado;
     ResourceBundle etiquetas;
-    private Accion tipoAccion;
     private String nombre;
-    private String descripcion;
+    private String unidadDeTiempo;
+    private String descripcion;    
     private RedDeTareas redDeTareas;
-    private UnidadDeTiempo unidadDeTiempo;
+    
     
     /** Creates new form VentanaProyecto */
     public VentanaProyecto(String lenguajeIdioma, String paisIdioma) {
-        initComponents();
+        initComponents();        
         lugarConfigurado = new Locale(lenguajeIdioma, paisIdioma);
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeProyectos.getInstance().reset();
-        FabricaDeTareas.getInstance().reset();
-        setearEtiquetas();        
-        this.tipoAccion = Accion.crear;
-        this.nombre = "";
-        this.descripcion = "";
-        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
-        this.unidadDeTiempo = UnidadDeTiempo.dias;
-        setearOpcionesDeUnidadDeTiempo(2);
+        FabricaDeTareas.getInstance().reset();              
+        this.nombre = etiquetas.getString("proyectoSugerenciaNombreProyecto");
+        this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
+        this.descripcion = etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
+        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());      
+        setearEtiquetas();  
+        setearCampos();
     }  
 
     /**
      * Se setean las etiquetas de la pantalla según el idioma configurado.
      */
     private void setearEtiquetas(){
-        setTitle(etiquetas.getString("titulo"));
-        this.jMenuArchivo.setText(etiquetas.getString("archivo"));
-        this.jmiNuevo.setText(etiquetas.getString("nuevo"));
-        this.jmiAbrir.setText(etiquetas.getString("abrir"));
-        this.jmiGuardar.setText(etiquetas.getString("guardar"));
-        this.jMenuIdioma.setText(etiquetas.getString("idioma"));
-        this.jmiSalir.setText(etiquetas.getString("salir"));
-        this.jMenuAyuda.setText(etiquetas.getString("ayuda"));
-        this.lblNombreProyecto.setText(etiquetas.getString("nombreProyecto"));
-        this.lblTareasProyecto.setText(etiquetas.getString("tareasProyecto"));
-        this.lblDescripcionProyecto.setText(etiquetas.getString("descripcionProyecto"));
-        ((TitledBorder)jplUnidadDeTiempo.getBorder()).setTitle(etiquetas.getString("unidadDeTiempo"));
-        this.jrbHoras.setText(etiquetas.getString("horas"));
-        this.jrbDias.setText(etiquetas.getString("dias"));
-        this.jrbMeses.setText(etiquetas.getString("meses"));        
-        this.btnAgregar.setText(etiquetas.getString("agregar"));
-        this.btnModificar.setText(etiquetas.getString("modificar"));
-        this.btnBorrar.setText(etiquetas.getString("borrar"));
-        this.btnBorrarTodas.setText(etiquetas.getString("borrarTodas"));        
-        this.btnSalir.setText(etiquetas.getString("salir"));
-        this.btnAnalisisDePERT.setText(etiquetas.getString("analisisDePERT")); 
+        setTitle(etiquetas.getString("proyectoTitulo"));
+        this.menu_Archivo.setText(etiquetas.getString("proyectoMenuArchivo"));
+        this.subMenu_Nuevo.setText(etiquetas.getString("proyectoSubMenuNuevo"));
+        this.subMenu_Abrir.setText(etiquetas.getString("proyectoSubMenuAbrir"));
+        this.subMenu_Guardar.setText(etiquetas.getString("proyectoSubMenuGuardar"));
+        this.subMenu_GuardarComo.setText(etiquetas.getString("proyectoSubMenuGuardarComo"));
+        this.subMenu_Salir.setText(etiquetas.getString("proyectoSubMenuSalir"));
+        this.menu_Idioma.setText(etiquetas.getString("proyectoMenuIdioma"));
+        this.subMenu_Español.setText(etiquetas.getString("proyectoSubMenuEspañol"));
+        this.subMenu_Español.setText(etiquetas.getString("proyectoSubMenuEspañol"));
+        this.subMenu_Español.setText(etiquetas.getString("proyectoSubMenuEspañol"));
+        this.subMenu_Ingles.setText(etiquetas.getString("proyectoSubMenuIngles"));
+        this.subMenu_Portugues.setText(etiquetas.getString("proyectoSubMenuPortugues"));
+        this.menu_Demos.setText(etiquetas.getString("proyectoMenuDemos"));
+        this.subMenu_Demo1.setText(etiquetas.getString("proyectoSubMenuDemo1"));
+        this.subMenu_Demo2.setText(etiquetas.getString("proyectoSubMenuDemo2"));
+        this.subMenu_Demo3.setText(etiquetas.getString("proyectoSubMenuDemo3"));
+        this.menu_Ayuda.setText(etiquetas.getString("proyectoMenuAyuda"));
+        this.subMenu_AyudaContenidos.setText(etiquetas.getString("proyectoSubMenuAyudaContenidos"));
+        this.subMenu_AcercaDe.setText(etiquetas.getString("proyectoSubMenuAcercaDe"));
+        
+        this.label_NombreProyecto.setText(etiquetas.getString("proyectoLabelNombreProyecto"));
+        this.label_UnidadDeTiempo.setText(etiquetas.getString("proyectoLabelUnidadDeTiempo"));
+        this.label_CantidadTareas.setText(etiquetas.getString("proyectoLabelCantidadTareas"));        
+        this.label_DescripcionProyecto.setText(etiquetas.getString("proyectoLabelDescripcionProyecto"));
+        this.label_TareasProyecto.setText(etiquetas.getString("proyectoLabelTareasProyecto"));
+        
+        this.boton_AgregarTarea.setText(etiquetas.getString("proyectoBotonAgregarTarea"));
+        this.boton_ModificarTarea.setText(etiquetas.getString("proyectoBotonModificarTarea"));
+        this.boton_BorrarTarea.setText(etiquetas.getString("proyectoBotonBorrarTarea"));
+        this.boton_BorrarTodasLasTareas.setText(etiquetas.getString("proyectoBotonBorrarTodasLasTareas"));        
+        this.boton_Salir.setText(etiquetas.getString("proyectoBotonSalir"));
+        this.boton_AnalisisPERT.setText(etiquetas.getString("proyectoBotonAnalisisPERT")); 
+        
         /**String[] columnasDeTablaDeTareas = {
             etiquetas.getString("nombreTarea"),
             etiquetas.getString("descripcionTarea"),
@@ -89,78 +104,23 @@ public class VentanaProyecto extends javax.swing.JFrame {
         Object[][] datos = {{"1", "2", "3", "4", "5", "6"}};
         DefaultTableModel modeloDeTablaDeTareas = new DefaultTableModel(datos, columnasDeTablaDeTareas);
         this.tblTareasProyecto= new JTable(modeloDeTablaDeTareas);**/
-    }
-
-    private void setearOpcionesDeUnidadDeTiempo(int valor){
-        if (!(valor == 0)){          
-            switch (valor){
-                case 1:{
-                    this.jrbHoras.setSelected(true);
-                    this.jrbDias.setSelected(false);
-                    this.jrbMeses.setSelected(false);
-                    break;
-                }
-                case 2:{
-                    this.jrbHoras.setSelected(false);
-                    this.jrbDias.setSelected(true);
-                    this.jrbMeses.setSelected(false);
-                    break;
-                }
-                case 3:{
-                    this.jrbHoras.setSelected(false);
-                    this.jrbDias.setSelected(false);
-                    this.jrbMeses.setSelected(true);
-                    break;
-                }
-                default:{
-                    setearOpcionesDeUnidadDeTiempo(2);
-                    break;
-                }
-            }
-        }else{
-            switch (unidadDeTiempo){
-                case horas:{
-                    setearOpcionesDeUnidadDeTiempo(1);
-                    break;
-                }
-                case dias:{
-                    setearOpcionesDeUnidadDeTiempo(2);
-                    break;
-                }
-                case meses:{
-                    setearOpcionesDeUnidadDeTiempo(3);
-                    break;
-                }                
-            } 
-        }
-    }
-
-    private void setearUnidadDeTiempo(int indice){
-        switch (indice){
-            case 1:{
-                this.unidadDeTiempo = UnidadDeTiempo.horas;
-                break;
-            }
-            case 2:{
-                this.unidadDeTiempo = UnidadDeTiempo.dias;
-                break;
-            }
-            case 3:{
-                this.unidadDeTiempo = UnidadDeTiempo.meses;
-                break;
-            }
-        }
-    }
+    }   
 
     /**
      * Previo al almacenamiento en la estructura de datos de los datos ingresados por el usuario,
      * se verifica que los mismos sean correctos.
      * @return (si son válidos o no los datos ingresados por el usuario).
      */
-    private boolean controlarDatosDeEntradaDelUsuario(){
-        if ((txtNombreProyecto.getText().equals("") && (txtNombreProyecto.getText().length() > 50))){ 
+    private boolean validarDatosDeEntradaDelUsuario(){
+        if ((campoTexto_NombreProyecto.getText().equals("") && (campoTexto_NombreProyecto.getText().length() > 25))){ 
             return false;
         }
+        if (areaTexto_DescripcionProyecto.getText().length() > 500){ 
+            return false;
+        }
+        if ((campoTexto_UnidadDeTiempo.getText().equals("") && (campoTexto_UnidadDeTiempo.getText().length() > 15))){
+            return false;
+        }    
         if (redDeTareas.obtenerCantidadDeTareas()==0){
             return false;
         }
@@ -168,12 +128,13 @@ public class VentanaProyecto extends javax.swing.JFrame {
     } 
     
     /**
-     * Se setean los campos de la pantalla por primera vez, con los datos correspondientes (solo en caso de ser una modificación).
+     * Se setean los campos de la pantalla por primera vez, con los datos correspondientes.
      */
     private void setearCampos(){                                              
-        txtNombreProyecto.setText(nombre);
-        setearOpcionesDeUnidadDeTiempo(0);
-        this.jTADescripcionDelProyecto.setText(descripcion);
+        campoTexto_NombreProyecto.setText(nombre);
+        campoTexto_UnidadDeTiempo.setText(unidadDeTiempo);
+        campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
+        areaTexto_DescripcionProyecto.setText(descripcion);
         int fila = 0;
         for (Tarea tarea : redDeTareas.obtenerTareas()){
             actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
@@ -182,11 +143,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }    
     
     private void limpiarPantallaProyecto(){
-        btnBorrarTodasActionPerformed(null);
-        this.txtNombreProyecto.setText("");
-        this.jTADescripcionDelProyecto.setText("");        
-        setearUnidadDeTiempo(2);
-        setearOpcionesDeUnidadDeTiempo(2);
+        this.campoTexto_NombreProyecto.setText("");        
+        this.areaTexto_DescripcionProyecto.setText("");
+        this.campoTexto_UnidadDeTiempo.setText("");
+        boton_BorrarTodasLasTareasActionPerformed(null);        
+        this.campoTexto_CantidadTareas.setText("0");
     }
     
     /**
@@ -197,21 +158,21 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @param tarea (tarea que forma parte de la modificación).
      */
     private void actualizarTablaDeDatosIngresados(int fila, Accion accion, Tarea tarea){
-        DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)this.tblTareasProyecto.getModel();
+        DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)this.tabla_TareasProyecto.getModel();
         if (accion.equals(Accion.eliminar)){
             modeloDeTablaDeDatosIngresados.removeRow(fila);            
         }else{ 
             if (accion.equals(Accion.crear)) {
                 modeloDeTablaDeDatosIngresados.addRow(new Object[fila]);
-                tblTareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
+                tabla_TareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
             }            
-            tblTareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
-            tblTareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
-            tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
-            tblTareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
         }      
-        tblTareasProyecto.updateUI();
+        tabla_TareasProyecto.updateUI();
     }        
 
     /**
@@ -222,8 +183,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
      */    
     public void modificarTarea(int idTarea, String descripcion){
         Tarea tareaModificada = redDeTareas.modificarTarea(idTarea, descripcion);
-        for (int i = 0; i < tblTareasProyecto.getRowCount(); i++){
-            String nombreTareaAux = (String)tblTareasProyecto.getValueAt(i, 0);
+        for (int i = 0; i < tabla_TareasProyecto.getRowCount(); i++){
+            String nombreTareaAux = (String)tabla_TareasProyecto.getValueAt(i, 0);
             int idTareaAux = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTareaAux);
             if (idTareaAux == idTarea){
                 actualizarTablaDeDatosIngresados(i, Accion.modificar, tareaModificada);
@@ -238,8 +199,9 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @param tarea (nueva tarea del proyecto).
      */
     public void agregarTarea(Tarea tarea){        
-        redDeTareas.agregarTarea(tarea);
+        this.redDeTareas.agregarTarea(tarea);
         actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, Accion.crear, tarea);
+        this.campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
     }
     
     /**
@@ -267,7 +229,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
      */
     private void realizarCalculosPERT(){
         if (!redDeTareas.realizarCalculosPERT()){
-            JOptionPane.showMessageDialog(this, "Hubo error en los cálculos sobre la red de tareas");
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorEnCalculosSobreRedDeTareas"));
         }   
     }
     
@@ -275,15 +237,23 @@ public class VentanaProyecto extends javax.swing.JFrame {
         int seleccion = JOptionPane.showOptionDialog(
            this,
            etiquetas.getString("mensajeSalirProyecto"), 
-           etiquetas.getString("tituloSalirProyecto"), 
+           etiquetas.getString("mensajeTituloSalirProyecto"), 
            JOptionPane.OK_CANCEL_OPTION,
            JOptionPane.WARNING_MESSAGE,
            null,    
-           new Object[] { etiquetas.getString("ok"), etiquetas.getString("cancelar") },   
+           new Object[] { etiquetas.getString("mensajeOk"), etiquetas.getString("mensajeCancelar") },   
            "OK");
         if (seleccion == 0){
             this.dispose();
         }
+    }
+    
+    private void cargarProyectoDemo(IDemo demo){
+        this.nombre = demo.obtenerNombre();
+        this.unidadDeTiempo = demo.obtenerUnidadDeTiempo();
+        this.descripcion = demo.obtenerDescripcion();        
+        this.redDeTareas = demo.obtenerRedDeTareas();
+        setearCampos();
     }
     
     /** This method is called from within the constructor to
@@ -295,53 +265,53 @@ public class VentanaProyecto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNombreProyecto = new javax.swing.JLabel();
-        txtNombreProyecto = new javax.swing.JTextField();
-        lblTareasProyecto = new javax.swing.JLabel();
+        label_NombreProyecto = new javax.swing.JLabel();
+        campoTexto_NombreProyecto = new javax.swing.JTextField();
+        label_TareasProyecto = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblTareasProyecto = new javax.swing.JTable();
-        btnAgregar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
-        btnBorrar = new javax.swing.JButton();
-        btnBorrarTodas = new javax.swing.JButton();
-        btnAnalisisDePERT = new javax.swing.JButton();
-        btnSalir = new javax.swing.JButton();
-        jplUnidadDeTiempo = new javax.swing.JPanel();
-        jrbHoras = new javax.swing.JRadioButton();
-        jrbDias = new javax.swing.JRadioButton();
-        jrbMeses = new javax.swing.JRadioButton();
+        tabla_TareasProyecto = new javax.swing.JTable();
+        boton_AgregarTarea = new javax.swing.JButton();
+        boton_ModificarTarea = new javax.swing.JButton();
+        boton_BorrarTarea = new javax.swing.JButton();
+        boton_BorrarTodasLasTareas = new javax.swing.JButton();
+        boton_AnalisisPERT = new javax.swing.JButton();
+        boton_Salir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTADescripcionDelProyecto = new javax.swing.JTextArea();
-        lblDescripcionProyecto = new javax.swing.JLabel();
+        areaTexto_DescripcionProyecto = new javax.swing.JTextArea();
+        label_DescripcionProyecto = new javax.swing.JLabel();
+        label_UnidadDeTiempo = new javax.swing.JLabel();
+        campoTexto_UnidadDeTiempo = new javax.swing.JTextField();
+        campoTexto_CantidadTareas = new javax.swing.JTextField();
+        label_CantidadTareas = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
-        jMenuArchivo = new javax.swing.JMenu();
-        jmiNuevo = new javax.swing.JMenuItem();
-        jmiAbrir = new javax.swing.JMenuItem();
-        jmiGuardar = new javax.swing.JMenuItem();
-        jmiGuardarComo = new javax.swing.JMenuItem();
+        menu_Archivo = new javax.swing.JMenu();
+        subMenu_Nuevo = new javax.swing.JMenuItem();
+        subMenu_Abrir = new javax.swing.JMenuItem();
+        subMenu_Guardar = new javax.swing.JMenuItem();
+        subMenu_GuardarComo = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jmiSalir = new javax.swing.JMenuItem();
-        jMenuIdioma = new javax.swing.JMenu();
-        jmiEspañol = new javax.swing.JMenuItem();
-        jmiInglés = new javax.swing.JMenuItem();
-        jmiPortugues = new javax.swing.JMenuItem();
-        jMenuDemos = new javax.swing.JMenu();
-        jmiDemo1 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuAyuda = new javax.swing.JMenu();
-        jmiAyudaContenidos = new javax.swing.JMenuItem();
+        subMenu_Salir = new javax.swing.JMenuItem();
+        menu_Idioma = new javax.swing.JMenu();
+        subMenu_Español = new javax.swing.JMenuItem();
+        subMenu_Ingles = new javax.swing.JMenuItem();
+        subMenu_Portugues = new javax.swing.JMenuItem();
+        menu_Demos = new javax.swing.JMenu();
+        subMenu_Demo1 = new javax.swing.JMenuItem();
+        subMenu_Demo2 = new javax.swing.JMenuItem();
+        subMenu_Demo3 = new javax.swing.JMenuItem();
+        menu_Ayuda = new javax.swing.JMenu();
+        subMenu_AyudaContenidos = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jmiAcercaDe = new javax.swing.JMenuItem();
+        subMenu_AcercaDe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        lblNombreProyecto.setText("lblNombreProyecto");
+        label_NombreProyecto.setText("lblNombreProyecto");
 
-        lblTareasProyecto.setText("lblTareasProyecto");
+        label_TareasProyecto.setText("lblTareasProyecto");
 
-        tblTareasProyecto.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_TareasProyecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -364,223 +334,205 @@ public class VentanaProyecto extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblTareasProyecto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tblTareasProyecto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblTareasProyecto.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tblTareasProyecto);
-        tblTareasProyecto.getColumnModel().getColumn(0).setResizable(false);
-        tblTareasProyecto.getColumnModel().getColumn(1).setResizable(false);
-        tblTareasProyecto.getColumnModel().getColumn(2).setResizable(false);
-        tblTareasProyecto.getColumnModel().getColumn(3).setResizable(false);
-        tblTareasProyecto.getColumnModel().getColumn(4).setResizable(false);
-        tblTareasProyecto.getColumnModel().getColumn(5).setResizable(false);
+        tabla_TareasProyecto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabla_TareasProyecto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tabla_TareasProyecto.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabla_TareasProyecto);
+        tabla_TareasProyecto.getColumnModel().getColumn(0).setResizable(false);
+        tabla_TareasProyecto.getColumnModel().getColumn(1).setResizable(false);
+        tabla_TareasProyecto.getColumnModel().getColumn(2).setResizable(false);
+        tabla_TareasProyecto.getColumnModel().getColumn(3).setResizable(false);
+        tabla_TareasProyecto.getColumnModel().getColumn(4).setResizable(false);
+        tabla_TareasProyecto.getColumnModel().getColumn(5).setResizable(false);
 
-        btnAgregar.setText("btnAgregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        boton_AgregarTarea.setText("btnAgregar");
+        boton_AgregarTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                boton_AgregarTareaActionPerformed(evt);
             }
         });
 
-        btnModificar.setText("btnModificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+        boton_ModificarTarea.setText("btnModificar");
+        boton_ModificarTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
+                boton_ModificarTareaActionPerformed(evt);
             }
         });
 
-        btnBorrar.setText("btnBorrar");
-        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+        boton_BorrarTarea.setText("btnBorrar");
+        boton_BorrarTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrarActionPerformed(evt);
+                boton_BorrarTareaActionPerformed(evt);
             }
         });
 
-        btnBorrarTodas.setText("btnBorrarTodas");
-        btnBorrarTodas.addActionListener(new java.awt.event.ActionListener() {
+        boton_BorrarTodasLasTareas.setText("btnBorrarTodas");
+        boton_BorrarTodasLasTareas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBorrarTodasActionPerformed(evt);
+                boton_BorrarTodasLasTareasActionPerformed(evt);
             }
         });
 
-        btnAnalisisDePERT.setText("btnAnalisisDePERT");
-        btnAnalisisDePERT.addActionListener(new java.awt.event.ActionListener() {
+        boton_AnalisisPERT.setText("btnAnalisisPERT");
+        boton_AnalisisPERT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnalisisDePERTActionPerformed(evt);
+                boton_AnalisisPERTActionPerformed(evt);
             }
         });
 
-        btnSalir.setText("btnSalir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+        boton_Salir.setText("btnSalir");
+        boton_Salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
+                boton_SalirActionPerformed(evt);
             }
         });
 
-        jplUnidadDeTiempo.setBorder(javax.swing.BorderFactory.createTitledBorder("UnidadDeTiempo"));
+        areaTexto_DescripcionProyecto.setColumns(20);
+        areaTexto_DescripcionProyecto.setRows(5);
+        jScrollPane2.setViewportView(areaTexto_DescripcionProyecto);
 
-        jrbHoras.setText("jrbHoras");
-        jrbHoras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbHorasActionPerformed(evt);
-            }
-        });
+        label_DescripcionProyecto.setText("lblDescripcionProyecto");
 
-        jrbDias.setText("jrbDias");
-        jrbDias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbDiasActionPerformed(evt);
-            }
-        });
+        label_UnidadDeTiempo.setText("lblUnidadDeTiempo");
 
-        jrbMeses.setText("jrbMeses");
-        jrbMeses.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbMesesActionPerformed(evt);
-            }
-        });
+        campoTexto_CantidadTareas.setEditable(false);
+        campoTexto_CantidadTareas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        campoTexto_CantidadTareas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        javax.swing.GroupLayout jplUnidadDeTiempoLayout = new javax.swing.GroupLayout(jplUnidadDeTiempo);
-        jplUnidadDeTiempo.setLayout(jplUnidadDeTiempoLayout);
-        jplUnidadDeTiempoLayout.setHorizontalGroup(
-            jplUnidadDeTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jplUnidadDeTiempoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jrbHoras)
-                .addGap(18, 18, 18)
-                .addComponent(jrbDias)
-                .addGap(18, 18, 18)
-                .addComponent(jrbMeses)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jplUnidadDeTiempoLayout.setVerticalGroup(
-            jplUnidadDeTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jplUnidadDeTiempoLayout.createSequentialGroup()
-                .addGroup(jplUnidadDeTiempoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jrbHoras)
-                    .addComponent(jrbDias)
-                    .addComponent(jrbMeses))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTADescripcionDelProyecto.setColumns(20);
-        jTADescripcionDelProyecto.setRows(5);
-        jScrollPane2.setViewportView(jTADescripcionDelProyecto);
-
-        lblDescripcionProyecto.setText("lblDescripcionProyecto");
+        label_CantidadTareas.setText("lblCantidadTareas");
 
         jMenuBar.setBorder(null);
         jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jMenuArchivo.setText("Archivo");
+        menu_Archivo.setText("Archivo");
 
-        jmiNuevo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jmiNuevo.setText("Nuevo");
-        jmiNuevo.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_Nuevo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_Nuevo.setText("Nuevo");
+        subMenu_Nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiNuevoActionPerformed(evt);
+                subMenu_NuevoActionPerformed(evt);
             }
         });
-        jMenuArchivo.add(jmiNuevo);
+        menu_Archivo.add(subMenu_Nuevo);
 
-        jmiAbrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jmiAbrir.setText("Abrir");
-        jmiAbrir.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_Abrir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_Abrir.setText("Abrir");
+        subMenu_Abrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAbrirActionPerformed(evt);
+                subMenu_AbrirActionPerformed(evt);
             }
         });
-        jMenuArchivo.add(jmiAbrir);
+        menu_Archivo.add(subMenu_Abrir);
 
-        jmiGuardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jmiGuardar.setText("Guardar");
-        jMenuArchivo.add(jmiGuardar);
-
-        jmiGuardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
-        jmiGuardarComo.setText("Guardar como");
-        jMenuArchivo.add(jmiGuardarComo);
-        jMenuArchivo.add(jSeparator1);
-
-        jmiSalir.setText("Salir");
-        jmiSalir.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_Guardar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_Guardar.setText("Guardar");
+        subMenu_Guardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiSalirActionPerformed(evt);
+                subMenu_GuardarActionPerformed(evt);
             }
         });
-        jMenuArchivo.add(jmiSalir);
+        menu_Archivo.add(subMenu_Guardar);
 
-        jMenuBar.add(jMenuArchivo);
-
-        jMenuIdioma.setText("Idioma");
-
-        jmiEspañol.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jmiEspañol.setText("Español");
-        jmiEspañol.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_GuardarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_GuardarComo.setText("Guardar como");
+        subMenu_GuardarComo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiEspañolActionPerformed(evt);
+                subMenu_GuardarComoActionPerformed(evt);
             }
         });
-        jMenuIdioma.add(jmiEspañol);
+        menu_Archivo.add(subMenu_GuardarComo);
+        menu_Archivo.add(jSeparator1);
 
-        jmiInglés.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        jmiInglés.setText("Inglés");
-        jmiInglés.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_Salir.setText("Salir");
+        subMenu_Salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiInglésActionPerformed(evt);
+                subMenu_SalirActionPerformed(evt);
             }
         });
-        jMenuIdioma.add(jmiInglés);
+        menu_Archivo.add(subMenu_Salir);
 
-        jmiPortugues.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        jmiPortugues.setText("Portugués");
-        jmiPortugues.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar.add(menu_Archivo);
+
+        menu_Idioma.setText("Idioma");
+
+        subMenu_Español.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_Español.setText("Español");
+        subMenu_Español.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiPortuguesActionPerformed(evt);
+                subMenu_EspañolActionPerformed(evt);
             }
         });
-        jMenuIdioma.add(jmiPortugues);
+        menu_Idioma.add(subMenu_Español);
 
-        jMenuBar.add(jMenuIdioma);
-
-        jMenuDemos.setText("Demos");
-
-        jmiDemo1.setText("Demo 1 (10 tareas)");
-        jmiDemo1.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_Ingles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_Ingles.setText("Inglés");
+        subMenu_Ingles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiDemo1ActionPerformed(evt);
+                subMenu_InglesActionPerformed(evt);
             }
         });
-        jMenuDemos.add(jmiDemo1);
+        menu_Idioma.add(subMenu_Ingles);
 
-        jMenuItem1.setText("Demo 2 ");
-        jMenuDemos.add(jMenuItem1);
-
-        jMenuItem2.setText("Demo 3");
-        jMenuDemos.add(jMenuItem2);
-
-        jMenuBar.add(jMenuDemos);
-
-        jMenuAyuda.setText("Ayuda");
-
-        jmiAyudaContenidos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        jmiAyudaContenidos.setText("Ayuda Contenidos");
-        jmiAyudaContenidos.addActionListener(new java.awt.event.ActionListener() {
+        subMenu_Portugues.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        subMenu_Portugues.setText("Portugués");
+        subMenu_Portugues.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAyudaContenidosActionPerformed(evt);
+                subMenu_PortuguesActionPerformed(evt);
             }
         });
-        jMenuAyuda.add(jmiAyudaContenidos);
-        jMenuAyuda.add(jSeparator2);
+        menu_Idioma.add(subMenu_Portugues);
 
-        jmiAcercaDe.setText("Acerca de");
-        jmiAcercaDe.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar.add(menu_Idioma);
+
+        menu_Demos.setText("Demos");
+
+        subMenu_Demo1.setText("Demo 1");
+        subMenu_Demo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiAcercaDeActionPerformed(evt);
+                subMenu_Demo1ActionPerformed(evt);
             }
         });
-        jMenuAyuda.add(jmiAcercaDe);
+        menu_Demos.add(subMenu_Demo1);
 
-        jMenuBar.add(jMenuAyuda);
+        subMenu_Demo2.setText("Demo 2 ");
+        subMenu_Demo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenu_Demo2ActionPerformed(evt);
+            }
+        });
+        menu_Demos.add(subMenu_Demo2);
+
+        subMenu_Demo3.setText("Demo 3");
+        subMenu_Demo3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenu_Demo3ActionPerformed(evt);
+            }
+        });
+        menu_Demos.add(subMenu_Demo3);
+
+        jMenuBar.add(menu_Demos);
+
+        menu_Ayuda.setText("Ayuda");
+
+        subMenu_AyudaContenidos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        subMenu_AyudaContenidos.setText("Ayuda Contenidos");
+        subMenu_AyudaContenidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenu_AyudaContenidosActionPerformed(evt);
+            }
+        });
+        menu_Ayuda.add(subMenu_AyudaContenidos);
+        menu_Ayuda.add(jSeparator2);
+
+        subMenu_AcercaDe.setText("Acerca de");
+        subMenu_AcercaDe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenu_AcercaDeActionPerformed(evt);
+            }
+        });
+        menu_Ayuda.add(subMenu_AcercaDe);
+
+        jMenuBar.add(menu_Ayuda);
 
         setJMenuBar(jMenuBar);
 
@@ -593,116 +545,128 @@ public class VentanaProyecto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label_NombreProyecto)
+                            .addComponent(label_UnidadDeTiempo)
+                            .addComponent(label_CantidadTareas))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNombreProyecto)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNombreProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblDescripcionProyecto))
-                            .addComponent(jplUnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                                .addComponent(label_DescripcionProyecto))
+                            .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
+                    .addComponent(label_TareasProyecto)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 658, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblTareasProyecto)
-                                        .addGap(572, 572, 572)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAnalisisDePERT, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-                                .addGap(487, 487, 487)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBorrarTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))))
+                                .addComponent(boton_AnalisisPERT, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                                .addGap(492, 492, 492)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(boton_Salir)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(boton_AgregarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                                .addComponent(boton_ModificarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(boton_BorrarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(boton_BorrarTodasLasTareas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombreProyecto)
-                            .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDescripcionProyecto))
-                        .addGap(18, 18, 18)
-                        .addComponent(jplUnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(label_NombreProyecto)
+                            .addComponent(label_DescripcionProyecto)
+                            .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label_UnidadDeTiempo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label_CantidadTareas)))
                     .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE))
-                .addGap(20, 20, 20)
-                .addComponent(lblTareasProyecto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnAgregar)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(label_TareasProyecto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnModificar)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(boton_AgregarTarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBorrar)
+                        .addComponent(boton_ModificarTarea)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBorrarTodas)
-                        .addGap(100, 100, 100))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boton_BorrarTarea)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boton_BorrarTodasLasTareas)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAnalisisDePERT)
-                    .addComponent(btnSalir))
+                    .addComponent(boton_AnalisisPERT)
+                    .addComponent(boton_Salir))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void boton_AgregarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarTareaActionPerformed
         if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
             VentanaTarea ventanaTarea = new VentanaTarea(this, true);
             ventanaTarea.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(this, "No se pueden crear más tareas (límite = 26)");
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
         }
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_boton_AgregarTareaActionPerformed
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        int filaSeleccionada = tblTareasProyecto.getSelectedRow();
+    private void boton_ModificarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_ModificarTareaActionPerformed
+        int filaSeleccionada = tabla_TareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
-            String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
+            String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
             VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea);
             ventanaTarea.setVisible(true);            
         }else{
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
         }
-    }//GEN-LAST:event_btnModificarActionPerformed
+    }//GEN-LAST:event_boton_ModificarTareaActionPerformed
 
-    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        int filaSeleccionada = tblTareasProyecto.getSelectedRow();
+    private void boton_BorrarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_BorrarTareaActionPerformed
+        int filaSeleccionada = tabla_TareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
-            String nombreTarea = (String)tblTareasProyecto.getValueAt(filaSeleccionada, 0);
+            String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
             redDeTareas.borrarTarea(idTarea);
             actualizarTablaDeDatosIngresados(filaSeleccionada, Accion.eliminar, null);
+            campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
             FabricaDeTareas.getInstance().restaurarIdTarea(idTarea);
         }else{
-            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
         }        
-    }//GEN-LAST:event_btnBorrarActionPerformed
+    }//GEN-LAST:event_boton_BorrarTareaActionPerformed
 
-    private void btnBorrarTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarTodasActionPerformed
+    private void boton_BorrarTodasLasTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_BorrarTodasLasTareasActionPerformed
         for (int fila = 0; fila < redDeTareas.obtenerCantidadDeTareas(); fila++){
             actualizarTablaDeDatosIngresados(0, Accion.eliminar, null);
         }
         redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
+        campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
         FabricaDeTareas.getInstance().reset();
-    }//GEN-LAST:event_btnBorrarTodasActionPerformed
+    }//GEN-LAST:event_boton_BorrarTodasLasTareasActionPerformed
 
-    private void btnAnalisisDePERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnalisisDePERTActionPerformed
+    private void boton_AnalisisPERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AnalisisPERTActionPerformed
         if (redDeTareas.obtenerCantidadDeTareas() > 0){
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
                 realizarCalculosPERT();
@@ -710,99 +674,88 @@ public class VentanaProyecto extends javax.swing.JFrame {
             VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo);
             ventanaResultados.setVisible(true);
         }
-    }//GEN-LAST:event_btnAnalisisDePERTActionPerformed
+    }//GEN-LAST:event_boton_AnalisisPERTActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void boton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_SalirActionPerformed
         salirDelSistema();
-    }//GEN-LAST:event_btnSalirActionPerformed
+    }//GEN-LAST:event_boton_SalirActionPerformed
 
-    private void jrbHorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbHorasActionPerformed
-        this.setearOpcionesDeUnidadDeTiempo(1);
-        this.setearUnidadDeTiempo(1);
-    }//GEN-LAST:event_jrbHorasActionPerformed
-
-    private void jrbDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbDiasActionPerformed
-        this.setearOpcionesDeUnidadDeTiempo(2);
-        this.setearUnidadDeTiempo(2);
-    }//GEN-LAST:event_jrbDiasActionPerformed
-
-    private void jrbMesesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbMesesActionPerformed
-        this.setearOpcionesDeUnidadDeTiempo(3);
-        this.setearUnidadDeTiempo(3);
-    }//GEN-LAST:event_jrbMesesActionPerformed
-
-    private void jmiEspañolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiEspañolActionPerformed
+    private void subMenu_EspañolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_EspañolActionPerformed
         lugarConfigurado = new Locale("es", "UY");
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         this.setearEtiquetas();
-    }//GEN-LAST:event_jmiEspañolActionPerformed
+    }//GEN-LAST:event_subMenu_EspañolActionPerformed
 
-    private void jmiInglésActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiInglésActionPerformed
+    private void subMenu_InglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_InglesActionPerformed
         lugarConfigurado = new Locale("en", "US");
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         this.setearEtiquetas();
-    }//GEN-LAST:event_jmiInglésActionPerformed
+    }//GEN-LAST:event_subMenu_InglesActionPerformed
 
-    private void jmiPortuguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPortuguesActionPerformed
+    private void subMenu_PortuguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_PortuguesActionPerformed
         lugarConfigurado = new Locale("po", "BR");
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         this.setearEtiquetas();
-    }//GEN-LAST:event_jmiPortuguesActionPerformed
+    }//GEN-LAST:event_subMenu_PortuguesActionPerformed
 
-    private void jmiNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNuevoActionPerformed
+    private void subMenu_Demo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo1ActionPerformed
+        cargarProyectoDemo(new Demo1());
+    }//GEN-LAST:event_subMenu_Demo1ActionPerformed
+
+    private void subMenu_Demo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo2ActionPerformed
+        cargarProyectoDemo(new Demo2());
+    }//GEN-LAST:event_subMenu_Demo2ActionPerformed
+
+    private void subMenu_Demo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo3ActionPerformed
+        cargarProyectoDemo(new Demo3());
+    }//GEN-LAST:event_subMenu_Demo3ActionPerformed
+
+    private void subMenu_AyudaContenidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AyudaContenidosActionPerformed
+        System.out.println("AYUDA!!!");
+    }//GEN-LAST:event_subMenu_AyudaContenidosActionPerformed
+
+    private void subMenu_AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AcercaDeActionPerformed
+        VentanaAcercaDe ventanaAcercaDe = new VentanaAcercaDe(this, true, etiquetas);
+        ventanaAcercaDe.setVisible(true);
+    }//GEN-LAST:event_subMenu_AcercaDeActionPerformed
+
+    private void subMenu_NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_NuevoActionPerformed
         int seleccion = JOptionPane.showOptionDialog(
            this,
            etiquetas.getString("mensajeNuevoProyecto"), 
-           etiquetas.getString("tituloNuevoProyecto"), 
+           etiquetas.getString("mensajeTituloNuevoProyecto"), 
            JOptionPane.OK_CANCEL_OPTION,
            JOptionPane.WARNING_MESSAGE,
            null,    
-           new Object[] { etiquetas.getString("ok"), etiquetas.getString("cancelar") },   
+           new Object[] { etiquetas.getString("mensajeOk"), etiquetas.getString("mensajeCancelar") },   
            "OK");
         if (seleccion == 0){
-            this.nombre = "";
-            this.txtNombreProyecto.setText("");
-            this.descripcion = "";
-            this.jTADescripcionDelProyecto.setText("");
-            this.setearOpcionesDeUnidadDeTiempo(2);
-            this.setearUnidadDeTiempo(2);
-            this.btnBorrarTodasActionPerformed(null);
-        }        
-    }//GEN-LAST:event_jmiNuevoActionPerformed
+            limpiarPantallaProyecto();
+        }  
+    }//GEN-LAST:event_subMenu_NuevoActionPerformed
 
-    private void jmiSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalirActionPerformed
-        salirDelSistema();   
-    }//GEN-LAST:event_jmiSalirActionPerformed
-
-    private void jmiAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAbrirActionPerformed
+    private void subMenu_AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AbrirActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        int seleccion = fileChooser.showOpenDialog(jmiAbrir);
+        fileChooser.setLocale(lugarConfigurado);
+        int seleccion = fileChooser.showOpenDialog(subMenu_Abrir);
         if (seleccion == JFileChooser.APPROVE_OPTION)
         {
            File fichero = fileChooser.getSelectedFile();
            // y a trabajar con fichero ....
         }
-    }//GEN-LAST:event_jmiAbrirActionPerformed
+    }//GEN-LAST:event_subMenu_AbrirActionPerformed
 
-    private void jmiDemo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDemo1ActionPerformed
-        limpiarPantallaProyecto();       
-        Demo1 demo1 = new Demo1();
-        this.tipoAccion = demo1.obtenerTipoAccion();
-        this.nombre = demo1.obtenerNombre();
-        this.descripcion = demo1.obtenerDescripcion();
-        this.unidadDeTiempo = demo1.obtenerUnidadDeTiempo();
-        this.redDeTareas = demo1.obtenerRedDeTareas();
-        setearCampos();
-    }//GEN-LAST:event_jmiDemo1ActionPerformed
+    private void subMenu_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_subMenu_GuardarActionPerformed
 
-    private void jmiAyudaContenidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAyudaContenidosActionPerformed
-        System.out.println("AYUDA!!!");
-    }//GEN-LAST:event_jmiAyudaContenidosActionPerformed
+    private void subMenu_GuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarComoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_subMenu_GuardarComoActionPerformed
 
-    private void jmiAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAcercaDeActionPerformed
-        VentanaAcercaDe ventanaAcercaDe = new VentanaAcercaDe(this, true);
-        ventanaAcercaDe.setVisible(true);
-    }//GEN-LAST:event_jmiAcercaDeActionPerformed
+    private void subMenu_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_SalirActionPerformed
+        salirDelSistema();
+    }//GEN-LAST:event_subMenu_SalirActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -817,44 +770,44 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnAnalisisDePERT;
-    private javax.swing.JButton btnBorrar;
-    private javax.swing.JButton btnBorrarTodas;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnSalir;
-    private javax.swing.JMenu jMenuArchivo;
-    private javax.swing.JMenu jMenuAyuda;
+    private javax.swing.JTextArea areaTexto_DescripcionProyecto;
+    private javax.swing.JButton boton_AgregarTarea;
+    private javax.swing.JButton boton_AnalisisPERT;
+    private javax.swing.JButton boton_BorrarTarea;
+    private javax.swing.JButton boton_BorrarTodasLasTareas;
+    private javax.swing.JButton boton_ModificarTarea;
+    private javax.swing.JButton boton_Salir;
+    private javax.swing.JTextField campoTexto_CantidadTareas;
+    private javax.swing.JTextField campoTexto_NombreProyecto;
+    private javax.swing.JTextField campoTexto_UnidadDeTiempo;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenu jMenuDemos;
-    private javax.swing.JMenu jMenuIdioma;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JTextArea jTADescripcionDelProyecto;
-    private javax.swing.JMenuItem jmiAbrir;
-    private javax.swing.JMenuItem jmiAcercaDe;
-    private javax.swing.JMenuItem jmiAyudaContenidos;
-    private javax.swing.JMenuItem jmiDemo1;
-    private javax.swing.JMenuItem jmiEspañol;
-    private javax.swing.JMenuItem jmiGuardar;
-    private javax.swing.JMenuItem jmiGuardarComo;
-    private javax.swing.JMenuItem jmiInglés;
-    private javax.swing.JMenuItem jmiNuevo;
-    private javax.swing.JMenuItem jmiPortugues;
-    private javax.swing.JMenuItem jmiSalir;
-    private javax.swing.JPanel jplUnidadDeTiempo;
-    private javax.swing.JRadioButton jrbDias;
-    private javax.swing.JRadioButton jrbHoras;
-    private javax.swing.JRadioButton jrbMeses;
-    private javax.swing.JLabel lblDescripcionProyecto;
-    private javax.swing.JLabel lblNombreProyecto;
-    private javax.swing.JLabel lblTareasProyecto;
-    private javax.swing.JTable tblTareasProyecto;
-    private javax.swing.JTextField txtNombreProyecto;
+    private javax.swing.JLabel label_CantidadTareas;
+    private javax.swing.JLabel label_DescripcionProyecto;
+    private javax.swing.JLabel label_NombreProyecto;
+    private javax.swing.JLabel label_TareasProyecto;
+    private javax.swing.JLabel label_UnidadDeTiempo;
+    private javax.swing.JMenu menu_Archivo;
+    private javax.swing.JMenu menu_Ayuda;
+    private javax.swing.JMenu menu_Demos;
+    private javax.swing.JMenu menu_Idioma;
+    private javax.swing.JMenuItem subMenu_Abrir;
+    private javax.swing.JMenuItem subMenu_AcercaDe;
+    private javax.swing.JMenuItem subMenu_AyudaContenidos;
+    private javax.swing.JMenuItem subMenu_Demo1;
+    private javax.swing.JMenuItem subMenu_Demo2;
+    private javax.swing.JMenuItem subMenu_Demo3;
+    private javax.swing.JMenuItem subMenu_Español;
+    private javax.swing.JMenuItem subMenu_Guardar;
+    private javax.swing.JMenuItem subMenu_GuardarComo;
+    private javax.swing.JMenuItem subMenu_Ingles;
+    private javax.swing.JMenuItem subMenu_Nuevo;
+    private javax.swing.JMenuItem subMenu_Portugues;
+    private javax.swing.JMenuItem subMenu_Salir;
+    private javax.swing.JTable tabla_TareasProyecto;
     // End of variables declaration//GEN-END:variables
 
 }
