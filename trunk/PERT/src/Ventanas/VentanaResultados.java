@@ -15,7 +15,6 @@ import Entidades.EstrategiaDeSeleccionDeDesvEst;
 import Entidades.GestorProbabilistico;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
-import Entidades.UnidadDeTiempo;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,12 +25,12 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaResultados extends javax.swing.JDialog {
 
     private RedDeTareas redDeTareas;
-    private UnidadDeTiempo unidadDeTiempo;
+    private String unidadDeTiempo;
     private EstrategiaDeSeleccionDeDesvEst estrategia;
     private GestorProbabilistico gestorProbabilistico;
     
     /** Creates new form VentanaResultados */
-    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, UnidadDeTiempo unidadDeTiempo) {
+    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo) {
         super(parent, modal);
         initComponents();
         this.redDeTareas = redDeTareas;
@@ -92,36 +91,7 @@ public class VentanaResultados extends javax.swing.JDialog {
     }
     
     private void actualizarInformacionDelProyecto(){
-        String duracionDelProyectoStr = String.valueOf(redDeTareas.obtenerDuracionDelProyecto());
-        switch(unidadDeTiempo){
-            case horas:{
-                if (redDeTareas.obtenerDuracionDelProyecto() == 1){
-                    duracionDelProyectoStr += " hora";
-                    break;
-                }else{
-                    duracionDelProyectoStr += " horas";
-                }
-                break;
-            }
-            case dias:{
-                if (redDeTareas.obtenerDuracionDelProyecto() == 1){
-                    duracionDelProyectoStr += " dia";
-                    break;
-                }else{
-                    duracionDelProyectoStr += " dias";
-                }
-                break;
-            }
-            case meses:{
-                if (redDeTareas.obtenerDuracionDelProyecto() == 1){
-                    duracionDelProyectoStr += " mes";
-                    break;
-                }else{
-                    duracionDelProyectoStr += " meses";
-                }
-                break;
-            }
-        }
+        String duracionDelProyectoStr = String.valueOf(redDeTareas.obtenerDuracionDelProyecto())+" "+unidadDeTiempo;
         this.txtDuracionDelProyecto.setText(duracionDelProyectoStr);
         DefaultTableModel modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tblCaminosCriticos.getModel();
         int fila = 0;

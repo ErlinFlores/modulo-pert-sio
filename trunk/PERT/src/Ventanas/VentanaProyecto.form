@@ -12,12 +12,12 @@
         </Property>
       </Properties>
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenuArchivo">
+        <Menu class="javax.swing.JMenu" name="menu_Archivo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Archivo"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiNuevo">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Nuevo">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+N"/>
@@ -25,10 +25,10 @@
                 <Property name="text" type="java.lang.String" value="Nuevo"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiNuevoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_NuevoActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiAbrir">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Abrir">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+O"/>
@@ -36,43 +36,49 @@
                 <Property name="text" type="java.lang.String" value="Abrir"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAbrirActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_AbrirActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiGuardar">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Guardar">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Guardar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_GuardarActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiGuardarComo">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_GuardarComo">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Guardar como"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_GuardarComoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiSalir">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Salir">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiSalirActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_SalirActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuIdioma">
+        <Menu class="javax.swing.JMenu" name="menu_Idioma">
           <Properties>
             <Property name="text" type="java.lang.String" value="Idioma"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiEspa&#xf1;ol">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Espa&#xf1;ol">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+E"/>
@@ -80,10 +86,10 @@
                 <Property name="text" type="java.lang.String" value="Espa&#xf1;ol"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiEspa&#xf1;olActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_Espa&#xf1;olActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiIngl&#xe9;s">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Ingles">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+I"/>
@@ -91,10 +97,10 @@
                 <Property name="text" type="java.lang.String" value="Ingl&#xe9;s"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiIngl&#xe9;sActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_InglesActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiPortugues">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Portugues">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+P"/>
@@ -102,42 +108,48 @@
                 <Property name="text" type="java.lang.String" value="Portugu&#xe9;s"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiPortuguesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_PortuguesActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuDemos">
+        <Menu class="javax.swing.JMenu" name="menu_Demos">
           <Properties>
             <Property name="text" type="java.lang.String" value="Demos"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiDemo1">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Demo1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Demo 1 (10 tareas)"/>
+                <Property name="text" type="java.lang.String" value="Demo 1"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiDemo1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_Demo1ActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Demo2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Demo 2 "/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_Demo2ActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_Demo3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Demo 3"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_Demo3ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuAyuda">
+        <Menu class="javax.swing.JMenu" name="menu_Ayuda">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ayuda"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiAyudaContenidos">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_AyudaContenidos">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="F1"/>
@@ -145,17 +157,17 @@
                 <Property name="text" type="java.lang.String" value="Ayuda Contenidos"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAyudaContenidosActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_AyudaContenidosActionPerformed"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiAcercaDe">
+            <MenuItem class="javax.swing.JMenuItem" name="subMenu_AcercaDe">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Acerca de"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAcercaDeActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subMenu_AcercaDeActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -191,47 +203,49 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="lblNombreProyecto" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="txtNombreProyecto" pref="222" max="32767" attributes="1"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="lblDescripcionProyecto" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_NombreProyecto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_UnidadDeTiempo" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_CantidadTareas" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="campoTexto_NombreProyecto" min="-2" pref="201" max="-2" attributes="1"/>
+                              <EmptySpace pref="41" max="32767" attributes="0"/>
+                              <Component id="label_DescripcionProyecto" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jplUnidadDeTiempo" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTexto_UnidadDeTiempo" min="-2" pref="114" max="-2" attributes="0"/>
+                          <Component id="campoTexto_CantidadTareas" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="323" max="-2" attributes="1"/>
+                      <Component id="jScrollPane2" min="-2" pref="269" max="-2" attributes="1"/>
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="label_TareasProyecto" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jScrollPane1" alignment="0" pref="658" max="32767" attributes="0"/>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblTareasProyecto" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="572" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" pref="663" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="btnAnalisisDePERT" pref="177" max="32767" attributes="1"/>
-                              <EmptySpace min="-2" pref="487" max="-2" attributes="0"/>
+                              <Component id="boton_AnalisisPERT" pref="182" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="492" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="boton_Salir" min="-2" max="-2" attributes="1"/>
                           <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="btnAgregar" alignment="0" pref="116" max="32767" attributes="1"/>
-                              <Component id="btnModificar" alignment="0" max="32767" attributes="1"/>
-                              <Component id="btnBorrar" alignment="0" max="32767" attributes="1"/>
-                              <Component id="btnBorrarTodas" alignment="0" max="32767" attributes="1"/>
+                              <Component id="boton_AgregarTarea" alignment="0" pref="116" max="32767" attributes="1"/>
+                              <Component id="boton_ModificarTarea" alignment="0" max="32767" attributes="1"/>
+                              <Component id="boton_BorrarTarea" alignment="0" max="32767" attributes="1"/>
+                              <Component id="boton_BorrarTodasLasTareas" alignment="0" max="32767" attributes="1"/>
                           </Group>
-                          <Component id="btnSalir" alignment="1" pref="116" max="32767" attributes="1"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -239,38 +253,48 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtNombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDescripcionProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_NombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_DescripcionProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTexto_NombreProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jplUnidadDeTiempo" min="-2" max="-2" attributes="1"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="campoTexto_UnidadDeTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_UnidadDeTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="campoTexto_CantidadTareas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_CantidadTareas" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <Component id="jScrollPane2" min="0" pref="0" max="32767" attributes="1"/>
               </Group>
-              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-              <Component id="lblTareasProyecto" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnAgregar" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="label_TareasProyecto" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnBorrar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnBorrarTodas" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="234" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="1" min="-2" pref="234" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
+                      <Component id="boton_AgregarTarea" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="boton_ModificarTarea" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="boton_BorrarTarea" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="boton_BorrarTodasLasTareas" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnAnalisisDePERT" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnSalir" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="boton_AnalisisPERT" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="boton_Salir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -278,14 +302,14 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="lblNombreProyecto">
+    <Component class="javax.swing.JLabel" name="label_NombreProyecto">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblNombreProyecto"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtNombreProyecto">
+    <Component class="javax.swing.JTextField" name="campoTexto_NombreProyecto">
     </Component>
-    <Component class="javax.swing.JLabel" name="lblTareasProyecto">
+    <Component class="javax.swing.JLabel" name="label_TareasProyecto">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblTareasProyecto"/>
       </Properties>
@@ -297,7 +321,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblTareasProyecto">
+        <Component class="javax.swing.JTable" name="tabla_TareasProyecto">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="6" rowCount="0">
@@ -356,117 +380,54 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnAgregar">
+    <Component class="javax.swing.JButton" name="boton_AgregarTarea">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnAgregar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_AgregarTareaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnModificar">
+    <Component class="javax.swing.JButton" name="boton_ModificarTarea">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnModificar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_ModificarTareaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnBorrar">
+    <Component class="javax.swing.JButton" name="boton_BorrarTarea">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnBorrar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_BorrarTareaActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnBorrarTodas">
+    <Component class="javax.swing.JButton" name="boton_BorrarTodasLasTareas">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnBorrarTodas"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBorrarTodasActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_BorrarTodasLasTareasActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnAnalisisDePERT">
+    <Component class="javax.swing.JButton" name="boton_AnalisisPERT">
       <Properties>
-        <Property name="text" type="java.lang.String" value="btnAnalisisDePERT"/>
+        <Property name="text" type="java.lang.String" value="btnAnalisisPERT"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnalisisDePERTActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_AnalisisPERTActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnSalir">
+    <Component class="javax.swing.JButton" name="boton_Salir">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnSalir"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_SalirActionPerformed"/>
       </Events>
     </Component>
-    <Container class="javax.swing.JPanel" name="jplUnidadDeTiempo">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="UnidadDeTiempo"/>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jrbHoras" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jrbDias" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="jrbMeses" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jrbHoras" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jrbDias" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jrbMeses" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="jrbHoras">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jrbHoras"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbHorasActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="jrbDias">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jrbDias"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbDiasActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="jrbMeses">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jrbMeses"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbMesesActionPerformed"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -474,7 +435,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTextArea" name="jTADescripcionDelProyecto">
+        <Component class="javax.swing.JTextArea" name="areaTexto_DescripcionProyecto">
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
@@ -482,9 +443,30 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblDescripcionProyecto">
+    <Component class="javax.swing.JLabel" name="label_DescripcionProyecto">
       <Properties>
         <Property name="text" type="java.lang.String" value="lblDescripcionProyecto"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="label_UnidadDeTiempo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lblUnidadDeTiempo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="campoTexto_UnidadDeTiempo">
+    </Component>
+    <Component class="javax.swing.JTextField" name="campoTexto_CantidadTareas">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="11" style="1"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="label_CantidadTareas">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="lblCantidadTareas"/>
       </Properties>
     </Component>
   </SubComponents>
