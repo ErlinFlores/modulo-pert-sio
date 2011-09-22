@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Clase que representa el grafo de tareas de un proyecto.
  * @author mlorenze
  */
 public class RedDeTareas {
@@ -186,6 +186,12 @@ public class RedDeTareas {
         this.ultimoCalculoPERTesCorrecto = false;
     }
     
+    /**
+     * Método que realiza los cálculos de PERT relacionados con el 
+     * análisis de los tiempos de cada tarea y además determina duración del
+     * proyecto.
+     * @return que el cálculo es correcto
+     */
     public boolean realizarCalculosPERT(){
         reset();
         caminosCriticos = new ArrayList<CaminoCritico>();
@@ -239,6 +245,9 @@ public class RedDeTareas {
         return ultimoCalculoPERTesCorrecto;
     }
     
+    /**
+     * Método que determina los caminos críticos del proyecto.
+     */
     private void determinarCaminosCriticos(){
         List<Tarea> tareasCriticasSinPrecedentes = new ArrayList<Tarea>();
         List<Tarea> tareasCriticasSinSucesores = new ArrayList<Tarea>();
@@ -272,8 +281,14 @@ public class RedDeTareas {
         }
     }   
     
-    private void obtenerCaminosCriticos(Tarea tareaInicio, Tarea tareaDestino, List<Tarea> camino){
-        
+    /**
+     * Método que ayuda a "determinarCaminosCriticos()" en la búsqueda de los
+     * caminos críticos.
+     * @param tareaInicio
+     * @param tareaDestino
+     * @param camino 
+     */
+    private void obtenerCaminosCriticos(Tarea tareaInicio, Tarea tareaDestino, List<Tarea> camino){        
         Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
         for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerTareas()){
             if (tarea.esTareaCritica()){                
@@ -290,6 +305,11 @@ public class RedDeTareas {
         }
     }  
     
+    /**
+     * Método que retorna si un camino del grafo de tareas es camino crítico o no.
+     * @param camino
+     * @return si es camino crítico
+     */
     private boolean esCaminoCritico(List<Tarea> camino){
         double tiempoDelCamino = 0;
         for (Tarea tarea : camino){

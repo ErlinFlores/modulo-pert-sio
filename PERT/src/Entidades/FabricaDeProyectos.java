@@ -6,7 +6,7 @@ package Entidades;
 
 
 /**
- *
+ * Método que crea instancias de proyectos.
  * @author Manuel Lorenze
  */
 public class FabricaDeProyectos {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Método que crea instancias de tareas.
  * @author Manuel Lorenze
  */
 public class FabricaDeTareas {
@@ -95,6 +95,7 @@ public class FabricaDeTareas {
             if (listaDeIdsDeTareasEliminadas.get(i) > idTarea){
                 listaDeIdsDeTareasEliminadas.add(i, idTarea);
                 almacenado = true;
+                break;
             }
         }
         if (!almacenado){

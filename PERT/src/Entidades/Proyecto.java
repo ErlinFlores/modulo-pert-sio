@@ -7,7 +7,7 @@ package Entidades;
 
 
 /**
- *
+ * Clase que representa un proyecto.
  * @author Manuel Lorenze
  */
 public class Proyecto {

@@ -5,7 +5,7 @@
 package Entidades;
 
 /**
- *
+ * Indica la unidad de tiempo manejada en el programa.
  * @author Manuel Lorenze
  */
 public enum UnidadDeTiempo {

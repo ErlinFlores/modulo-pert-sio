@@ -36,10 +36,19 @@ public class TablaZeta {
         this.cargarTabla();
     }
     
+    /**
+     * Método que carga en memoria la tabla Zeta del archivo correspondiente.
+     */
     private void cargarTabla(){
         tablaZ = ManejadorDeArchivos.cargarTablaZ();
     }
     
+    /**
+     * Método que retorna una probabilidad en base a un valor "zeta" determinado.
+     * Hace uso de la tabla Zeta (Probabilidades de una Normal Estandar).
+     * @param zetaAcotado
+     * @return 
+     */
     public double obtenerProbabilidad(double zetaAcotado){
         if ((-3.09 <= zetaAcotado) && (zetaAcotado <= 3.09)){
             double zetaAcotadoAbs = Math.abs(zetaAcotado);
@@ -59,6 +68,12 @@ public class TablaZeta {
         }        
     }
     
+    /**
+     * Método que retorna un valor "zeta" en base a una probabilidad determinada.
+     * Hace uso de la tabla Zeta (Probabilidades de una Normal Estandar).
+     * @param probabilidad
+     * @return 
+     */
     public double obtenerZeta(double probabilidad){
         double diferenciaAnterior = Math.abs(probabilidad - tablaZ[0][0]);
         int filaAnterior = 0;

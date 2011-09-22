@@ -6,7 +6,8 @@
 package Entidades;
 
 /**
- *
+ * Indica acciones dentro del programa. 
+ * Por ejemplo, puede determinar si una tarea está siendo creada o modificada.
  * @author Manuel Lorenze
  */
 public enum Accion {
