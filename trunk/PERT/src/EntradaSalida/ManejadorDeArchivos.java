@@ -24,7 +24,7 @@ public class ManejadorDeArchivos {
      */
     public static double[][] cargarTablaZ(){
         try {
-            CsvReader lectorDeDatos = new CsvReader("conf/TablaZnormalEstandar.csv");
+            CsvReader lectorDeDatos = new CsvReader("resources/TablaZnormalEstandar.csv");
             try {
                 double[][] tablaZ = new double[31][10];
                 int fila = 0;
