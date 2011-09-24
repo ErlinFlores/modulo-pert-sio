@@ -31,8 +31,8 @@
                       <Component id="panel_InformacionDelProyecto" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="boton_Salir" min="-2" pref="107" max="-2" attributes="0"/>
                           <Component id="panelDeTab_Estadistica" pref="437" max="32767" attributes="1"/>
-                          <Component id="boton_Salir" alignment="1" min="-2" pref="107" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -48,9 +48,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="panel_InformacionDelProyecto" alignment="0" max="32767" attributes="1"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="panelDeTab_Estadistica" min="-2" pref="133" max="-2" attributes="1"/>
-                      <EmptySpace pref="104" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="panelDeTab_Estadistica" min="-2" pref="185" max="-2" attributes="1"/>
+                      <EmptySpace pref="52" max="32767" attributes="0"/>
                       <Component id="boton_Salir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -273,7 +273,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="chekBox_Suma" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkBox_Suma" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="checkBox_Promedio" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -286,7 +286,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="chekBox_Suma" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkBox_Suma" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="checkBox_Promedio" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="checkBox_Mayor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -296,12 +296,12 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JRadioButton" name="chekBox_Suma">
+            <Component class="javax.swing.JRadioButton" name="checkBox_Suma">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Suma"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chekBox_SumaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkBox_SumaActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="checkBox_Promedio">
@@ -340,23 +340,24 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="label_PreguntaProbabilidad" alignment="0" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="label_PreguntaProbabilidad1" min="-2" max="-2" attributes="1"/>
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                              <Component id="campoTexto_DuracionParaProbabilidad" min="-2" pref="45" max="-2" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="label_PreguntaProbabilidad2" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="1">
                               <Component id="boton_CalcularProbabilidad" min="-2" pref="176" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="campoTexto_ProbabilidadCalculada" max="32767" attributes="1"/>
+                              <Component id="campoTexto_ProbabilidadCalculada" min="-2" pref="113" max="-2" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="label_Duracion" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="campoTexto_DuracionParaProbabilidad" min="-2" pref="61" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="label_UnidadDeTiempoEnCalculoDeProbabilidades" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="115" max="32767" attributes="0"/>
+                      <EmptySpace pref="127" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -364,17 +365,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="label_PreguntaProbabilidad" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="label_PreguntaProbabilidad1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_Duracion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTexto_DuracionParaProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="label_PreguntaProbabilidad2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_UnidadDeTiempoEnCalculoDeProbabilidades" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace pref="40" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="boton_CalcularProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTexto_ProbabilidadCalculada" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -385,14 +388,9 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="label_PreguntaProbabilidad2">
+            <Component class="javax.swing.JLabel" name="label_PreguntaProbabilidad">
               <Properties>
-                <Property name="text" type="java.lang.String" value="dias o menos?"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="label_PreguntaProbabilidad1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="&#xbf;Cual es la probabilidad de terminar en"/>
+                <Property name="text" type="java.lang.String" value="&#xbf;Cual es la probabilidad dada la duraci&#xf3;n?"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="boton_CalcularProbabilidad">
@@ -405,10 +403,21 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoTexto_ProbabilidadCalculada">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="1"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="label_Duracion">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Duraci&#xf3;n:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="label_UnidadDeTiempoEnCalculoDeProbabilidades">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="dias"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -425,23 +434,22 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="label_PreguntaDuracion" min="-2" max="-2" attributes="1"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="label_PreguntaDuracion" min="-2" max="-2" attributes="1"/>
+                              <Component id="boton_CalcularDuracion" min="-2" pref="180" max="-2" attributes="1"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="campoTexto_DuracionCalculada" min="-2" pref="122" max="-2" attributes="1"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="label_Probabilidad" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="campoTexto_ProbabilidadParaDuracion" min="-2" pref="58" max="-2" attributes="1"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="1">
-                              <Component id="boton_CalcularDuracion" min="-2" pref="180" max="-2" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="campoTexto_DuracionCalculada" max="32767" attributes="1"/>
-                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="124" max="32767" attributes="0"/>
+                      <EmptySpace pref="114" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -449,17 +457,18 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="label_PreguntaDuracion" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="label_PreguntaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_Probabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTexto_ProbabilidadParaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace pref="36" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="boton_CalcularDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTexto_DuracionCalculada" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="32" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -467,7 +476,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="label_PreguntaDuracion">
               <Properties>
-                <Property name="text" type="java.lang.String" value="&#xbf;Cual es la duraci&#xf3;n seg&#xfa;n una probabilidad de "/>
+                <Property name="text" type="java.lang.String" value="&#xbf;Cual es la duraci&#xf3;n dada la probabilidad?"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="boton_CalcularDuracion">
@@ -480,6 +489,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoTexto_DuracionCalculada">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="1"/>
                 </Property>
@@ -491,9 +501,9 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel1">
+            <Component class="javax.swing.JLabel" name="label_Probabilidad">
               <Properties>
-                <Property name="text" type="java.lang.String" value="?"/>
+                <Property name="text" type="java.lang.String" value="Probabilidad:"/>
               </Properties>
             </Component>
           </SubComponents>
