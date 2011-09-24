@@ -15,6 +15,7 @@ import Entidades.EstrategiaDeSeleccionDeDesvEst;
 import Entidades.GestorProbabilistico;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,15 +25,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaResultados extends javax.swing.JDialog {
 
+    private ResourceBundle etiquetas;
     private RedDeTareas redDeTareas;
     private String unidadDeTiempo;
     private EstrategiaDeSeleccionDeDesvEst estrategia;
     private GestorProbabilistico gestorProbabilistico;
     
     /** Creates new form VentanaResultados */
-    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo) {
+    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas) {
         super(parent, modal);
         initComponents();
+        this.etiquetas = etiquetas;
         this.redDeTareas = redDeTareas;
         this.unidadDeTiempo = unidadDeTiempo;
         this.estrategia = resetearEstrategiaDeSeleccionDeDesvEst();
@@ -487,10 +490,10 @@ public class VentanaResultados extends javax.swing.JDialog {
                 this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(gestorProbabilistico.calcularProbabilidad(tiempo)));
             }else{
                 JOptionPane.showMessageDialog(this, "Tiempo incorrecto (debe ser mayor que 0)");
-            }
+            } 
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Caracteres incorrectos en el ingreso del tiempo");
-        }
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
+        }                
 }//GEN-LAST:event_boton_CalcularProbabilidadActionPerformed
 
     private void boton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_SalirActionPerformed

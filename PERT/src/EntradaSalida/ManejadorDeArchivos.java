@@ -7,6 +7,10 @@ package EntradaSalida;
 import com.csvreader.CsvReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +28,7 @@ public class ManejadorDeArchivos {
      */
     public static double[][] cargarTablaZ(){
         try {
-            CsvReader lectorDeDatos = new CsvReader("resources/TablaZnormalEstandar.csv");
+            CsvReader lectorDeDatos = new CsvReader("resources/TablaZ.csv");
             try {
                 double[][] tablaZ = new double[31][10];
                 int fila = 0;
@@ -51,4 +55,23 @@ public class ManejadorDeArchivos {
         }
         return null;
     }   
+    
+    public static void escribirLineaDeErrorEnLog(String lineaDeError){
+        PrintWriter writer = null; 
+        try {
+            Date fecha = new Date(System.currentTimeMillis());
+            writer = new PrintWriter("logDeErrores.txt");
+            writer.println(fecha+" >> "+lineaDeError+"\n");               
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try{                    
+                if( null != writer ){   
+                   writer.close();     
+                }                  
+             }catch (Exception e){ 
+                e.printStackTrace();
+             }
+        }           
+    }
 }
