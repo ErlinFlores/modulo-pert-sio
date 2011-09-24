@@ -26,9 +26,9 @@ public class Demo2 implements IDemo{
     public Demo2(){
         FabricaDeTareas.getInstance().reset();
         tipoAccion = Accion.modificar;
-        nombre = "Proyecto Demo 1";
-        unidadDeTiempo = "dias";
-        descripcion = "Ejemplo de un proyecto de 10 tareas.";        
+        nombre = "Proyecto Demo 2";
+        unidadDeTiempo = "horas";
+        descripcion = "Ejemplo de un proyecto de 3 tareas.";        
         redDeTareas = new RedDeTareas(new ArrayList<Tarea>());        
         agregarTareas();
     }
