@@ -40,9 +40,9 @@ public class VentanaProyecto extends javax.swing.JFrame {
     
     
     /** Creates new form VentanaProyecto */
-    public VentanaProyecto(String lenguajeIdioma, String paisIdioma) {
-        initComponents();        
-        lugarConfigurado = new Locale(lenguajeIdioma, paisIdioma);
+    public VentanaProyecto(Locale lugarConfigurado) {
+        initComponents();   
+        this.lugarConfigurado = lugarConfigurado;
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();              
@@ -675,9 +675,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
                 realizarCalculosPERT();
             }
-            VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo);
+            VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas);
             ventanaResultados.setVisible(true);
-        }
+        }else{
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoHayTareasIngresadasParaRealizarAnalisisPERT"));
+        }      
     }//GEN-LAST:event_boton_AnalisisPERTActionPerformed
 
     private void boton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_SalirActionPerformed

@@ -4,6 +4,8 @@
  */
 package Entidades;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Manuel Lorenze
