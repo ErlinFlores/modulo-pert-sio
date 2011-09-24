@@ -26,18 +26,13 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="951" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" min="-2" pref="855" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jPanel1" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="451" max="-2" attributes="0"/>
-                              <Component id="btnSalir" min="-2" pref="107" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="1">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jtpDuraciones" max="32767" attributes="1"/>
-                          </Group>
+                      <Component id="panel_InformacionDelProyecto" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="panelDeTab_Estadistica" pref="437" max="32767" attributes="1"/>
+                          <Component id="boton_Salir" alignment="1" min="-2" pref="107" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -52,11 +47,11 @@
               <Component id="jScrollPane2" min="-2" pref="227" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jPanel1" alignment="0" max="32767" attributes="1"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="jtpDuraciones" min="-2" pref="133" max="-2" attributes="1"/>
+                  <Component id="panel_InformacionDelProyecto" alignment="0" max="32767" attributes="1"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="panelDeTab_Estadistica" min="-2" pref="133" max="-2" attributes="1"/>
                       <EmptySpace pref="104" max="32767" attributes="0"/>
-                      <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_Salir" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -72,7 +67,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblResultadoDeCalculos">
+        <Component class="javax.swing.JTable" name="tabla_ResultadoDeCalculos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="10" rowCount="0">
@@ -153,7 +148,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="panel_InformacionDelProyecto">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -168,13 +163,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane3" alignment="0" pref="361" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" alignment="0" pref="380" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="lblDuracionDelProyecto" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_DuracionDelProyecto" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtDuracionDelProyecto" min="-2" pref="143" max="-2" attributes="0"/>
+                          <Component id="campoTexto_DuracionDelProyecto" min="-2" pref="143" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="panelEstrategia" alignment="0" max="32767" attributes="1"/>
+                      <Component id="panel_Estrategia" alignment="0" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -185,20 +180,20 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="lblDuracionDelProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtDuracionDelProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="label_DuracionDelProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoTexto_DuracionDelProyecto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane3" min="-2" pref="95" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="panelEstrategia" min="-2" max="-2" attributes="0"/>
+                  <Component id="panel_Estrategia" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblDuracionDelProyecto">
+        <Component class="javax.swing.JLabel" name="label_DuracionDelProyecto">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="14" style="1"/>
@@ -206,7 +201,7 @@
             <Property name="text" type="java.lang.String" value="Duraci&#xf3;n del proyecto: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtDuracionDelProyecto">
+        <Component class="javax.swing.JTextField" name="campoTexto_DuracionDelProyecto">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -222,7 +217,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="tblCaminosCriticos">
+            <Component class="javax.swing.JTable" name="tabla_CaminosCriticos">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="12" style="1"/>
@@ -236,7 +231,7 @@
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="3">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="50" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -246,7 +241,7 @@
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="200" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -264,7 +259,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="panelEstrategia">
+        <Container class="javax.swing.JPanel" name="panel_Estrategia">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -278,12 +273,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jrbSuma" min="-2" max="-2" attributes="0"/>
+                      <Component id="chekBox_Suma" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jrbPromedio" min="-2" max="-2" attributes="0"/>
+                      <Component id="checkBox_Promedio" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jrbMayor" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="132" max="32767" attributes="0"/>
+                      <Component id="checkBox_Mayor" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="151" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -291,9 +286,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jrbSuma" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jrbPromedio" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jrbMayor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="chekBox_Suma" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkBox_Promedio" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="checkBox_Mayor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -301,39 +296,39 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JRadioButton" name="jrbSuma">
+            <Component class="javax.swing.JRadioButton" name="chekBox_Suma">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Suma"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbSumaActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chekBox_SumaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jrbPromedio">
+            <Component class="javax.swing.JRadioButton" name="checkBox_Promedio">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Promedio"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbPromedioActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkBox_PromedioActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jrbMayor">
+            <Component class="javax.swing.JRadioButton" name="checkBox_Mayor">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Mayor"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrbMayorActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="checkBox_MayorActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JTabbedPane" name="jtpDuraciones">
+    <Container class="javax.swing.JTabbedPane" name="panelDeTab_Estadistica">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel2">
+        <Container class="javax.swing.JPanel" name="panel_CalculoProbabilidad">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="C&#xe1;lculo de Probabilidades">
@@ -349,19 +344,19 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblProbabilidades" min="-2" max="-2" attributes="1"/>
+                              <Component id="label_PreguntaProbabilidad1" min="-2" max="-2" attributes="1"/>
                               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                              <Component id="txtTiempoParaProbabilidad" min="-2" pref="45" max="-2" attributes="1"/>
+                              <Component id="campoTexto_DuracionParaProbabilidad" min="-2" pref="45" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblInfoUnidadDeTiempo" min="-2" max="-2" attributes="0"/>
+                              <Component id="label_PreguntaProbabilidad2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="1">
-                              <Component id="btnCalcularProbabilidad" min="-2" pref="146" max="-2" attributes="1"/>
+                              <Component id="boton_CalcularProbabilidad" min="-2" pref="176" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtProbabilidadSegunDuracion" max="32767" attributes="1"/>
+                              <Component id="campoTexto_ProbabilidadCalculada" max="32767" attributes="1"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="230" max="32767" attributes="0"/>
+                      <EmptySpace pref="115" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -370,14 +365,14 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblProbabilidades" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtTiempoParaProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblInfoUnidadDeTiempo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_PreguntaProbabilidad1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTexto_DuracionParaProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_PreguntaProbabilidad2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnCalcularProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtProbabilidadSegunDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="boton_CalcularProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTexto_ProbabilidadCalculada" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="32" max="32767" attributes="0"/>
                   </Group>
@@ -385,30 +380,30 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="txtTiempoParaProbabilidad">
+            <Component class="javax.swing.JTextField" name="campoTexto_DuracionParaProbabilidad">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblInfoUnidadDeTiempo">
+            <Component class="javax.swing.JLabel" name="label_PreguntaProbabilidad2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="dias o menos?"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblProbabilidades">
+            <Component class="javax.swing.JLabel" name="label_PreguntaProbabilidad1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#xbf;Cual es la probabilidad de terminar en"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnCalcularProbabilidad">
+            <Component class="javax.swing.JButton" name="boton_CalcularProbabilidad">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Calcular probabilidad"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularProbabilidadActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_CalcularProbabilidadActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtProbabilidadSegunDuracion">
+            <Component class="javax.swing.JTextField" name="campoTexto_ProbabilidadCalculada">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="1"/>
@@ -418,7 +413,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel3">
+        <Container class="javax.swing.JPanel" name="panel_CalculoDuracion">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="C&#xe1;lculo de Duraciones">
@@ -432,22 +427,21 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" min="-2" max="-2" attributes="1"/>
+                              <Component id="label_PreguntaDuracion" min="-2" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtProbabilidadParaDuracion" min="-2" pref="58" max="-2" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="239" max="32767" attributes="0"/>
+                              <Component id="campoTexto_ProbabilidadParaDuracion" min="-2" pref="58" max="-2" attributes="1"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnCalcularDuracion" min="-2" pref="145" max="-2" attributes="1"/>
+                          <Group type="102" alignment="0" attributes="1">
+                              <Component id="boton_CalcularDuracion" min="-2" pref="180" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtDuracionSegunProbabilidad" pref="147" max="32767" attributes="1"/>
-                              <EmptySpace min="-2" pref="239" max="-2" attributes="0"/>
+                              <Component id="campoTexto_DuracionCalculada" max="32767" attributes="1"/>
                           </Group>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="124" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -456,14 +450,14 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtProbabilidadParaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="label_PreguntaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTexto_ProbabilidadParaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnCalcularDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtDuracionSegunProbabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="boton_CalcularDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTexto_DuracionCalculada" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="32" max="32767" attributes="0"/>
                   </Group>
@@ -471,20 +465,20 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="label_PreguntaDuracion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#xbf;Cual es la duraci&#xf3;n seg&#xfa;n una probabilidad de "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnCalcularDuracion">
+            <Component class="javax.swing.JButton" name="boton_CalcularDuracion">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Calcular duraci&#xf3;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalcularDuracionActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_CalcularDuracionActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtDuracionSegunProbabilidad">
+            <Component class="javax.swing.JTextField" name="campoTexto_DuracionCalculada">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Times New Roman" size="14" style="1"/>
@@ -492,7 +486,7 @@
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtProbabilidadParaDuracion">
+            <Component class="javax.swing.JTextField" name="campoTexto_ProbabilidadParaDuracion">
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
               </Properties>
@@ -506,12 +500,12 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnSalir">
+    <Component class="javax.swing.JButton" name="boton_Salir">
       <Properties>
         <Property name="text" type="java.lang.String" value="btnSalir"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_SalirActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

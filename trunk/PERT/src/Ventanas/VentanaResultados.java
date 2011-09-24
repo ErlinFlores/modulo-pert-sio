@@ -43,20 +43,20 @@ public class VentanaResultados extends javax.swing.JDialog {
 
     private EstrategiaDeSeleccionDeDesvEst resetearEstrategiaDeSeleccionDeDesvEst(){
         if (redDeTareas.obtenerCantidadDeCaminosCriticos() > 1){
-            jrbSuma.setEnabled(true);
-            jrbPromedio.setEnabled(true);
-            jrbMayor.setEnabled(true); 
-            jrbSuma.setSelected(false);
-            jrbPromedio.setSelected(true);
-            jrbMayor.setSelected(false);
+            chekBox_Suma.setEnabled(true);
+            checkBox_Promedio.setEnabled(true);
+            checkBox_Mayor.setEnabled(true); 
+            chekBox_Suma.setSelected(false);
+            checkBox_Promedio.setSelected(true);
+            checkBox_Mayor.setSelected(false);
             return EstrategiaDeSeleccionDeDesvEst.promedio;
         }else{         
-            jrbSuma.setSelected(false);
-            jrbPromedio.setSelected(false);
-            jrbMayor.setSelected(false);
-            jrbSuma.setEnabled(false);
-            jrbPromedio.setEnabled(false);
-            jrbMayor.setEnabled(false);       
+            chekBox_Suma.setSelected(false);
+            checkBox_Promedio.setSelected(false);
+            checkBox_Mayor.setSelected(false);
+            chekBox_Suma.setEnabled(false);
+            checkBox_Promedio.setEnabled(false);
+            checkBox_Mayor.setEnabled(false);       
             return EstrategiaDeSeleccionDeDesvEst.ninguna;
         }        
     }  
@@ -67,7 +67,7 @@ public class VentanaResultados extends javax.swing.JDialog {
      * holgura y si es tarea crítica).
      */
     private void actualizarTablaDeCalculosRealizados(){
-        DefaultTableModel modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tblResultadoDeCalculos.getModel();
+        DefaultTableModel modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tabla_ResultadoDeCalculos.getModel();
         int cantidadDeFilasActual = modeloDeTablaDeResultadosCalculados.getRowCount();
         for (int i = 0; i < cantidadDeFilasActual; i++){//Se eliminan todas las filas actuales. O sea, se limpia la tabla.
             modeloDeTablaDeResultadosCalculados.removeRow(0);
@@ -75,25 +75,25 @@ public class VentanaResultados extends javax.swing.JDialog {
         int fila = 0;
         for (Tarea tarea : redDeTareas.obtenerTareas()){//Se ingresan las filas con los datos actuales.            
             modeloDeTablaDeResultadosCalculados.addRow(new Object[fila]);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTemprano(), fila, 3);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTemprano(), fila, 4);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
-            tblResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
-            tblResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
-            tblResultadoDeCalculos.setValueAt(Math.round(tarea.obtenerDesviacionEstandar()*100)/100.0, fila, 9);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTemprano(), fila, 3);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTemprano(), fila, 4);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
+            tabla_ResultadoDeCalculos.setValueAt(Math.round(tarea.obtenerDesviacionEstandar()*100)/100.0, fila, 9);
             fila += 1;            
         }
-        tblResultadoDeCalculos.updateUI();
+        tabla_ResultadoDeCalculos.updateUI();
     }
     
     private void actualizarInformacionDelProyecto(){
         String duracionDelProyectoStr = String.valueOf(redDeTareas.obtenerDuracionDelProyecto())+" "+unidadDeTiempo;
-        this.txtDuracionDelProyecto.setText(duracionDelProyectoStr);
-        DefaultTableModel modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tblCaminosCriticos.getModel();
+        this.campoTexto_DuracionDelProyecto.setText(duracionDelProyectoStr);
+        DefaultTableModel modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tabla_CaminosCriticos.getModel();
         int fila = 0;
         for (CaminoCritico caminoCritico : redDeTareas.obtenerCaminosCriticos()){
             modeloDeTablaDeCaminosCriticos.addRow(new Object[fila]);
@@ -115,35 +115,35 @@ public class VentanaResultados extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblResultadoDeCalculos = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        lblDuracionDelProyecto = new javax.swing.JLabel();
-        txtDuracionDelProyecto = new javax.swing.JTextField();
+        tabla_ResultadoDeCalculos = new javax.swing.JTable();
+        panel_InformacionDelProyecto = new javax.swing.JPanel();
+        label_DuracionDelProyecto = new javax.swing.JLabel();
+        campoTexto_DuracionDelProyecto = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblCaminosCriticos = new javax.swing.JTable();
-        panelEstrategia = new javax.swing.JPanel();
-        jrbSuma = new javax.swing.JRadioButton();
-        jrbPromedio = new javax.swing.JRadioButton();
-        jrbMayor = new javax.swing.JRadioButton();
-        jtpDuraciones = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        txtTiempoParaProbabilidad = new javax.swing.JTextField();
-        lblInfoUnidadDeTiempo = new javax.swing.JLabel();
-        lblProbabilidades = new javax.swing.JLabel();
-        btnCalcularProbabilidad = new javax.swing.JButton();
-        txtProbabilidadSegunDuracion = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        btnCalcularDuracion = new javax.swing.JButton();
-        txtDuracionSegunProbabilidad = new javax.swing.JTextField();
-        txtProbabilidadParaDuracion = new javax.swing.JTextField();
+        tabla_CaminosCriticos = new javax.swing.JTable();
+        panel_Estrategia = new javax.swing.JPanel();
+        chekBox_Suma = new javax.swing.JRadioButton();
+        checkBox_Promedio = new javax.swing.JRadioButton();
+        checkBox_Mayor = new javax.swing.JRadioButton();
+        panelDeTab_Estadistica = new javax.swing.JTabbedPane();
+        panel_CalculoProbabilidad = new javax.swing.JPanel();
+        campoTexto_DuracionParaProbabilidad = new javax.swing.JTextField();
+        label_PreguntaProbabilidad2 = new javax.swing.JLabel();
+        label_PreguntaProbabilidad1 = new javax.swing.JLabel();
+        boton_CalcularProbabilidad = new javax.swing.JButton();
+        campoTexto_ProbabilidadCalculada = new javax.swing.JTextField();
+        panel_CalculoDuracion = new javax.swing.JPanel();
+        label_PreguntaDuracion = new javax.swing.JLabel();
+        boton_CalcularDuracion = new javax.swing.JButton();
+        campoTexto_DuracionCalculada = new javax.swing.JTextField();
+        campoTexto_ProbabilidadParaDuracion = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
+        boton_Salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        tblResultadoDeCalculos.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_ResultadoDeCalculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -166,23 +166,23 @@ public class VentanaResultados extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tblResultadoDeCalculos.setColumnSelectionAllowed(true);
-        tblResultadoDeCalculos.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        tblResultadoDeCalculos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(tblResultadoDeCalculos);
-        tblResultadoDeCalculos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tabla_ResultadoDeCalculos.setColumnSelectionAllowed(true);
+        tabla_ResultadoDeCalculos.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tabla_ResultadoDeCalculos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabla_ResultadoDeCalculos);
+        tabla_ResultadoDeCalculos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del proyecto"));
+        panel_InformacionDelProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del proyecto"));
 
-        lblDuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
-        lblDuracionDelProyecto.setText("Duración del proyecto: ");
+        label_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        label_DuracionDelProyecto.setText("Duración del proyecto: ");
 
-        txtDuracionDelProyecto.setEditable(false);
-        txtDuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
-        txtDuracionDelProyecto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_DuracionDelProyecto.setEditable(false);
+        campoTexto_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        campoTexto_DuracionDelProyecto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        tblCaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12));
-        tblCaminosCriticos.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_CaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        tabla_CaminosCriticos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -205,196 +205,197 @@ public class VentanaResultados extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tblCaminosCriticos.setColumnSelectionAllowed(true);
-        tblCaminosCriticos.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        tblCaminosCriticos.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(tblCaminosCriticos);
-        tblCaminosCriticos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tabla_CaminosCriticos.setColumnSelectionAllowed(true);
+        tabla_CaminosCriticos.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tabla_CaminosCriticos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabla_CaminosCriticos);
+        tabla_CaminosCriticos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        tabla_CaminosCriticos.getColumnModel().getColumn(0).setMaxWidth(50);
+        tabla_CaminosCriticos.getColumnModel().getColumn(2).setMaxWidth(200);
 
-        panelEstrategia.setBorder(javax.swing.BorderFactory.createTitledBorder("Estrategia de selección de Desviacion Estandar"));
+        panel_Estrategia.setBorder(javax.swing.BorderFactory.createTitledBorder("Estrategia de selección de Desviacion Estandar"));
 
-        jrbSuma.setText("Suma");
-        jrbSuma.addActionListener(new java.awt.event.ActionListener() {
+        chekBox_Suma.setText("Suma");
+        chekBox_Suma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbSumaActionPerformed(evt);
+                chekBox_SumaActionPerformed(evt);
             }
         });
 
-        jrbPromedio.setText("Promedio");
-        jrbPromedio.addActionListener(new java.awt.event.ActionListener() {
+        checkBox_Promedio.setText("Promedio");
+        checkBox_Promedio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbPromedioActionPerformed(evt);
+                checkBox_PromedioActionPerformed(evt);
             }
         });
 
-        jrbMayor.setText("Mayor");
-        jrbMayor.addActionListener(new java.awt.event.ActionListener() {
+        checkBox_Mayor.setText("Mayor");
+        checkBox_Mayor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jrbMayorActionPerformed(evt);
+                checkBox_MayorActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout panelEstrategiaLayout = new javax.swing.GroupLayout(panelEstrategia);
-        panelEstrategia.setLayout(panelEstrategiaLayout);
-        panelEstrategiaLayout.setHorizontalGroup(
-            panelEstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEstrategiaLayout.createSequentialGroup()
+        javax.swing.GroupLayout panel_EstrategiaLayout = new javax.swing.GroupLayout(panel_Estrategia);
+        panel_Estrategia.setLayout(panel_EstrategiaLayout);
+        panel_EstrategiaLayout.setHorizontalGroup(
+            panel_EstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_EstrategiaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jrbSuma)
+                .addComponent(chekBox_Suma)
                 .addGap(18, 18, 18)
-                .addComponent(jrbPromedio)
+                .addComponent(checkBox_Promedio)
                 .addGap(18, 18, 18)
-                .addComponent(jrbMayor)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addComponent(checkBox_Mayor)
+                .addContainerGap(151, Short.MAX_VALUE))
         );
-        panelEstrategiaLayout.setVerticalGroup(
-            panelEstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEstrategiaLayout.createSequentialGroup()
-                .addGroup(panelEstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jrbSuma)
-                    .addComponent(jrbPromedio)
-                    .addComponent(jrbMayor))
+        panel_EstrategiaLayout.setVerticalGroup(
+            panel_EstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_EstrategiaLayout.createSequentialGroup()
+                .addGroup(panel_EstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chekBox_Suma)
+                    .addComponent(checkBox_Promedio)
+                    .addComponent(checkBox_Mayor))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel_InformacionDelProyectoLayout = new javax.swing.GroupLayout(panel_InformacionDelProyecto);
+        panel_InformacionDelProyecto.setLayout(panel_InformacionDelProyectoLayout);
+        panel_InformacionDelProyectoLayout.setHorizontalGroup(
+            panel_InformacionDelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_InformacionDelProyectoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblDuracionDelProyecto)
+                .addGroup(panel_InformacionDelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(panel_InformacionDelProyectoLayout.createSequentialGroup()
+                        .addComponent(label_DuracionDelProyecto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDuracionDelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelEstrategia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(campoTexto_DuracionDelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panel_Estrategia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        panel_InformacionDelProyectoLayout.setVerticalGroup(
+            panel_InformacionDelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_InformacionDelProyectoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDuracionDelProyecto)
-                    .addComponent(txtDuracionDelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel_InformacionDelProyectoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_DuracionDelProyecto)
+                    .addComponent(campoTexto_DuracionDelProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(panelEstrategia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_Estrategia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        txtTiempoParaProbabilidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_DuracionParaProbabilidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        lblInfoUnidadDeTiempo.setText("dias o menos?");
+        label_PreguntaProbabilidad2.setText("dias o menos?");
 
-        lblProbabilidades.setText("¿Cual es la probabilidad de terminar en");
+        label_PreguntaProbabilidad1.setText("¿Cual es la probabilidad de terminar en");
 
-        btnCalcularProbabilidad.setText("Calcular probabilidad");
-        btnCalcularProbabilidad.addActionListener(new java.awt.event.ActionListener() {
+        boton_CalcularProbabilidad.setText("Calcular probabilidad");
+        boton_CalcularProbabilidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalcularProbabilidadActionPerformed(evt);
+                boton_CalcularProbabilidadActionPerformed(evt);
             }
         });
 
-        txtProbabilidadSegunDuracion.setFont(new java.awt.Font("Times New Roman", 1, 14));
-        txtProbabilidadSegunDuracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_ProbabilidadCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        campoTexto_ProbabilidadCalculada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel_CalculoProbabilidadLayout = new javax.swing.GroupLayout(panel_CalculoProbabilidad);
+        panel_CalculoProbabilidad.setLayout(panel_CalculoProbabilidadLayout);
+        panel_CalculoProbabilidadLayout.setHorizontalGroup(
+            panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(lblProbabilidades)
+                .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
+                        .addComponent(label_PreguntaProbabilidad1)
                         .addGap(6, 6, 6)
-                        .addComponent(txtTiempoParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoTexto_DuracionParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblInfoUnidadDeTiempo))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnCalcularProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label_PreguntaProbabilidad2))
+                    .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
+                        .addComponent(boton_CalcularProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProbabilidadSegunDuracion)))
-                .addContainerGap(230, Short.MAX_VALUE))
+                        .addComponent(campoTexto_ProbabilidadCalculada)))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panel_CalculoProbabilidadLayout.setVerticalGroup(
+            panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblProbabilidades)
-                    .addComponent(txtTiempoParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblInfoUnidadDeTiempo))
+                .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_PreguntaProbabilidad1)
+                    .addComponent(campoTexto_DuracionParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_PreguntaProbabilidad2))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCalcularProbabilidad)
-                    .addComponent(txtProbabilidadSegunDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(boton_CalcularProbabilidad)
+                    .addComponent(campoTexto_ProbabilidadCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        jtpDuraciones.addTab("Cálculo de Probabilidades", jPanel2);
+        panelDeTab_Estadistica.addTab("Cálculo de Probabilidades", panel_CalculoProbabilidad);
 
-        jLabel2.setText("¿Cual es la duración según una probabilidad de ");
+        label_PreguntaDuracion.setText("¿Cual es la duración según una probabilidad de ");
 
-        btnCalcularDuracion.setText("Calcular duración");
-        btnCalcularDuracion.addActionListener(new java.awt.event.ActionListener() {
+        boton_CalcularDuracion.setText("Calcular duración");
+        boton_CalcularDuracion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCalcularDuracionActionPerformed(evt);
+                boton_CalcularDuracionActionPerformed(evt);
             }
         });
 
-        txtDuracionSegunProbabilidad.setFont(new java.awt.Font("Times New Roman", 1, 14));
-        txtDuracionSegunProbabilidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_DuracionCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        campoTexto_DuracionCalculada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtProbabilidadParaDuracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        campoTexto_ProbabilidadParaDuracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel1.setText("?");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel_CalculoDuracionLayout = new javax.swing.GroupLayout(panel_CalculoDuracion);
+        panel_CalculoDuracion.setLayout(panel_CalculoDuracionLayout);
+        panel_CalculoDuracionLayout.setHorizontalGroup(
+            panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
+                        .addComponent(label_PreguntaDuracion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
+                        .addComponent(boton_CalcularDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1)
-                        .addContainerGap(239, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnCalcularDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDuracionSegunProbabilidad, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                        .addGap(239, 239, 239))))
+                        .addComponent(campoTexto_DuracionCalculada)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(124, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        panel_CalculoDuracionLayout.setVerticalGroup(
+            panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_PreguntaDuracion)
+                    .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCalcularDuracion)
-                    .addComponent(txtDuracionSegunProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(boton_CalcularDuracion)
+                    .addComponent(campoTexto_DuracionCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        jtpDuraciones.addTab("Cálculo de Duraciones", jPanel3);
+        panelDeTab_Estadistica.addTab("Cálculo de Duraciones", panel_CalculoDuracion);
 
-        btnSalir.setText("btnSalir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+        boton_Salir.setText("btnSalir");
+        boton_Salir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
+                boton_SalirActionPerformed(evt);
             }
         });
 
@@ -405,16 +406,13 @@ public class VentanaResultados extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 951, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(451, 451, 451)
-                                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtpDuraciones)))))
+                        .addComponent(panel_InformacionDelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(panelDeTab_Estadistica, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+                            .addComponent(boton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -424,80 +422,80 @@ public class VentanaResultados extends javax.swing.JDialog {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jtpDuraciones, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_InformacionDelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(panelDeTab_Estadistica, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
-                        .addComponent(btnSalir)))
+                        .addComponent(boton_Salir)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jrbSumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbSumaActionPerformed
-        jrbSuma.setSelected(true);
-        jrbPromedio.setSelected(false);
-        jrbMayor.setSelected(false);
+    private void chekBox_SumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chekBox_SumaActionPerformed
+        chekBox_Suma.setSelected(true);
+        checkBox_Promedio.setSelected(false);
+        checkBox_Mayor.setSelected(false);
         estrategia = EstrategiaDeSeleccionDeDesvEst.suma;
         gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
-}//GEN-LAST:event_jrbSumaActionPerformed
+}//GEN-LAST:event_chekBox_SumaActionPerformed
 
-    private void jrbPromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbPromedioActionPerformed
-        jrbSuma.setSelected(false);
-        jrbPromedio.setSelected(true);
-        jrbMayor.setSelected(false);
+    private void checkBox_PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_PromedioActionPerformed
+        chekBox_Suma.setSelected(false);
+        checkBox_Promedio.setSelected(true);
+        checkBox_Mayor.setSelected(false);
         estrategia = EstrategiaDeSeleccionDeDesvEst.promedio;
         gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
-}//GEN-LAST:event_jrbPromedioActionPerformed
+}//GEN-LAST:event_checkBox_PromedioActionPerformed
 
-    private void jrbMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbMayorActionPerformed
-        jrbSuma.setSelected(false);
-        jrbPromedio.setSelected(false);
-        jrbMayor.setSelected(true);
+    private void checkBox_MayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_MayorActionPerformed
+        chekBox_Suma.setSelected(false);
+        checkBox_Promedio.setSelected(false);
+        checkBox_Mayor.setSelected(true);
         estrategia = EstrategiaDeSeleccionDeDesvEst.mayor;
         gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
-}//GEN-LAST:event_jrbMayorActionPerformed
+}//GEN-LAST:event_checkBox_MayorActionPerformed
 
-    private void btnCalcularDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularDuracionActionPerformed
+    private void boton_CalcularDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularDuracionActionPerformed
         double probabilidad = 0;
         boolean probabilidadCorrecta = false;
         try{
-            probabilidad = Double.parseDouble(txtProbabilidadParaDuracion.getText());
+            probabilidad = Double.parseDouble(campoTexto_ProbabilidadParaDuracion.getText());
             if ((0 <= probabilidad) && (probabilidad <= 1)){
                 probabilidadCorrecta = true;
             }
             if (probabilidadCorrecta){
-                this.txtDuracionSegunProbabilidad.setText(String.valueOf(gestorProbabilistico.calcularDuracion(probabilidad)));
+                this.campoTexto_DuracionCalculada.setText(String.valueOf(gestorProbabilistico.calcularDuracion(probabilidad)));
             }else{
                 JOptionPane.showMessageDialog(this, "Probabilidad incorrecta (debe estar entre 0 y 1)");
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Caracteres incorrectos en el ingreso de la probabilidad");
         }
-}//GEN-LAST:event_btnCalcularDuracionActionPerformed
+}//GEN-LAST:event_boton_CalcularDuracionActionPerformed
 
-    private void btnCalcularProbabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularProbabilidadActionPerformed
+    private void boton_CalcularProbabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularProbabilidadActionPerformed
         double tiempo = 0;
         boolean tiempoCorrecto = false;
         try{
-            tiempo = Double.parseDouble(txtTiempoParaProbabilidad.getText());
+            tiempo = Double.parseDouble(campoTexto_DuracionParaProbabilidad.getText());
             if (tiempo > 0){
                 tiempoCorrecto = true;
             }
             if (tiempoCorrecto){
-                this.txtProbabilidadSegunDuracion.setText(String.valueOf(gestorProbabilistico.calcularProbabilidad(tiempo)));
+                this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(gestorProbabilistico.calcularProbabilidad(tiempo)));
             }else{
                 JOptionPane.showMessageDialog(this, "Tiempo incorrecto (debe ser mayor que 0)");
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Caracteres incorrectos en el ingreso del tiempo");
         }
-}//GEN-LAST:event_btnCalcularProbabilidadActionPerformed
+}//GEN-LAST:event_boton_CalcularProbabilidadActionPerformed
 
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+    private void boton_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_SalirActionPerformed
         this.dispose();
-}//GEN-LAST:event_btnSalirActionPerformed
+}//GEN-LAST:event_boton_SalirActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
@@ -519,30 +517,30 @@ public class VentanaResultados extends javax.swing.JDialog {
         });
     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCalcularDuracion;
-    private javax.swing.JButton btnCalcularProbabilidad;
-    private javax.swing.JButton btnSalir;
+    private javax.swing.JButton boton_CalcularDuracion;
+    private javax.swing.JButton boton_CalcularProbabilidad;
+    private javax.swing.JButton boton_Salir;
+    private javax.swing.JTextField campoTexto_DuracionCalculada;
+    private javax.swing.JTextField campoTexto_DuracionDelProyecto;
+    private javax.swing.JTextField campoTexto_DuracionParaProbabilidad;
+    private javax.swing.JTextField campoTexto_ProbabilidadCalculada;
+    private javax.swing.JTextField campoTexto_ProbabilidadParaDuracion;
+    private javax.swing.JRadioButton checkBox_Mayor;
+    private javax.swing.JRadioButton checkBox_Promedio;
+    private javax.swing.JRadioButton chekBox_Suma;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JRadioButton jrbMayor;
-    private javax.swing.JRadioButton jrbPromedio;
-    private javax.swing.JRadioButton jrbSuma;
-    private javax.swing.JTabbedPane jtpDuraciones;
-    private javax.swing.JLabel lblDuracionDelProyecto;
-    private javax.swing.JLabel lblInfoUnidadDeTiempo;
-    private javax.swing.JLabel lblProbabilidades;
-    private javax.swing.JPanel panelEstrategia;
-    private javax.swing.JTable tblCaminosCriticos;
-    private javax.swing.JTable tblResultadoDeCalculos;
-    private javax.swing.JTextField txtDuracionDelProyecto;
-    private javax.swing.JTextField txtDuracionSegunProbabilidad;
-    private javax.swing.JTextField txtProbabilidadParaDuracion;
-    private javax.swing.JTextField txtProbabilidadSegunDuracion;
-    private javax.swing.JTextField txtTiempoParaProbabilidad;
+    private javax.swing.JLabel label_DuracionDelProyecto;
+    private javax.swing.JLabel label_PreguntaDuracion;
+    private javax.swing.JLabel label_PreguntaProbabilidad1;
+    private javax.swing.JLabel label_PreguntaProbabilidad2;
+    private javax.swing.JTabbedPane panelDeTab_Estadistica;
+    private javax.swing.JPanel panel_CalculoDuracion;
+    private javax.swing.JPanel panel_CalculoProbabilidad;
+    private javax.swing.JPanel panel_Estrategia;
+    private javax.swing.JPanel panel_InformacionDelProyecto;
+    private javax.swing.JTable tabla_CaminosCriticos;
+    private javax.swing.JTable tabla_ResultadoDeCalculos;
     // End of variables declaration//GEN-END:variables
 }
