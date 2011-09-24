@@ -1,2 +1,2 @@
-Sat Sep 24 15:33:50 UYT 2011 >> El pais del idioma ingresado no es válido.
+Sat Sep 24 19:10:32 UYT 2011 >> El idioma configurado es inválido
 
