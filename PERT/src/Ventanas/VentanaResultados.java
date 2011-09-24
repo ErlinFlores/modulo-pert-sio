@@ -17,6 +17,7 @@ import Entidades.RedDeTareas;
 import Entidades.Tarea;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,22 +43,69 @@ public class VentanaResultados extends javax.swing.JDialog {
         this.gestorProbabilistico = new GestorProbabilistico(redDeTareas.obtenerDuracionDelProyecto(), redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
         actualizarTablaDeCalculosRealizados();
         actualizarInformacionDelProyecto();
+        setearEtiquetas();
     }
 
+    /**
+     * Se setean las etiquetas de la pantalla según el idioma configurado.
+     */
+    private void setearEtiquetas(){
+        setTitle(etiquetas.getString("resultadosTitulo"));
+         /**String[] columnasDeTablaRsultadosCalculados = {
+            etiquetas.getString("resultadosTablaNombre"),
+            etiquetas.getString("resultadosTablaDuracion"),
+            etiquetas.getString("resultadosTablaPrecedencia"),
+            etiquetas.getString("resultadosTablaComienzoTemprano"),
+            etiquetas.getString("resultadosTablaFinTemprano"),
+            etiquetas.getString("resultadosTablaComienzoTardio"),
+            etiquetas.getString("resultadosTablaFinTardio"),
+            etiquetas.getString("resultadosTablaHolgura"),
+            etiquetas.getString("resultadosTablaCritica"),
+            etiquetas.getString("resultadosTablaDesviacionEstandar")
+        };
+        Object[][] datos = {{"1", "2", "3", "4", "5", "6", "7, "8", "9", "10"}};
+        DefaultTableModel modeloDeTablaDeResultadosCalculados = new DefaultTableModel(datos, columnasDeTablaRsultadosCalculados);
+        this.tabla_ResultadoDeCalculos= new JTable(modeloDeTablaDeResultadosCalculados);**/
+        /**String[] columnasDeTablaDeCaminosCriticos = {
+            etiquetas.getString("resultadosTablaNumero"),
+            etiquetas.getString("resutladosTablaCaminoCritico"),
+            etiquetas.getString("resultadosTablaDesviacionEstandar"),
+        };
+        Object[][] datos = {{"1", "2", "3"}};
+        DefaultTableModel modeloDeTablaDeCaminosCriticos = new DefaultTableModel(datos, columnasDeTablaDeCaminosCriticos);
+        this.tabla_CaminosCriticos= new JTable(modeloDeTablaDeResultadosCalculados);**/
+        ((TitledBorder)this.panel_InformacionDelProyecto.getBorder()).setTitle(etiquetas.getString("resultadosLabelInformacionDelProyecto"));
+        this.label_DuracionDelProyecto.setText(etiquetas.getString("resultadosLabelDuracionDelProyecto"));
+        ((TitledBorder)this.panel_Estrategia.getBorder()).setTitle(etiquetas.getString("resultadosLabelEstrategia"));
+        this.checkBox_Suma.setText(etiquetas.getString("resultadosLabelSuma"));
+        this.checkBox_Promedio.setText(etiquetas.getString("resultadosLabelPromedio"));
+        this.checkBox_Mayor.setText(etiquetas.getString("resultadosLabelMayor"));
+        this.panelDeTab_Estadistica.setTitleAt(0, etiquetas.getString("resultadosLabelPanelDeTabCalculoDeProbabilidad"));
+        this.panelDeTab_Estadistica.setTitleAt(1, etiquetas.getString("resultadosLabelPanelDeTabCalculoDeDuracion"));
+        this.label_PreguntaProbabilidad.setText(etiquetas.getString("resultadosLabelPreguntaProbabilidad"));
+        this.label_PreguntaDuracion.setText(etiquetas.getString("resultadosLabelPreguntaDuracion"));
+        this.label_Probabilidad.setText(etiquetas.getString("resultadosLabelProbabilidad"));
+        this.label_Duracion.setText(etiquetas.getString("resultadosLabelDuracion"));
+        this.label_UnidadDeTiempoEnCalculoDeProbabilidades.setText(unidadDeTiempo);               
+        this.boton_CalcularProbabilidad.setText(etiquetas.getString("resultadosBotonCalcularProbabilidad"));
+        this.boton_CalcularDuracion.setText(etiquetas.getString("resultadosBotonCalcularDuracion")); 
+        this.boton_Salir.setText(etiquetas.getString("resultadosBotonSalir"));
+    }
+    
     private EstrategiaDeSeleccionDeDesvEst resetearEstrategiaDeSeleccionDeDesvEst(){
         if (redDeTareas.obtenerCantidadDeCaminosCriticos() > 1){
-            chekBox_Suma.setEnabled(true);
+            checkBox_Suma.setEnabled(true);
             checkBox_Promedio.setEnabled(true);
             checkBox_Mayor.setEnabled(true); 
-            chekBox_Suma.setSelected(false);
+            checkBox_Suma.setSelected(false);
             checkBox_Promedio.setSelected(true);
             checkBox_Mayor.setSelected(false);
             return EstrategiaDeSeleccionDeDesvEst.promedio;
         }else{         
-            chekBox_Suma.setSelected(false);
+            checkBox_Suma.setSelected(false);
             checkBox_Promedio.setSelected(false);
             checkBox_Mayor.setSelected(false);
-            chekBox_Suma.setEnabled(false);
+            checkBox_Suma.setEnabled(false);
             checkBox_Promedio.setEnabled(false);
             checkBox_Mayor.setEnabled(false);       
             return EstrategiaDeSeleccionDeDesvEst.ninguna;
@@ -125,22 +173,23 @@ public class VentanaResultados extends javax.swing.JDialog {
         jScrollPane3 = new javax.swing.JScrollPane();
         tabla_CaminosCriticos = new javax.swing.JTable();
         panel_Estrategia = new javax.swing.JPanel();
-        chekBox_Suma = new javax.swing.JRadioButton();
+        checkBox_Suma = new javax.swing.JRadioButton();
         checkBox_Promedio = new javax.swing.JRadioButton();
         checkBox_Mayor = new javax.swing.JRadioButton();
         panelDeTab_Estadistica = new javax.swing.JTabbedPane();
         panel_CalculoProbabilidad = new javax.swing.JPanel();
         campoTexto_DuracionParaProbabilidad = new javax.swing.JTextField();
-        label_PreguntaProbabilidad2 = new javax.swing.JLabel();
-        label_PreguntaProbabilidad1 = new javax.swing.JLabel();
+        label_PreguntaProbabilidad = new javax.swing.JLabel();
         boton_CalcularProbabilidad = new javax.swing.JButton();
         campoTexto_ProbabilidadCalculada = new javax.swing.JTextField();
+        label_Duracion = new javax.swing.JLabel();
+        label_UnidadDeTiempoEnCalculoDeProbabilidades = new javax.swing.JLabel();
         panel_CalculoDuracion = new javax.swing.JPanel();
         label_PreguntaDuracion = new javax.swing.JLabel();
         boton_CalcularDuracion = new javax.swing.JButton();
         campoTexto_DuracionCalculada = new javax.swing.JTextField();
         campoTexto_ProbabilidadParaDuracion = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        label_Probabilidad = new javax.swing.JLabel();
         boton_Salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -177,14 +226,14 @@ public class VentanaResultados extends javax.swing.JDialog {
 
         panel_InformacionDelProyecto.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del proyecto"));
 
-        label_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        label_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
         label_DuracionDelProyecto.setText("Duración del proyecto: ");
 
         campoTexto_DuracionDelProyecto.setEditable(false);
-        campoTexto_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        campoTexto_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         campoTexto_DuracionDelProyecto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        tabla_CaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        tabla_CaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12));
         tabla_CaminosCriticos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -218,10 +267,10 @@ public class VentanaResultados extends javax.swing.JDialog {
 
         panel_Estrategia.setBorder(javax.swing.BorderFactory.createTitledBorder("Estrategia de selección de Desviacion Estandar"));
 
-        chekBox_Suma.setText("Suma");
-        chekBox_Suma.addActionListener(new java.awt.event.ActionListener() {
+        checkBox_Suma.setText("Suma");
+        checkBox_Suma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chekBox_SumaActionPerformed(evt);
+                checkBox_SumaActionPerformed(evt);
             }
         });
 
@@ -245,7 +294,7 @@ public class VentanaResultados extends javax.swing.JDialog {
             panel_EstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_EstrategiaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(chekBox_Suma)
+                .addComponent(checkBox_Suma)
                 .addGap(18, 18, 18)
                 .addComponent(checkBox_Promedio)
                 .addGap(18, 18, 18)
@@ -256,7 +305,7 @@ public class VentanaResultados extends javax.swing.JDialog {
             panel_EstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_EstrategiaLayout.createSequentialGroup()
                 .addGroup(panel_EstrategiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chekBox_Suma)
+                    .addComponent(checkBox_Suma)
                     .addComponent(checkBox_Promedio)
                     .addComponent(checkBox_Mayor))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -293,9 +342,7 @@ public class VentanaResultados extends javax.swing.JDialog {
 
         campoTexto_DuracionParaProbabilidad.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        label_PreguntaProbabilidad2.setText("dias o menos?");
-
-        label_PreguntaProbabilidad1.setText("¿Cual es la probabilidad de terminar en");
+        label_PreguntaProbabilidad.setText("¿Cual es la probabilidad dada la duración?");
 
         boton_CalcularProbabilidad.setText("Calcular probabilidad");
         boton_CalcularProbabilidad.addActionListener(new java.awt.event.ActionListener() {
@@ -304,8 +351,13 @@ public class VentanaResultados extends javax.swing.JDialog {
             }
         });
 
-        campoTexto_ProbabilidadCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        campoTexto_ProbabilidadCalculada.setEditable(false);
+        campoTexto_ProbabilidadCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         campoTexto_ProbabilidadCalculada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        label_Duracion.setText("Duración:");
+
+        label_UnidadDeTiempoEnCalculoDeProbabilidades.setText("dias");
 
         javax.swing.GroupLayout panel_CalculoProbabilidadLayout = new javax.swing.GroupLayout(panel_CalculoProbabilidad);
         panel_CalculoProbabilidad.setLayout(panel_CalculoProbabilidadLayout);
@@ -313,37 +365,40 @@ public class VentanaResultados extends javax.swing.JDialog {
             panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
-                        .addComponent(label_PreguntaProbabilidad1)
-                        .addGap(6, 6, 6)
-                        .addComponent(campoTexto_DuracionParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label_PreguntaProbabilidad2))
+                .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_PreguntaProbabilidad)
                     .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
                         .addComponent(boton_CalcularProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoTexto_ProbabilidadCalculada)))
-                .addContainerGap(115, Short.MAX_VALUE))
+                        .addComponent(campoTexto_ProbabilidadCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
+                        .addComponent(label_Duracion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoTexto_DuracionParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(label_UnidadDeTiempoEnCalculoDeProbabilidades)))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
         panel_CalculoProbabilidadLayout.setVerticalGroup(
             panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_CalculoProbabilidadLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(label_PreguntaProbabilidad)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_PreguntaProbabilidad1)
+                    .addComponent(label_Duracion)
                     .addComponent(campoTexto_DuracionParaProbabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_PreguntaProbabilidad2))
-                .addGap(18, 18, 18)
+                    .addComponent(label_UnidadDeTiempoEnCalculoDeProbabilidades))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(panel_CalculoProbabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_CalcularProbabilidad)
                     .addComponent(campoTexto_ProbabilidadCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(42, 42, 42))
         );
 
         panelDeTab_Estadistica.addTab("Cálculo de Probabilidades", panel_CalculoProbabilidad);
 
-        label_PreguntaDuracion.setText("¿Cual es la duración según una probabilidad de ");
+        label_PreguntaDuracion.setText("¿Cual es la duración dada la probabilidad?");
 
         boton_CalcularDuracion.setText("Calcular duración");
         boton_CalcularDuracion.addActionListener(new java.awt.event.ActionListener() {
@@ -352,12 +407,13 @@ public class VentanaResultados extends javax.swing.JDialog {
             }
         });
 
-        campoTexto_DuracionCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        campoTexto_DuracionCalculada.setEditable(false);
+        campoTexto_DuracionCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         campoTexto_DuracionCalculada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         campoTexto_ProbabilidadParaDuracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jLabel1.setText("?");
+        label_Probabilidad.setText("Probabilidad:");
 
         javax.swing.GroupLayout panel_CalculoDuracionLayout = new javax.swing.GroupLayout(panel_CalculoDuracion);
         panel_CalculoDuracion.setLayout(panel_CalculoDuracionLayout);
@@ -365,32 +421,32 @@ public class VentanaResultados extends javax.swing.JDialog {
             panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
-                        .addComponent(label_PreguntaDuracion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_PreguntaDuracion)
                     .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
                         .addComponent(boton_CalcularDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoTexto_DuracionCalculada)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(124, Short.MAX_VALUE))
+                        .addComponent(campoTexto_DuracionCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
+                        .addComponent(label_Probabilidad)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         panel_CalculoDuracionLayout.setVerticalGroup(
             panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(label_PreguntaDuracion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_PreguntaDuracion)
-                    .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
+                    .addComponent(label_Probabilidad)
+                    .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_CalcularDuracion)
                     .addComponent(campoTexto_DuracionCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(41, 41, 41))
         );
 
         panelDeTab_Estadistica.addTab("Cálculo de Duraciones", panel_CalculoDuracion);
@@ -414,8 +470,8 @@ public class VentanaResultados extends javax.swing.JDialog {
                         .addComponent(panel_InformacionDelProyecto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(panelDeTab_Estadistica, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
-                            .addComponent(boton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(boton_Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panelDeTab_Estadistica, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -426,9 +482,9 @@ public class VentanaResultados extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(panel_InformacionDelProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(panelDeTab_Estadistica, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelDeTab_Estadistica, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(boton_Salir)))
                 .addContainerGap())
         );
@@ -436,16 +492,16 @@ public class VentanaResultados extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chekBox_SumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chekBox_SumaActionPerformed
-        chekBox_Suma.setSelected(true);
+    private void checkBox_SumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_SumaActionPerformed
+        checkBox_Suma.setSelected(true);
         checkBox_Promedio.setSelected(false);
         checkBox_Mayor.setSelected(false);
         estrategia = EstrategiaDeSeleccionDeDesvEst.suma;
         gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
-}//GEN-LAST:event_chekBox_SumaActionPerformed
+}//GEN-LAST:event_checkBox_SumaActionPerformed
 
     private void checkBox_PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_PromedioActionPerformed
-        chekBox_Suma.setSelected(false);
+        checkBox_Suma.setSelected(false);
         checkBox_Promedio.setSelected(true);
         checkBox_Mayor.setSelected(false);
         estrategia = EstrategiaDeSeleccionDeDesvEst.promedio;
@@ -453,7 +509,7 @@ public class VentanaResultados extends javax.swing.JDialog {
 }//GEN-LAST:event_checkBox_PromedioActionPerformed
 
     private void checkBox_MayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_MayorActionPerformed
-        chekBox_Suma.setSelected(false);
+        checkBox_Suma.setSelected(false);
         checkBox_Promedio.setSelected(false);
         checkBox_Mayor.setSelected(true);
         estrategia = EstrategiaDeSeleccionDeDesvEst.mayor;
@@ -469,12 +525,12 @@ public class VentanaResultados extends javax.swing.JDialog {
                 probabilidadCorrecta = true;
             }
             if (probabilidadCorrecta){
-                this.campoTexto_DuracionCalculada.setText(String.valueOf(gestorProbabilistico.calcularDuracion(probabilidad)));
+                this.campoTexto_DuracionCalculada.setText(String.valueOf(gestorProbabilistico.calcularDuracion(probabilidad))+" "+unidadDeTiempo);
             }else{
-                JOptionPane.showMessageDialog(this, "Probabilidad incorrecta (debe estar entre 0 y 1)");
+                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProbabilidadIncorrecta"));
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Caracteres incorrectos en el ingreso de la probabilidad");
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
         }
 }//GEN-LAST:event_boton_CalcularDuracionActionPerformed
 
@@ -489,7 +545,7 @@ public class VentanaResultados extends javax.swing.JDialog {
             if (tiempoCorrecto){
                 this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(gestorProbabilistico.calcularProbabilidad(tiempo)));
             }else{
-                JOptionPane.showMessageDialog(this, "Tiempo incorrecto (debe ser mayor que 0)");
+                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDuracionIncorrecta"));
             } 
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
@@ -530,14 +586,15 @@ public class VentanaResultados extends javax.swing.JDialog {
     private javax.swing.JTextField campoTexto_ProbabilidadParaDuracion;
     private javax.swing.JRadioButton checkBox_Mayor;
     private javax.swing.JRadioButton checkBox_Promedio;
-    private javax.swing.JRadioButton chekBox_Suma;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JRadioButton checkBox_Suma;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel label_Duracion;
     private javax.swing.JLabel label_DuracionDelProyecto;
     private javax.swing.JLabel label_PreguntaDuracion;
-    private javax.swing.JLabel label_PreguntaProbabilidad1;
-    private javax.swing.JLabel label_PreguntaProbabilidad2;
+    private javax.swing.JLabel label_PreguntaProbabilidad;
+    private javax.swing.JLabel label_Probabilidad;
+    private javax.swing.JLabel label_UnidadDeTiempoEnCalculoDeProbabilidades;
     private javax.swing.JTabbedPane panelDeTab_Estadistica;
     private javax.swing.JPanel panel_CalculoDuracion;
     private javax.swing.JPanel panel_CalculoProbabilidad;

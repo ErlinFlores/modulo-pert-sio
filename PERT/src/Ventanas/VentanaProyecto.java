@@ -73,8 +73,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.subMenu_Portugues.setText(etiquetas.getString("proyectoSubMenuPortugues"));
         this.menu_Demos.setText(etiquetas.getString("proyectoMenuDemos"));
         this.subMenu_Demo1.setText(etiquetas.getString("proyectoSubMenuDemo1"));
-        this.subMenu_Demo2.setText(etiquetas.getString("proyectoSubMenuDemo2"));
-        this.subMenu_Demo3.setText(etiquetas.getString("proyectoSubMenuDemo3"));
+        //this.subMenu_Demo2.setText(etiquetas.getString("proyectoSubMenuDemo2"));
+        //this.subMenu_Demo3.setText(etiquetas.getString("proyectoSubMenuDemo3"));
         this.menu_Ayuda.setText(etiquetas.getString("proyectoMenuAyuda"));
         this.subMenu_AyudaContenidos.setText(etiquetas.getString("proyectoSubMenuAyudaContenidos"));
         this.subMenu_AcercaDe.setText(etiquetas.getString("proyectoSubMenuAcercaDe"));
@@ -303,8 +303,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         subMenu_Portugues = new javax.swing.JMenuItem();
         menu_Demos = new javax.swing.JMenu();
         subMenu_Demo1 = new javax.swing.JMenuItem();
-        subMenu_Demo2 = new javax.swing.JMenuItem();
-        subMenu_Demo3 = new javax.swing.JMenuItem();
         menu_Ayuda = new javax.swing.JMenu();
         subMenu_AyudaContenidos = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -402,7 +400,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         label_UnidadDeTiempo.setText("lblUnidadDeTiempo");
 
         campoTexto_CantidadTareas.setEditable(false);
-        campoTexto_CantidadTareas.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        campoTexto_CantidadTareas.setFont(new java.awt.Font("Tahoma", 1, 11));
         campoTexto_CantidadTareas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         label_CantidadTareas.setText("lblCantidadTareas");
@@ -500,22 +498,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         });
         menu_Demos.add(subMenu_Demo1);
 
-        subMenu_Demo2.setText("Demo 2 ");
-        subMenu_Demo2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subMenu_Demo2ActionPerformed(evt);
-            }
-        });
-        menu_Demos.add(subMenu_Demo2);
-
-        subMenu_Demo3.setText("Demo 3");
-        subMenu_Demo3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subMenu_Demo3ActionPerformed(evt);
-            }
-        });
-        menu_Demos.add(subMenu_Demo3);
-
         jMenuBar.add(menu_Demos);
 
         menu_Ayuda.setText("Ayuda");
@@ -558,7 +540,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                                 .addComponent(label_DescripcionProyecto))
                             .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -568,9 +550,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
                     .addComponent(label_TareasProyecto)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(boton_AnalisisPERT, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                                 .addGap(492, 492, 492)))
@@ -708,16 +688,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
         cargarProyectoDemo(new Demo1());
     }//GEN-LAST:event_subMenu_Demo1ActionPerformed
 
-    private void subMenu_Demo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo2ActionPerformed
-        cargarProyectoDemo(new Demo2());
-    }//GEN-LAST:event_subMenu_Demo2ActionPerformed
-
-    private void subMenu_Demo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo3ActionPerformed
-        cargarProyectoDemo(new Demo3());
-    }//GEN-LAST:event_subMenu_Demo3ActionPerformed
-
     private void subMenu_AyudaContenidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AyudaContenidosActionPerformed
-        System.out.println("AYUDA!!!");
+        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
     }//GEN-LAST:event_subMenu_AyudaContenidosActionPerformed
 
     private void subMenu_AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AcercaDeActionPerformed
@@ -741,22 +713,23 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_subMenu_NuevoActionPerformed
 
     private void subMenu_AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AbrirActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
+        /**JFileChooser fileChooser = new JFileChooser();
         fileChooser.setLocale(lugarConfigurado);
         int seleccion = fileChooser.showOpenDialog(subMenu_Abrir);
         if (seleccion == JFileChooser.APPROVE_OPTION)
         {
            File fichero = fileChooser.getSelectedFile();
            // y a trabajar con fichero ....
-        }
+        }**/
+        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
     }//GEN-LAST:event_subMenu_AbrirActionPerformed
 
     private void subMenu_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
     }//GEN-LAST:event_subMenu_GuardarActionPerformed
 
     private void subMenu_GuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarComoActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
     }//GEN-LAST:event_subMenu_GuardarComoActionPerformed
 
     private void subMenu_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_SalirActionPerformed
@@ -804,8 +777,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private javax.swing.JMenuItem subMenu_AcercaDe;
     private javax.swing.JMenuItem subMenu_AyudaContenidos;
     private javax.swing.JMenuItem subMenu_Demo1;
-    private javax.swing.JMenuItem subMenu_Demo2;
-    private javax.swing.JMenuItem subMenu_Demo3;
     private javax.swing.JMenuItem subMenu_Español;
     private javax.swing.JMenuItem subMenu_Guardar;
     private javax.swing.JMenuItem subMenu_GuardarComo;
