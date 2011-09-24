@@ -37,8 +37,7 @@ public class Main {
     
     private boolean validarContextoDeLaAplicacion(String lenguajeIdioma, String paisIdioma){
         boolean error = false;
-        TablaZeta tablaZ = TablaZeta.getInstance();
-        if (tablaZ == null){
+        if (!TablaZeta.getInstance().tablaZetaCorrecta()){
             ManejadorDeArchivos.escribirLineaDeErrorEnLog("La tabla Zeta no se pudo cargar.");
             error = true;
         }
