@@ -17,6 +17,7 @@ import Entidades.Tarea;
 import Entidades.TiempoEstimado;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
@@ -29,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaTarea extends javax.swing.JDialog {
 
     private VentanaProyecto formularioProyecto;
+    private ResourceBundle etiquetas;
     private FabricaDeTareas fabricaDeTareas = FabricaDeTareas.getInstance();
     private List<Tarea> posiblesTareasPrecedentes;
     private Accion tipoAccion;
@@ -39,10 +41,11 @@ public class VentanaTarea extends javax.swing.JDialog {
     private Precedencia tareasPrecedentes;
     
     /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas) {
         super(parent, modal);
         initComponents();
-        this.formularioProyecto = (VentanaProyecto)parent;        
+        this.formularioProyecto = (VentanaProyecto)parent;      
+        this.etiquetas = etiquetas;
         this.tipoAccion = Accion.crear;
         this.id = -1;
         this.nombre = fabricaDeTareas.getNombreDeProximaTarea();
@@ -50,14 +53,16 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.tiemposEstimados = null;
         this.tareasPrecedentes = new Precedencia(new ArrayList<Tarea>());
         this.posiblesTareasPrecedentes = new ArrayList<Tarea>(formularioProyecto.obtenerListaDeTareasDelProyecto());
+        setearEtiquetas();
         setearDatosDeTarea();
     }
 
      /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;        
+        this.etiquetas = etiquetas;
         this.tipoAccion = Accion.modificar;
         this.id = tarea.obtenerId();
         this.nombre = tarea.obtenerNombre();
@@ -65,6 +70,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.tiemposEstimados = tarea.obtenerTiempoEstimado();
         this.tareasPrecedentes = tarea.obtenerPrecedencia();
         this.posiblesTareasPrecedentes = formularioProyecto.obtenerPosiblesTareasPrecedentes(tarea);
+        setearEtiquetas();
         setearDatosDeTarea();
     }
     
@@ -72,21 +78,27 @@ public class VentanaTarea extends javax.swing.JDialog {
      * Se setean las etiquetas de la pantalla.
      */
     private void setearEtiquetas(){
-        setTitle("Tarea"); // Manejo de idioma!!!
-        this.label_NombreTarea.setText("Nombre: ");
-        this.label_DescripcionTarea.setText("Descripción de la tarea: ");
-        
-        ((TitledBorder)this.panel_TiemposEstimados.getBorder()).setTitle("Tiempos estimados");
-        this.label_TiempoOptimista.setText("Tiempo optimista");
-        this.label_TiempoMasProbable.setText("Tiempo más probable");
-        this.label_TiempoPesimista.setText("Tiempo pesimista");
-        
-        ((TitledBorder)this.panel_Precedencias.getBorder()).setTitle("Precedencias");
-        this.label_TareasPrecedentes.setText("Tareas precedentes");
-        this.label_TareasDisponiblesComoPrecedentes.setText("Tareas disponibles");    
-        
-        this.boton_Guardar.setText("Guardar");
-        this.boton_Cancelar.setText("Cancelar");
+        if (tipoAccion == Accion.crear){
+            setTitle(etiquetas.getString("tareaTituloCrearTarea"));
+        }else{
+            if (tipoAccion == Accion.modificar){
+                setTitle(etiquetas.getString("tareaTituloCrearModificar"));
+            }else{
+                setTitle(etiquetas.getString("tareaTituloTarea"));
+            }
+        }        
+        this.label_NombreTarea.setText(etiquetas.getString("tareaLabelNombreTarea"));
+        this.label_DescripcionTarea.setText(etiquetas.getString("tareaLabelDescripcionTarea"));        
+        ((TitledBorder)this.panel_TiemposEstimados.getBorder()).setTitle(etiquetas.getString("tareaLabelTiemposEstimados"));
+        this.label_TiempoOptimista.setText(etiquetas.getString("tareaLabelTiempoOptimista"));
+        this.label_TiempoMasProbable.setText(etiquetas.getString("tareaLabelTiempoMasProbable"));
+        this.label_TiempoPesimista.setText(etiquetas.getString("tareaLabelTiempoPesimista"));        
+        ((TitledBorder)this.panel_Precedencias.getBorder()).setTitle(etiquetas.getString("tareaLabelPrecedencias"));
+        this.label_TareasPrecedentes.setText(etiquetas.getString("tareaLabelTareasPrecedentes"));
+        this.label_TareasDisponiblesComoPrecedentes.setText(etiquetas.getString("tareaLabelTareasDisponiblesComoPrecedentes"));    
+        //tablas
+        this.boton_Guardar.setText(etiquetas.getString("tareaBotonGuardar"));
+        this.boton_Cancelar.setText(etiquetas.getString("tareaBotonCancelar"));
     }
     
     private boolean validarDatosDeEntradaDelUsuario(){
@@ -288,6 +300,7 @@ public class VentanaTarea extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(tabla_TareasPrecedentes);
+        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
 
         ttabla_TareasDisponiblesComoPrecedentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -313,6 +326,7 @@ public class VentanaTarea extends javax.swing.JDialog {
             }
         });
         jScrollPane2.setViewportView(ttabla_TareasDisponiblesComoPrecedentes);
+        ttabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
 
         boton_AgregarPrecedente.setText("<");
         boton_AgregarPrecedente.addActionListener(new java.awt.event.ActionListener() {
@@ -340,16 +354,16 @@ public class VentanaTarea extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_PrecedenciasLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(boton_AgregarPrecedente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(boton_QuitarPrecedente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(boton_AgregarPrecedente)
+                            .addComponent(boton_QuitarPrecedente)))
                     .addComponent(label_TareasPrecedentes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_PrecedenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_TareasDisponiblesComoPrecedentes))
+                    .addComponent(label_TareasDisponiblesComoPrecedentes)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         panel_PrecedenciasLayout.setVerticalGroup(
@@ -379,21 +393,23 @@ public class VentanaTarea extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(label_NombreTarea)
-                        .addGap(10, 10, 10)
-                        .addComponent(campoTexto_NombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(label_DescripcionTarea)
-                        .addGap(10, 10, 10)
-                        .addComponent(campoTexto_DescripcionTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(boton_Guardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boton_Cancelar))
+                    .addComponent(panel_Precedencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(panel_TiemposEstimados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panel_Precedencias, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(label_NombreTarea)
+                            .addGap(10, 10, 10)
+                            .addComponent(campoTexto_NombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(label_DescripcionTarea)
+                            .addGap(10, 10, 10)
+                            .addComponent(campoTexto_DescripcionTarea))
+                        .addComponent(panel_TiemposEstimados, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(427, Short.MAX_VALUE)
+                .addComponent(boton_Guardar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(boton_Cancelar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -407,9 +423,9 @@ public class VentanaTarea extends javax.swing.JDialog {
                     .addComponent(label_NombreTarea))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_TiemposEstimados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(13, 13, 13)
                 .addComponent(panel_Precedencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_Cancelar)
                     .addComponent(boton_Guardar))
@@ -443,7 +459,7 @@ public class VentanaTarea extends javax.swing.JDialog {
                 }
                 this.dispose();
             }else{
-                JOptionPane.showMessageDialog(this, "ERROR: Hay campos con valores no válidos.");
+                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
             }
         }catch(Exception ex){
             JOptionPane.showMessageDialog(this, ex);

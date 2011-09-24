@@ -211,7 +211,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="campoTexto_NombreProyecto" min="-2" pref="201" max="-2" attributes="1"/>
-                              <EmptySpace pref="41" max="32767" attributes="0"/>
+                              <EmptySpace pref="47" max="32767" attributes="0"/>
                               <Component id="label_DescripcionProyecto" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="campoTexto_UnidadDeTiempo" min="-2" pref="114" max="-2" attributes="0"/>
@@ -224,7 +224,7 @@
                   <Component id="label_TareasProyecto" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane1" pref="665" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="674" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="boton_AnalisisPERT" pref="182" max="32767" attributes="1"/>
                               <EmptySpace min="-2" pref="492" max="-2" attributes="0"/>

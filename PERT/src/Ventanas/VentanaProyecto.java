@@ -23,7 +23,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -631,7 +630,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AgregarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarTareaActionPerformed
         if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas);
             ventanaTarea.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
@@ -643,7 +642,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas);
             ventanaTarea.setVisible(true);            
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
