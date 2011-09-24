@@ -43,6 +43,10 @@ public class TablaZeta {
         tablaZ = ManejadorDeArchivos.cargarTablaZ();
     }
     
+    public boolean tablaZetaCorrecta(){
+        return !(tablaZ == null);
+    }
+    
     /**
      * Método que retorna una probabilidad en base a un valor "zeta" determinado.
      * Hace uso de la tabla Zeta (Probabilidades de una Normal Estandar).
