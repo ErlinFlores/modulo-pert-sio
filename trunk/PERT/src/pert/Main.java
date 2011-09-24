@@ -31,7 +31,7 @@ public class Main {
             VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado);
             ventanaProyecto.setVisible(true);
         }else{
-             JOptionPane.showMessageDialog(null, "Error en datos de entrada. Verificar en el archivo log el problema");
+             JOptionPane.showMessageDialog(null, "Error en datos de entrada. Verificar en el log de errores el problema");
         }
     }
     
@@ -42,22 +42,10 @@ public class Main {
             ManejadorDeArchivos.escribirLineaDeErrorEnLog("La tabla Zeta no se pudo cargar.");
             error = true;
         }
-        if (!validarDatosParaConfigurarLugar(lenguajeIdioma, paisIdioma)){
+        if (!(((lenguajeIdioma.equals("es")) && (paisIdioma.equals("UY"))) || ((lenguajeIdioma.equals("en")) && (paisIdioma.equals("US"))) || ((paisIdioma.equals("BR")) && (lenguajeIdioma.equals("po"))))){
+            ManejadorDeArchivos.escribirLineaDeErrorEnLog("El idioma configurado es inválido");
             error = true;
         }
-        return !error;
-    }
-    
-    private boolean validarDatosParaConfigurarLugar(String lenguajeIdioma, String paisIdioma){
-        boolean error = false;        
-        if (!((lenguajeIdioma.equals("es")) || (lenguajeIdioma.equals("en")) || (lenguajeIdioma.equals("po")))){
-            ManejadorDeArchivos.escribirLineaDeErrorEnLog("El lenguaje del idioma ingresado no es válido.");
-            error = true;
-        }
-        if (!((paisIdioma.equals("UY")) || (paisIdioma.equals("US")) || (paisIdioma.equals("BR")))){
-            ManejadorDeArchivos.escribirLineaDeErrorEnLog("El pais del idioma ingresado no es válido.");
-            error = true;
-        }        
         return !error;
     }
 }
