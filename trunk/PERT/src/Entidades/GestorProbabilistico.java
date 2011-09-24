@@ -29,6 +29,9 @@ public class GestorProbabilistico {
      * @return probabilidad de culminación del proyecto
      */
     public double calcularProbabilidad(double tiempo){
+        if (tablaZeta == null){
+            return -1;
+        }
         if (tiempo > 0){
             double zetaExtendido = (tiempo - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
             return tablaZeta.obtenerProbabilidad(Math.round(zetaExtendido * 100) / 100.0);
@@ -43,6 +46,9 @@ public class GestorProbabilistico {
      * @return posible duración del proyecto
      */
     public double calcularDuracion(double probabilidadExtendida){ 
+        if (tablaZeta == null){
+            return -1;
+        }
         if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal
             double probabilidadAcotada = Math.round(probabilidadExtendida * 10000) / 10000.0;
             double zetaAcotadoAbs;
