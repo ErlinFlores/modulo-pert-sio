@@ -82,7 +82,7 @@ public class VentanaTarea extends javax.swing.JDialog {
             setTitle(etiquetas.getString("tareaTituloCrearTarea"));
         }else{
             if (tipoAccion == Accion.modificar){
-                setTitle(etiquetas.getString("tareaTituloCrearModificar"));
+                setTitle(etiquetas.getString("tareaTituloCrearModificarTarea"));
             }else{
                 setTitle(etiquetas.getString("tareaTituloTarea"));
             }
