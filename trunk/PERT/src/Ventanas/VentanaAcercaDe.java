@@ -51,6 +51,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
         label_Herramienta = new javax.swing.JLabel();
         label_Desarrollado = new javax.swing.JLabel();
         label_Tutoriado = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -71,6 +72,9 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
 
         label_Tutoriado.setText("Tutoriado por: Ing. Daniel Paolillo");
 
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel1.setText("Version 1.0 beta");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,6 +91,10 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
                 .addContainerGap(382, Short.MAX_VALUE)
                 .addComponent(boton_Cerrar)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(366, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,7 +103,9 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
                 .addComponent(label_Titulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label_Herramienta)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(label_Desarrollado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label_Tutoriado)
@@ -132,6 +142,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton_Cerrar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel label_Desarrollado;
     private javax.swing.JLabel label_Herramienta;
     private javax.swing.JLabel label_Titulo;
