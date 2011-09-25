@@ -102,13 +102,10 @@ public class VentanaTarea extends javax.swing.JDialog {
     }
     
     private boolean validarDatosDeEntradaDelUsuario(){
-        if (campoTexto_DescripcionTarea.getText().equals("")){
-            return false;
-        }
         double to = Double.parseDouble(campoTexto_TiempoOptimista.getText());
         double tmp = Double.parseDouble(campoTexto_TiempoMasProbable.getText());
         double tp = Double.parseDouble(campoTexto_TiempoPesimista.getText());
-        if (!((to > 0) && (to < tmp) && (tmp < tp) && (tp < 256))){
+        if (!((0 < to) && (to <= tmp) && (tmp < tp) && (tp < 256))){
             return false;
         }
         return true;
@@ -216,15 +213,12 @@ public class VentanaTarea extends javax.swing.JDialog {
         label_TiempoMasProbable.setText("lblTiempoMasProbable");
 
         campoTexto_TiempoMasProbable.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoTexto_TiempoMasProbable.setText("2");
 
         label_TiempoPesimista.setText("lblTiempoPesimista");
 
         campoTexto_TiempoPesimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoTexto_TiempoPesimista.setText("3");
 
         campoTexto_TiempoOptimista.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoTexto_TiempoOptimista.setText("1");
 
         javax.swing.GroupLayout panel_TiemposEstimadosLayout = new javax.swing.GroupLayout(panel_TiemposEstimados);
         panel_TiemposEstimados.setLayout(panel_TiemposEstimadosLayout);
@@ -264,8 +258,6 @@ public class VentanaTarea extends javax.swing.JDialog {
                 boton_CancelarActionPerformed(evt);
             }
         });
-
-        campoTexto_DescripcionTarea.setText("Tarea");
 
         boton_Guardar.setText("btnGuardar");
         boton_Guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -459,10 +451,10 @@ public class VentanaTarea extends javax.swing.JDialog {
                 }
                 this.dispose();
             }else{
-                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
+                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeValoresDeTiemposEstimadosIncorrectos"));
             }
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, ex);
+            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
         }
 }//GEN-LAST:event_boton_GuardarActionPerformed
 
