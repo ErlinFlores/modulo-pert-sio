@@ -5,6 +5,7 @@
 
 package pert;
 
+import Entidades.ResultadoDeCargaDeTablaZeta;
 import Entidades.TablaZeta;
 import EntradaSalida.ManejadorDeArchivos;
 import Ventanas.VentanaProyecto;
@@ -33,20 +34,27 @@ public class Main {
             VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado, helpBroker);
             ventanaProyecto.setVisible(true);
         }else{
-             JOptionPane.showMessageDialog(null, "Error en datos de entrada. Verificar en el log de errores el problema");
+             JOptionPane.showMessageDialog(null, "Error en datos de entrada. Verificar en el log de errores el problema.");
         }
     }
     
     private boolean validarContextoDeLaAplicacion(String lenguajeIdioma, String paisIdioma){
         boolean error = false;
-        if (!TablaZeta.getInstance().tablaZetaCorrecta()){
-            ManejadorDeArchivos.escribirLineaDeErrorEnLog("La tabla Zeta no se pudo cargar.");
+        if (!(((lenguajeIdioma.equals("es")) && (paisIdioma.equals("UY"))) || ((lenguajeIdioma.equals("en")) && (paisIdioma.equals("US"))) || ((paisIdioma.equals("BR")) && (lenguajeIdioma.equals("po"))))){
+            ManejadorDeArchivos.escribirLineaDeErrorEnLog("El idioma configurado ("+ lenguajeIdioma +"/"+ paisIdioma +") no es válido.");
             error = true;
         }
-        if (!(((lenguajeIdioma.equals("es")) && (paisIdioma.equals("UY"))) || ((lenguajeIdioma.equals("en")) && (paisIdioma.equals("US"))) || ((paisIdioma.equals("BR")) && (lenguajeIdioma.equals("po"))))){
-            ManejadorDeArchivos.escribirLineaDeErrorEnLog("El idioma configurado es inválido");
+        if (TablaZeta.getInstance().obtenerResultadoDeCargaDeTablaZeta().equals(ResultadoDeCargaDeTablaZeta.archivoNoEncontrado)){
+            ManejadorDeArchivos.escribirLineaDeErrorEnLog("No se encuentra el archivo tablaZ.csv");
             error = true;
+        }
+        if (TablaZeta.getInstance().obtenerResultadoDeCargaDeTablaZeta().equals(ResultadoDeCargaDeTablaZeta.datosInconsistentes)){
+            ManejadorDeArchivos.escribirLineaDeErrorEnLog("Datos inconsistentes de la tabla Zeta en el archivo tablaZ.csv");
+            error = true;
+        }        
+        if (error){
+            ManejadorDeArchivos.escribirLineaDeErrorEnLog("================================================================================");
         }
         return !error;
-    }   
+    }       
 }
