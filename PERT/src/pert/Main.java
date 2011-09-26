@@ -5,7 +5,7 @@
 
 package pert;
 
-import Entidades.ResultadoDeCargaDeTablaZeta;
+import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
 import Entidades.TablaZeta;
 import EntradaSalida.ManejadorDeArchivos;
 import Ventanas.VentanaProyecto;
@@ -28,7 +28,7 @@ public class Main {
     }
 
     public void inicializar(String lenguajeIdioma, String paisIdioma){
-        if(validarContextoDeLaAplicacion(lenguajeIdioma, paisIdioma)){
+        if(validarContextoDeLaAplicacion(lenguajeIdioma, paisIdioma, TablaZeta.getInstance())){
             Locale lugarConfigurado = new Locale(lenguajeIdioma, paisIdioma);
             HelpBroker helpBroker = ManejadorDeArchivos.cargarAyuda();            
             VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado, helpBroker);
@@ -38,17 +38,17 @@ public class Main {
         }
     }
     
-    private boolean validarContextoDeLaAplicacion(String lenguajeIdioma, String paisIdioma){
+    private boolean validarContextoDeLaAplicacion(String lenguajeIdioma, String paisIdioma, TablaZeta tablaZeta){
         boolean error = false;
         if (!(((lenguajeIdioma.equals("es")) && (paisIdioma.equals("UY"))) || ((lenguajeIdioma.equals("en")) && (paisIdioma.equals("US"))) || ((paisIdioma.equals("BR")) && (lenguajeIdioma.equals("po"))))){
             ManejadorDeArchivos.escribirLineaDeErrorEnLog("El idioma configurado ("+ lenguajeIdioma +"/"+ paisIdioma +") no es válido.");
             error = true;
-        }
-        if (TablaZeta.getInstance().obtenerResultadoDeCargaDeTablaZeta().equals(ResultadoDeCargaDeTablaZeta.archivoNoEncontrado)){
+        }        
+        if (tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.archivoNoEncontrado)){
             ManejadorDeArchivos.escribirLineaDeErrorEnLog("No se encuentra el archivo tablaZ.csv");
             error = true;
         }
-        if (TablaZeta.getInstance().obtenerResultadoDeCargaDeTablaZeta().equals(ResultadoDeCargaDeTablaZeta.datosInconsistentes)){
+        if (tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.datosInconsistentes)){
             ManejadorDeArchivos.escribirLineaDeErrorEnLog("Datos inconsistentes de la tabla Zeta en el archivo tablaZ.csv");
             error = true;
         }        
