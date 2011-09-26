@@ -524,8 +524,17 @@ public class VentanaResultados extends javax.swing.JDialog {
             if ((0 <= probabilidad) && (probabilidad <= 1)){
                 probabilidadCorrecta = true;
             }
-            if (probabilidadCorrecta){
-                this.campoTexto_DuracionCalculada.setText(String.valueOf(gestorProbabilistico.calcularDuracion(probabilidad))+" "+unidadDeTiempo);
+            if (probabilidadCorrecta){                
+                try{
+                    double duracion = gestorProbabilistico.calcularDuracion(probabilidad);
+                    if (probabilidad != -1){
+                        this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+unidadDeTiempo);                    
+                    }else{
+                        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
+                    }
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlCargarLaTablaZeta"));
+                }                                
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProbabilidadIncorrecta"));
             }
@@ -543,7 +552,16 @@ public class VentanaResultados extends javax.swing.JDialog {
                 tiempoCorrecto = true;
             }
             if (tiempoCorrecto){
-                this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(gestorProbabilistico.calcularProbabilidad(tiempo)));
+                try{
+                    double probabilidad = gestorProbabilistico.calcularProbabilidad(tiempo);
+                    if (probabilidad != -1){
+                        this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(probabilidad));
+                    }else{
+                        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
+                    }          
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlCargarLaTablaZeta"));
+                }
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDuracionIncorrecta"));
             } 
