@@ -5,14 +5,18 @@
 package EntradaSalida;
 
 import com.csvreader.CsvReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
+import javax.help.HelpSetException;
 
 /**
  * Clase que se encarga de gestionar las lecturas y escrituras a los archivos
@@ -55,6 +59,20 @@ public class ManejadorDeArchivos {
         }
         return null;
     }   
+    
+    public static HelpBroker cargarAyuda(){
+        try {
+            File fichero = new File("help/help_set.hs");
+            URL hsURL = fichero.toURI().toURL();
+            HelpSet helpset = new HelpSet(ManejadorDeArchivos.class.getClassLoader(), hsURL);
+            return helpset.createHelpBroker();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HelpSetException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     
     public static void escribirLineaDeErrorEnLog(String lineaDeError){
         PrintWriter writer = null; 
