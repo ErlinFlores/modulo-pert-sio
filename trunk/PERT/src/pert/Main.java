@@ -9,6 +9,7 @@ import Entidades.TablaZeta;
 import EntradaSalida.ManejadorDeArchivos;
 import Ventanas.VentanaProyecto;
 import java.util.Locale;
+import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
 
 /**
@@ -28,7 +29,8 @@ public class Main {
     public void inicializar(String lenguajeIdioma, String paisIdioma){
         if(validarContextoDeLaAplicacion(lenguajeIdioma, paisIdioma)){
             Locale lugarConfigurado = new Locale(lenguajeIdioma, paisIdioma);
-            VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado);
+            HelpBroker helpBroker = ManejadorDeArchivos.cargarAyuda();            
+            VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado, helpBroker);
             ventanaProyecto.setVisible(true);
         }else{
              JOptionPane.showMessageDialog(null, "Error en datos de entrada. Verificar en el log de errores el problema");
@@ -46,5 +48,5 @@ public class Main {
             error = true;
         }
         return !error;
-    }
+    }   
 }
