@@ -32,6 +32,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
         this.setTitle(etiquetas.getString("acercaDeTitulo"));
         this.label_Titulo.setText(etiquetas.getString("acercaDeLabelTitulo"));
         this.label_Herramienta.setText(etiquetas.getString("acercaDeLabelHerramienta"));
+        this.label_version.setText(etiquetas.getString("acercaDeVersion"));
         this.label_Desarrollado.setText(etiquetas.getString("acercaDeLabelDesarrollado"));
         this.label_Tutoriado.setText(etiquetas.getString("acercaDeLabelTutoriado"));
         this.boton_Cerrar.setText(etiquetas.getString("acercaDeBotonCerrar"));
@@ -51,7 +52,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
         label_Herramienta = new javax.swing.JLabel();
         label_Desarrollado = new javax.swing.JLabel();
         label_Tutoriado = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        label_version = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -72,8 +73,8 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
 
         label_Tutoriado.setText("Tutoriado por: Ing. Daniel Paolillo");
 
-        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel1.setText("Version 1.1 beta");
+        label_version.setForeground(new java.awt.Color(0, 0, 255));
+        label_version.setText("Version 1.1 beta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,12 +89,12 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
                     .addComponent(label_Tutoriado))
                 .addContainerGap(12, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(382, Short.MAX_VALUE)
+                .addContainerGap(384, Short.MAX_VALUE)
                 .addComponent(boton_Cerrar)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(label_version)
                 .addContainerGap(368, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,7 +105,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label_Herramienta)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addComponent(label_version)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(label_Desarrollado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -142,10 +143,10 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
     }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton_Cerrar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel label_Desarrollado;
     private javax.swing.JLabel label_Herramienta;
     private javax.swing.JLabel label_Titulo;
     private javax.swing.JLabel label_Tutoriado;
+    private javax.swing.JLabel label_version;
     // End of variables declaration//GEN-END:variables
 }
