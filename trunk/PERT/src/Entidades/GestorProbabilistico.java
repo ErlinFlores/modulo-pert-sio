@@ -4,8 +4,6 @@
  */
 package Entidades;
 
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Manuel Lorenze
@@ -29,7 +27,7 @@ public class GestorProbabilistico {
      * @return probabilidad de culminación del proyecto
      */
     public double calcularProbabilidad(double tiempo){
-        if (tablaZeta == null){
+        if (!tablaZeta.tablaZetaCorrecta()){
             return -1;
         }
         if (tiempo > 0){
@@ -46,11 +44,11 @@ public class GestorProbabilistico {
      * @return posible duración del proyecto
      */
     public double calcularDuracion(double probabilidadExtendida){ 
-        if (tablaZeta == null){
+        if (!tablaZeta.tablaZetaCorrecta()){
             return -1;
         }
         if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal
-            double probabilidadAcotada = Math.round(probabilidadExtendida * 10000) / 10000.0;
+            double probabilidadAcotada = Math.round(probabilidadExtendida * 1000000) / 1000000.0;
             double zetaAcotadoAbs;
             boolean zetaNegativo;
             if (probabilidadAcotada < 0.5){
