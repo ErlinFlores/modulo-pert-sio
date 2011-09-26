@@ -18,6 +18,7 @@ import Entidades.TiempoEstimado;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
@@ -31,6 +32,7 @@ public class VentanaTarea extends javax.swing.JDialog {
 
     private VentanaProyecto formularioProyecto;
     private ResourceBundle etiquetas;
+    private HelpBroker helpBroker;
     private FabricaDeTareas fabricaDeTareas = FabricaDeTareas.getInstance();
     private List<Tarea> posiblesTareasPrecedentes;
     private Accion tipoAccion;
@@ -41,11 +43,13 @@ public class VentanaTarea extends javax.swing.JDialog {
     private Precedencia tareasPrecedentes;
     
     /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;      
         this.etiquetas = etiquetas;
+        this.helpBroker = helpBroker;
+        habilitarAyuda();
         this.tipoAccion = Accion.crear;
         this.id = -1;
         this.nombre = fabricaDeTareas.getNombreDeProximaTarea();
@@ -58,11 +62,13 @@ public class VentanaTarea extends javax.swing.JDialog {
     }
 
      /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;        
         this.etiquetas = etiquetas;
+        this.helpBroker = helpBroker;
+        habilitarAyuda();
         this.tipoAccion = Accion.modificar;
         this.id = tarea.obtenerId();
         this.nombre = tarea.obtenerNombre();
@@ -99,6 +105,14 @@ public class VentanaTarea extends javax.swing.JDialog {
         //tablas
         this.boton_Guardar.setText(etiquetas.getString("tareaBotonGuardar"));
         this.boton_Cancelar.setText(etiquetas.getString("tareaBotonCancelar"));
+    }
+    
+    private void habilitarAyuda(){
+        if (helpBroker != null){            
+            helpBroker.enableHelpKey(this.getContentPane(), "tarea", helpBroker.getHelpSet());
+        }else{
+            System.out.println("Error al cargar la ayuda");
+        } 
     }
     
     private boolean validarDatosDeEntradaDelUsuario(){
