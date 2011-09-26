@@ -73,7 +73,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
         label_Tutoriado.setText("Tutoriado por: Ing. Daniel Paolillo");
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel1.setText("Version 1.0 beta");
+        jLabel1.setText("Version 1.1 beta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -86,7 +86,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
                     .addComponent(label_Herramienta)
                     .addComponent(label_Desarrollado)
                     .addComponent(label_Tutoriado))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(382, Short.MAX_VALUE)
                 .addComponent(boton_Cerrar)
@@ -94,7 +94,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(368, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
