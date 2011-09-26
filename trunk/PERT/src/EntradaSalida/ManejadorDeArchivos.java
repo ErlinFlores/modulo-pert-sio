@@ -4,6 +4,9 @@
  */
 package EntradaSalida;
 
+import Entidades.ResultadoDeCargaDeAyuda;
+import Entidades.ResultadoDeCargaDeTablaZeta;
+import Entidades.ResultadoDeEscrituraDeLogDeErrores;
 import com.csvreader.CsvReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,9 +28,13 @@ import javax.help.HelpSetException;
  */
 public class ManejadorDeArchivos {
     
+    public static ResultadoDeCargaDeTablaZeta resultadoDeCargaDeTablaZeta = null;
+    public static ResultadoDeCargaDeAyuda resultadoDeCargaDeAyuda = null;
+    public static ResultadoDeEscrituraDeLogDeErrores resultadoDeEscrituraDeLogDeErrores = null;
+    
     /**
-     * Método que carga la tabla Zeta en memoria a través de un archivo que
-     * contiene los datos correspondientes.
+     * Método que carga la tabla Zeta a través de un archivo que
+     * contiene las probabilidades correspondientes.
      * @return 
      */
     public static double[][] cargarTablaZ(){
@@ -49,39 +56,54 @@ public class ManejadorDeArchivos {
                     tablaZ[fila][9] = Double.parseDouble(lectorDeDatos.get(9));
                     fila++;
                 }
+                ManejadorDeArchivos.resultadoDeCargaDeTablaZeta = ResultadoDeCargaDeTablaZeta.cargaExitosa;
                 return tablaZ;
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                ManejadorDeArchivos.resultadoDeCargaDeTablaZeta = ResultadoDeCargaDeTablaZeta.datosInconsistentes;
             }
             lectorDeDatos.close();            
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+            ManejadorDeArchivos.resultadoDeCargaDeTablaZeta = ResultadoDeCargaDeTablaZeta.archivoNoEncontrado;
         }
         return null;
-    }   
+    }       
     
+    /**
+     * Método que carga la ayuda al usuario.
+     * @return 
+     */
     public static HelpBroker cargarAyuda(){
         try {
             File fichero = new File("help/help_set.hs");
             URL hsURL = fichero.toURI().toURL();
             HelpSet helpset = new HelpSet(ManejadorDeArchivos.class.getClassLoader(), hsURL);
+            resultadoDeCargaDeAyuda = ResultadoDeCargaDeAyuda.cargaExitosa;
             return helpset.createHelpBroker();
         } catch (MalformedURLException ex) {
-            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);            
         } catch (HelpSetException ex) {
             Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
         }
+        resultadoDeCargaDeAyuda = ResultadoDeCargaDeAyuda.cargaFallida;
         return null;
-    }
+    }   
     
+    /**
+     * Método que escribe líneas con mensajes de errores en el log de errores.
+     * @param lineaDeError 
+     */
     public static void escribirLineaDeErrorEnLog(String lineaDeError){
         PrintWriter writer = null; 
         try {
             Date fecha = new Date(System.currentTimeMillis());
             writer = new PrintWriter("logDeErrores.txt");
-            writer.println(fecha+" >> "+lineaDeError+"\n");               
+            writer.println(fecha+" >> "+lineaDeError+"\n");  
+            resultadoDeEscrituraDeLogDeErrores = ResultadoDeEscrituraDeLogDeErrores.escrituraExitosa;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+            resultadoDeEscrituraDeLogDeErrores = ResultadoDeEscrituraDeLogDeErrores.escrituraFallida;
         }finally{
             try{                    
                 if( null != writer ){   
