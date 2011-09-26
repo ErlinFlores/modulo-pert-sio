@@ -16,6 +16,7 @@ import Entidades.GestorProbabilistico;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
 import java.util.ResourceBundle;
+import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -27,16 +28,19 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaResultados extends javax.swing.JDialog {
 
     private ResourceBundle etiquetas;
+    private HelpBroker helpBroker;
     private RedDeTareas redDeTareas;
     private String unidadDeTiempo;
     private EstrategiaDeSeleccionDeDesvEst estrategia;
     private GestorProbabilistico gestorProbabilistico;
     
     /** Creates new form VentanaResultados */
-    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas) {
+    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.etiquetas = etiquetas;
+        this.helpBroker = helpBroker;
+        habilitarAyuda();
         this.redDeTareas = redDeTareas;
         this.unidadDeTiempo = unidadDeTiempo;
         this.estrategia = resetearEstrategiaDeSeleccionDeDesvEst();
@@ -90,6 +94,14 @@ public class VentanaResultados extends javax.swing.JDialog {
         this.boton_CalcularProbabilidad.setText(etiquetas.getString("resultadosBotonCalcularProbabilidad"));
         this.boton_CalcularDuracion.setText(etiquetas.getString("resultadosBotonCalcularDuracion")); 
         this.boton_Salir.setText(etiquetas.getString("resultadosBotonSalir"));
+    }
+    
+    private void habilitarAyuda(){
+        if (helpBroker != null){            
+            helpBroker.enableHelpKey(this.getContentPane(), "resultados", helpBroker.getHelpSet());
+        }else{
+            System.out.println("Error al cargar la ayuda");
+        } 
     }
     
     private EstrategiaDeSeleccionDeDesvEst resetearEstrategiaDeSeleccionDeDesvEst(){
