@@ -154,7 +154,7 @@ public class VentanaResultados extends javax.swing.JDialog {
     }
     
     private void actualizarInformacionDelProyecto(){
-        String duracionDelProyectoStr = String.valueOf(redDeTareas.obtenerDuracionDelProyecto())+" "+unidadDeTiempo;
+        String duracionDelProyectoStr = String.valueOf((Math.round(redDeTareas.obtenerDuracionDelProyecto()*100)/100.0)+" "+unidadDeTiempo);
         this.campoTexto_DuracionDelProyecto.setText(duracionDelProyectoStr);
         DefaultTableModel modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tabla_CaminosCriticos.getModel();
         int fila = 0;
