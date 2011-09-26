@@ -79,20 +79,29 @@ public class TablaZeta {
      * @return 
      */
     public double obtenerZeta(double probabilidad){
-        double diferenciaAnterior = Math.abs(probabilidad - tablaZ[0][0]);
-        int filaAnterior = 0;
-        int columnaAnterior = 0;
+        double diferenciaAnterior = 0;
+        int filaAnterior = -1;
+        int columnaAnterior = -1;
         for(int filaActual = 0; filaActual <= 30; filaActual++){
             for(int columnaActual = 0; columnaActual <= 9; columnaActual++){
-                double diferenciaActual = Math.abs(probabilidad - tablaZ[filaActual][columnaActual]);
-                if ((diferenciaAnterior <= diferenciaActual) && !((filaActual == 0) && (columnaActual == 0))){
-                    return (filaAnterior/10.0)+(columnaAnterior/100.0);
+                double diferenciaActual = tablaZ[filaActual][columnaActual] - probabilidad;
+                if ((0 <= diferenciaActual) && !((filaActual == 0) && (columnaActual == 0))){
+                    diferenciaAnterior = Math.abs(diferenciaAnterior);
+                    if (diferenciaAnterior >= diferenciaActual){
+                        return (filaActual/10.0)+(columnaActual/100.0);
+                    }else{
+                        if (!(columnaActual == 0)){
+                            return (filaActual/10.0)+(columnaAnterior/100.0);
+                        }else{
+                            return (filaAnterior/10.0)+(columnaAnterior/100.0);
+                        }
+                    }                        
                 }                
                 diferenciaAnterior = diferenciaActual;
                 columnaAnterior = columnaActual;
             }
             filaAnterior = filaActual;
         }
-        return (30/10.0)+(9/100.0);
+        return (filaAnterior/10.0)+(columnaAnterior/100.0);
     }
 }
