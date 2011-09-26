@@ -4,9 +4,9 @@
  */
 package EntradaSalida;
 
-import Entidades.ResultadoDeCargaDeAyuda;
-import Entidades.ResultadoDeCargaDeTablaZeta;
-import Entidades.ResultadoDeEscrituraDeLogDeErrores;
+import Entidades.Estados.ResultadoDeCargaDeAyuda;
+import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
+import Entidades.Estados.ResultadoDeEscrituraDeLogDeErrores;
 import com.csvreader.CsvReader;
 import java.io.File;
 import java.io.FileNotFoundException;
