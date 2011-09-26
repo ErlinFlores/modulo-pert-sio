@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import javax.swing.JFileChooser;
+import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,8 +31,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaProyecto extends javax.swing.JFrame {
   
-    Locale lugarConfigurado;
-    ResourceBundle etiquetas;
+    private Locale lugarConfigurado;
+    private HelpBroker helpBroker;
+    private ResourceBundle etiquetas;
     private String nombre;
     private String unidadDeTiempo;
     private String descripcion;    
@@ -40,9 +41,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
     
     
     /** Creates new form VentanaProyecto */
-    public VentanaProyecto(Locale lugarConfigurado) {
+    public VentanaProyecto(Locale lugarConfigurado, HelpBroker helpBroker) {
         initComponents();   
         this.lugarConfigurado = lugarConfigurado;
+        this.helpBroker = helpBroker;
+        habilitarAyuda();
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();              
@@ -105,6 +108,15 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.tblTareasProyecto= new JTable(modeloDeTablaDeTareas);**/
     }   
 
+    private void habilitarAyuda(){
+        if (helpBroker != null){
+            helpBroker.enableHelpOnButton(this.subMenu_AyudaContenidos, "aplicacion", helpBroker.getHelpSet());
+            helpBroker.enableHelpKey(this.getContentPane(), "aplicacion", helpBroker.getHelpSet());
+        }else{
+            System.out.println("Error al cargar la ayuda");
+        } 
+    }
+    
     /**
      * Previo al almacenamiento en la estructura de datos de los datos ingresados por el usuario,
      * se verifica que los mismos sean correctos.
@@ -502,13 +514,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
         menu_Ayuda.setText("Ayuda");
 
-        subMenu_AyudaContenidos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         subMenu_AyudaContenidos.setText("Ayuda Contenidos");
-        subMenu_AyudaContenidos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                subMenu_AyudaContenidosActionPerformed(evt);
-            }
-        });
         menu_Ayuda.add(subMenu_AyudaContenidos);
         menu_Ayuda.add(jSeparator2);
 
@@ -610,7 +616,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AgregarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarTareaActionPerformed
         if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas, helpBroker);
             ventanaTarea.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
@@ -622,7 +628,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas, helpBroker);
             ventanaTarea.setVisible(true);            
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
@@ -655,7 +661,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
                 realizarCalculosPERT();
             }
-            VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas);
+            VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
             ventanaResultados.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoHayTareasIngresadasParaRealizarAnalisisPERT"));
@@ -687,10 +693,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private void subMenu_Demo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo1ActionPerformed
         cargarProyectoDemo(new Demo1());
     }//GEN-LAST:event_subMenu_Demo1ActionPerformed
-
-    private void subMenu_AyudaContenidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AyudaContenidosActionPerformed
-        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
-    }//GEN-LAST:event_subMenu_AyudaContenidosActionPerformed
 
     private void subMenu_AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AcercaDeActionPerformed
         VentanaAcercaDe ventanaAcercaDe = new VentanaAcercaDe(this, true, etiquetas);
