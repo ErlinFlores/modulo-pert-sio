@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<toc version="1.0"> 
+    <tocitem text="PERT" target="aplicacion">
+       <tocitem text="Ventana Tarea" target="tarea"/>
+       <tocitem text="Ventana Resultados" target="resultados"/>
+    </tocitem>
+</toc>
