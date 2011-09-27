@@ -11,6 +11,7 @@
 
 package Ventanas;
 
+import Entidades.Estados.Accion;
 import Demo.Demo1;
 import Demo.Demo2;
 import Demo.Demo3;
@@ -36,7 +37,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private String nombre;
     private String unidadDeTiempo;
     private String descripcion;    
-    private RedDeTareas redDeTareas;
+    private RedDeTareas redDeTareas;    
+    private DefaultTableModel modeloDeTablaDeTareas;
     
     
     /** Creates new form VentanaProyecto */
@@ -52,6 +54,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
         this.descripcion = etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
         this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());      
+        inicializarTabla();
         setearEtiquetas();  
         setearCampos();
     }  
@@ -75,14 +78,15 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.subMenu_Portugues.setText(etiquetas.getString("proyectoSubMenuPortugues"));
         this.menu_Demos.setText(etiquetas.getString("proyectoMenuDemos"));
         this.subMenu_Demo1.setText(etiquetas.getString("proyectoSubMenuDemo1"));
-        //this.subMenu_Demo2.setText(etiquetas.getString("proyectoSubMenuDemo2"));
-        //this.subMenu_Demo3.setText(etiquetas.getString("proyectoSubMenuDemo3"));
+        this.subMenu_Demo2.setText(etiquetas.getString("proyectoSubMenuDemo2"));
+        this.subMenu_Demo3.setText(etiquetas.getString("proyectoSubMenuDemo3"));
         this.menu_Ayuda.setText(etiquetas.getString("proyectoMenuAyuda"));
         this.subMenu_AyudaContenidos.setText(etiquetas.getString("proyectoSubMenuAyudaContenidos"));
         this.subMenu_AcercaDe.setText(etiquetas.getString("proyectoSubMenuAcercaDe"));
         
         this.label_NombreProyecto.setText(etiquetas.getString("proyectoLabelNombreProyecto"));
         this.label_UnidadDeTiempo.setText(etiquetas.getString("proyectoLabelUnidadDeTiempo"));
+        this.label_CifrasDecimales.setText(etiquetas.getString("proyectoLabelCifrasDecimales"));
         this.label_CantidadTareas.setText(etiquetas.getString("proyectoLabelCantidadTareas"));        
         this.label_DescripcionProyecto.setText(etiquetas.getString("proyectoLabelDescripcionProyecto"));
         this.label_TareasProyecto.setText(etiquetas.getString("proyectoLabelTareasProyecto"));
@@ -94,18 +98,28 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.boton_Salir.setText(etiquetas.getString("proyectoBotonSalir"));
         this.boton_AnalisisPERT.setText(etiquetas.getString("proyectoBotonAnalisisPERT")); 
         
-        /**String[] columnasDeTablaDeTareas = {
-            etiquetas.getString("nombreTarea"),
-            etiquetas.getString("descripcionTarea"),
-            etiquetas.getString("precedenciaTarea"),
-            etiquetas.getString("tiempoOptimistaTarea"),
-            etiquetas.getString("tiempoMasProbableTarea"),
-            etiquetas.getString("tiempoPesimistaTarea")
-        };
-        Object[][] datos = {{"1", "2", "3", "4", "5", "6"}};
-        DefaultTableModel modeloDeTablaDeTareas = new DefaultTableModel(datos, columnasDeTablaDeTareas);
-        this.tblTareasProyecto= new JTable(modeloDeTablaDeTareas);**/
+        tabla_TareasProyecto.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("proyectoTablaColumnaNombreTarea"));
+        tabla_TareasProyecto.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("proyectoTablaColumnaDescripcionTarea"));
+        tabla_TareasProyecto.getColumnModel().getColumn(2).setHeaderValue(etiquetas.getString("proyectoTablaColumnaPrecedenciaTarea"));
+        tabla_TareasProyecto.getColumnModel().getColumn(3).setHeaderValue(etiquetas.getString("proyectoTablaColumnaTiempoOptimistaTarea"));
+        tabla_TareasProyecto.getColumnModel().getColumn(4).setHeaderValue(etiquetas.getString("proyectoTablaColumnaTiempoMasProbableTarea"));
+        tabla_TareasProyecto.getColumnModel().getColumn(5).setHeaderValue(etiquetas.getString("proyectoTablaColumnaTiempoPesimistaTarea"));
     }   
+    
+    private void inicializarTabla(){
+        modeloDeTablaDeTareas = new DefaultTableModel(0, 6);
+        tabla_TareasProyecto.setModel(modeloDeTablaDeTareas);
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);                
+        tabla_TareasProyecto.getColumnModel().getColumn(0).setMaxWidth(100);
+        tabla_TareasProyecto.getColumnModel().getColumn(0).setResizable(false); 
+        tabla_TareasProyecto.getColumnModel().getColumn(0).setCellRenderer(dtcr);
+        tabla_TareasProyecto.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
+        tabla_TareasProyecto.getColumnModel().getColumn(2).setCellRenderer(dtcr);        
+        tabla_TareasProyecto.getColumnModel().getColumn(3).setCellRenderer(dtcr);        
+        tabla_TareasProyecto.getColumnModel().getColumn(4).setCellRenderer(dtcr);        
+        tabla_TareasProyecto.getColumnModel().getColumn(5).setCellRenderer(dtcr);
+    }
 
     private void habilitarAyuda(){
         if (helpBroker != null){
@@ -143,6 +157,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private void setearCampos(){                                              
         campoTexto_NombreProyecto.setText(nombre);
         campoTexto_UnidadDeTiempo.setText(unidadDeTiempo);
+        combo_CifrasDecimales.setSelectedIndex(2);
         campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
         areaTexto_DescripcionProyecto.setText(descripcion);
         int fila = 0;
@@ -168,19 +183,18 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @param tarea (tarea que forma parte de la modificación).
      */
     private void actualizarTablaDeDatosIngresados(int fila, Accion accion, Tarea tarea){
-        DefaultTableModel modeloDeTablaDeDatosIngresados = (DefaultTableModel)this.tabla_TareasProyecto.getModel();
         if (accion.equals(Accion.eliminar)){
-            modeloDeTablaDeDatosIngresados.removeRow(fila);            
+            modeloDeTablaDeTareas.removeRow(fila);            
         }else{ 
             if (accion.equals(Accion.crear)) {
-                modeloDeTablaDeDatosIngresados.addRow(new Object[fila]);
+                modeloDeTablaDeTareas.addRow(new Object[fila]);
                 tabla_TareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
             }            
             tabla_TareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
             tabla_TareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(combo_CifrasDecimales.getSelectedIndex()), fila, 3);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(combo_CifrasDecimales.getSelectedIndex()), fila, 4);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(combo_CifrasDecimales.getSelectedIndex()), fila, 5);
         }      
         tabla_TareasProyecto.updateUI();
     }        
@@ -233,15 +247,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         return redDeTareas.obtenerPosiblesTareasPrecedentes(tarea);
     }    
    
-    /**
-     * Método que ejecuta el algoritmo de cálculos de duración esperada de las tareas,
-     * tiempos tempranos, tiempos tardíos, holguras y tareas críticas.
-     */
-    private void realizarCalculosPERT(){
-        if (!redDeTareas.realizarCalculosPERT()){
-            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorEnCalculosSobreRedDeTareas"));
-        }   
-    }
     
     private void salirDelSistema(){
         int seleccion = JOptionPane.showOptionDialog(
@@ -300,6 +305,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
         campoTexto_UnidadDeTiempo = new javax.swing.JTextField();
         campoTexto_CantidadTareas = new javax.swing.JTextField();
         label_CantidadTareas = new javax.swing.JLabel();
+        label_CifrasDecimales = new javax.swing.JLabel();
+        combo_CifrasDecimales = new javax.swing.JComboBox();
         jMenuBar = new javax.swing.JMenuBar();
         menu_Archivo = new javax.swing.JMenu();
         subMenu_Nuevo = new javax.swing.JMenuItem();
@@ -314,6 +321,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
         subMenu_Portugues = new javax.swing.JMenuItem();
         menu_Demos = new javax.swing.JMenu();
         subMenu_Demo1 = new javax.swing.JMenuItem();
+        subMenu_Demo2 = new javax.swing.JMenuItem();
+        subMenu_Demo3 = new javax.swing.JMenuItem();
         menu_Ayuda = new javax.swing.JMenu();
         subMenu_AyudaContenidos = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -326,6 +335,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
         label_TareasProyecto.setText("lblTareasProyecto");
 
+        tabla_TareasProyecto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         tabla_TareasProyecto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -350,6 +360,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
             }
         });
         tabla_TareasProyecto.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tabla_TareasProyecto.setOpaque(false);
         tabla_TareasProyecto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tabla_TareasProyecto.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla_TareasProyecto);
@@ -415,6 +426,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
         campoTexto_CantidadTareas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         label_CantidadTareas.setText("lblCantidadTareas");
+
+        label_CifrasDecimales.setText("lblCifrasDecimales");
+
+        combo_CifrasDecimales.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4" }));
+        combo_CifrasDecimales.setSelectedIndex(2);
 
         jMenuBar.setBorder(null);
         jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -509,10 +525,27 @@ public class VentanaProyecto extends javax.swing.JFrame {
         });
         menu_Demos.add(subMenu_Demo1);
 
+        subMenu_Demo2.setText("Demo 2 ");
+        subMenu_Demo2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenu_Demo2ActionPerformed(evt);
+            }
+        });
+        menu_Demos.add(subMenu_Demo2);
+
+        subMenu_Demo3.setText("Demo 3");
+        subMenu_Demo3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subMenu_Demo3ActionPerformed(evt);
+            }
+        });
+        menu_Demos.add(subMenu_Demo3);
+
         jMenuBar.add(menu_Demos);
 
         menu_Ayuda.setText("Ayuda");
 
+        subMenu_AyudaContenidos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         subMenu_AyudaContenidos.setText("Ayuda Contenidos");
         menu_Ayuda.add(subMenu_AyudaContenidos);
         menu_Ayuda.add(jSeparator2);
@@ -543,15 +576,19 @@ public class VentanaProyecto extends javax.swing.JFrame {
                             .addComponent(label_CantidadTareas))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                .addComponent(label_DescripcionProyecto))
-                            .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54))
+                            .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(label_CifrasDecimales)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(combo_CifrasDecimales, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addComponent(label_DescripcionProyecto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(label_TareasProyecto)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -577,17 +614,21 @@ public class VentanaProyecto extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(label_NombreProyecto)
-                            .addComponent(label_DescripcionProyecto)
-                            .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label_DescripcionProyecto))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label_UnidadDeTiempo))
+                            .addComponent(label_UnidadDeTiempo)
+                            .addComponent(label_CifrasDecimales)
+                            .addComponent(combo_CifrasDecimales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(label_CantidadTareas)))
-                    .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -615,7 +656,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AgregarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarTareaActionPerformed
         if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas, helpBroker);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas, combo_CifrasDecimales.getSelectedIndex(), helpBroker);
             ventanaTarea.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
@@ -627,7 +668,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas, helpBroker);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas, combo_CifrasDecimales.getSelectedIndex(), helpBroker);
             ventanaTarea.setVisible(true);            
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
@@ -657,11 +698,16 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AnalisisPERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AnalisisPERTActionPerformed
         if (redDeTareas.obtenerCantidadDeTareas() > 0){
+            boolean huboError = false;
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
-                realizarCalculosPERT();
+                huboError = redDeTareas.realizarCalculosPERT();                    
             }
-            VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
-            ventanaResultados.setVisible(true);
+            if (!huboError){
+                VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, combo_CifrasDecimales.getSelectedIndex(), helpBroker);
+                ventanaResultados.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorEnCalculosSobreRedDeTareas"));
+            }            
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoHayTareasIngresadasParaRealizarAnalisisPERT"));
         }      
@@ -688,10 +734,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         this.setearEtiquetas();
     }//GEN-LAST:event_subMenu_PortuguesActionPerformed
-
-    private void subMenu_Demo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo1ActionPerformed
-        cargarProyectoDemo(new Demo1());
-    }//GEN-LAST:event_subMenu_Demo1ActionPerformed
 
     private void subMenu_AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AcercaDeActionPerformed
         VentanaAcercaDe ventanaAcercaDe = new VentanaAcercaDe(this, true, etiquetas);
@@ -737,6 +779,18 @@ public class VentanaProyecto extends javax.swing.JFrame {
         salirDelSistema();
     }//GEN-LAST:event_subMenu_SalirActionPerformed
 
+    private void subMenu_Demo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo1ActionPerformed
+         cargarProyectoDemo(new Demo1());
+    }//GEN-LAST:event_subMenu_Demo1ActionPerformed
+
+    private void subMenu_Demo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo2ActionPerformed
+         cargarProyectoDemo(new Demo2());
+    }//GEN-LAST:event_subMenu_Demo2ActionPerformed
+
+    private void subMenu_Demo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo3ActionPerformed
+         cargarProyectoDemo(new Demo3());
+    }//GEN-LAST:event_subMenu_Demo3ActionPerformed
+
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java
     /**
     * @param args the command line arguments
@@ -760,12 +814,14 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private javax.swing.JTextField campoTexto_CantidadTareas;
     private javax.swing.JTextField campoTexto_NombreProyecto;
     private javax.swing.JTextField campoTexto_UnidadDeTiempo;
+    private javax.swing.JComboBox combo_CifrasDecimales;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel label_CantidadTareas;
+    private javax.swing.JLabel label_CifrasDecimales;
     private javax.swing.JLabel label_DescripcionProyecto;
     private javax.swing.JLabel label_NombreProyecto;
     private javax.swing.JLabel label_TareasProyecto;
@@ -778,6 +834,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private javax.swing.JMenuItem subMenu_AcercaDe;
     private javax.swing.JMenuItem subMenu_AyudaContenidos;
     private javax.swing.JMenuItem subMenu_Demo1;
+    private javax.swing.JMenuItem subMenu_Demo2;
+    private javax.swing.JMenuItem subMenu_Demo3;
     private javax.swing.JMenuItem subMenu_Español;
     private javax.swing.JMenuItem subMenu_Guardar;
     private javax.swing.JMenuItem subMenu_GuardarComo;
