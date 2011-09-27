@@ -11,7 +11,7 @@
 package Ventanas;
 
 import Entidades.CaminoCritico;
-import Entidades.EstrategiaDeSeleccionDeDesvEst;
+import Entidades.Estados.EstrategiaDeSeleccionDeDesvEst;
 import Entidades.GestorProbabilistico;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaResultados extends javax.swing.JDialog {
 
     private ResourceBundle etiquetas;
+    private int cifrasDecimales;
     private HelpBroker helpBroker;
     private RedDeTareas redDeTareas;
     private String unidadDeTiempo;
@@ -35,10 +36,11 @@ public class VentanaResultados extends javax.swing.JDialog {
     private GestorProbabilistico gestorProbabilistico;
     
     /** Creates new form VentanaResultados */
-    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, HelpBroker helpBroker) {
+    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, int cifrasDecimales, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.etiquetas = etiquetas;
+        this.cifrasDecimales = cifrasDecimales;
         this.helpBroker = helpBroker;
         habilitarAyuda();
         this.redDeTareas = redDeTareas;
