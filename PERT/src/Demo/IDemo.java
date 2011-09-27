@@ -4,7 +4,7 @@
  */
 package Demo;
 
-import Entidades.Accion;
+import Entidades.Estados.Accion;
 import Entidades.RedDeTareas;
 
 /**
