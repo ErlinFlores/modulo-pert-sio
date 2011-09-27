@@ -10,7 +10,7 @@
  */
 package Ventanas;
 
-import Entidades.Accion;
+import Entidades.Estados.Accion;
 import Entidades.FabricaDeTareas;
 import Entidades.Precedencia;
 import Entidades.Tarea;
@@ -36,14 +36,15 @@ public class VentanaTarea extends javax.swing.JDialog {
     private FabricaDeTareas fabricaDeTareas = FabricaDeTareas.getInstance();
     private List<Tarea> posiblesTareasPrecedentes;
     private Accion tipoAccion;
+    private int cifrasDecimales;
     private int id;
     private String nombre;
-    private String descripcion;
+    private String descripcion;    
     private TiempoEstimado tiemposEstimados;
     private Precedencia tareasPrecedentes;
     
     /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, HelpBroker helpBroker) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, int cifrasDecimales, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;      
@@ -51,6 +52,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.helpBroker = helpBroker;
         habilitarAyuda();
         this.tipoAccion = Accion.crear;
+        this.cifrasDecimales = cifrasDecimales;
         this.id = -1;
         this.nombre = fabricaDeTareas.getNombreDeProximaTarea();
         this.descripcion = "";
@@ -62,7 +64,7 @@ public class VentanaTarea extends javax.swing.JDialog {
     }
 
      /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas, HelpBroker helpBroker) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas, int cifrasDecimales, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;        
@@ -70,6 +72,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.helpBroker = helpBroker;
         habilitarAyuda();
         this.tipoAccion = Accion.modificar;
+        this.cifrasDecimales = cifrasDecimales;
         this.id = tarea.obtenerId();
         this.nombre = tarea.obtenerNombre();
         this.descripcion = tarea.obtenerDescripcion();
@@ -139,9 +142,9 @@ public class VentanaTarea extends javax.swing.JDialog {
                 indiceFila += 1;
             }            
             campoTexto_DescripcionTarea.setText(descripcion);
-            campoTexto_TiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista()));
-            campoTexto_TiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable()));
-            campoTexto_TiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista()));
+            campoTexto_TiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista(cifrasDecimales)));
+            campoTexto_TiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable(cifrasDecimales)));
+            campoTexto_TiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista(cifrasDecimales)));
         }
     }
     
@@ -455,7 +458,7 @@ public class VentanaTarea extends javax.swing.JDialog {
                 switch (tipoAccion){
                     case crear:
                         tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
-                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, tareasPrecedentes);
+                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, cifrasDecimales, tareasPrecedentes);
                         formularioProyecto.agregarTarea(nuevaTarea);
                         break;
                     case modificar:
