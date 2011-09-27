@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
 import EntradaSalida.ManejadorDeArchivos;
 
 /**
@@ -31,20 +32,15 @@ public class TablaZeta {
     //-------------------------------------------------------------------------- 
     
     private double[][] tablaZ;
+    private ResultadoDeCargaDeTablaZeta resultadoDeCargaDeTablaZeta;
     
     private TablaZeta(){
-        this.cargarTabla();
-    }
-    
-    /**
-     * Método que carga en memoria la tabla Zeta del archivo correspondiente.
-     */
-    private void cargarTabla(){
         tablaZ = ManejadorDeArchivos.cargarTablaZ();
+        resultadoDeCargaDeTablaZeta = ManejadorDeArchivos.resultadoDeCargaDeTablaZeta;
     }
     
-    public boolean tablaZetaCorrecta(){
-        return !(tablaZ == null);
+    public ResultadoDeCargaDeTablaZeta obtenerResultadoDeUltimaCarga(){
+        return resultadoDeCargaDeTablaZeta;
     }
     
     /**

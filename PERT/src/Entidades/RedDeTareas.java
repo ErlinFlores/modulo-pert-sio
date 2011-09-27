@@ -5,6 +5,7 @@
 
 package Entidades;
 
+import Entidades.Estados.EstrategiaDeSeleccionDeDesvEst;
 import java.util.ArrayList;
 import java.util.List;
 
