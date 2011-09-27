@@ -23,6 +23,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
