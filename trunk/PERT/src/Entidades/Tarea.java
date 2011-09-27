@@ -15,13 +15,15 @@ public class Tarea extends TareaAbstracta{
     private String nombre;
     private String descripcion;
     private TiempoEstimado tiempoEstimado;
+    private int cifrasDecimales;
     private Precedencia precedencia;
     
-    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, int cifrasDecimales, Precedencia precedencia){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoEstimado = tiempoEstimado;
+        this.cifrasDecimales = cifrasDecimales;
         this.precedencia = precedencia;
         resetearTiemposCalculables();
     }    
@@ -55,14 +57,14 @@ public class Tarea extends TareaAbstracta{
     }    
     
     public double obtenerDuracionEsperada() {
-        return tiempoEstimado.obtenerDuracionEsperada();
+        return tiempoEstimado.obtenerDuracionEsperada(cifrasDecimales);
     }
 
     public double obtenerDesviacionEstandar() {
-        return tiempoEstimado.obtenerDesviacionEstandar();
+        return tiempoEstimado.obtenerDesviacionEstandar(cifrasDecimales);
     }
 
     public double obtenerVarianza() {
-        return tiempoEstimado.obtenerVarianza();
+        return tiempoEstimado.obtenerVarianza(cifrasDecimales);
     }
 }

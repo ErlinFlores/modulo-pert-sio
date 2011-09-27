@@ -4,6 +4,8 @@
  */
 package Entidades;
 
+import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
+
 /**
  *
  * @author Manuel Lorenze
@@ -23,15 +25,15 @@ public class GestorProbabilistico {
     /**
      * Método que calcula la probabilidad de culminar el proyecto en un
      * tiempo determinado.
-     * @param tiempo
+     * @param duracion
      * @return probabilidad de culminación del proyecto
      */
-    public double calcularProbabilidad(double tiempo){
-        if (!tablaZeta.tablaZetaCorrecta()){
+    public double calcularProbabilidad(double duracion){
+        if (!(tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.cargaExitosa))){
             return -1;
         }
-        if (tiempo > 0){
-            double zetaExtendido = (tiempo - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
+        if (duracion > 0){
+            double zetaExtendido = ((Math.round(duracion * 100) / 100.0) - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
             return tablaZeta.obtenerProbabilidad(Math.round(zetaExtendido * 100) / 100.0);
         }
         return -1;
@@ -44,7 +46,7 @@ public class GestorProbabilistico {
      * @return posible duración del proyecto
      */
     public double calcularDuracion(double probabilidadExtendida){ 
-        if (!tablaZeta.tablaZetaCorrecta()){
+        if (!(tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.cargaExitosa))){
             return -1;
         }
         if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal

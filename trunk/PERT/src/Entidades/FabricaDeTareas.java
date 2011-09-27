@@ -41,14 +41,14 @@ public class FabricaDeTareas {
         listaDeIdsDeTareasEliminadas = new ArrayList<Integer>();
     }
     
-    public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+    public Tarea crearTarea(String descripcion, TiempoEstimado tiempoEstimado, int cifrasDecimales, Precedencia precedencia){
         int id;
         if (listaDeIdsDeTareasEliminadas.size() > 0){
             id = listaDeIdsDeTareasEliminadas.remove(0);
         }else{
             id = getId();
         }
-        return new Tarea(id, getNombreByIdTarea(id), descripcion, tiempoEstimado, precedencia);
+        return new Tarea(id, getNombreByIdTarea(id), descripcion, tiempoEstimado, cifrasDecimales, precedencia);
     }   
     
     private int getId(){
