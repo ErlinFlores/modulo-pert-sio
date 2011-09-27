@@ -5,7 +5,7 @@
 
 package Demo;
 
-import Entidades.Accion;
+import Entidades.Estados.Accion;
 import Entidades.FabricaDeTareas;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
