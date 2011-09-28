@@ -19,12 +19,14 @@ public class RedDeTareas {
     private double duracionDelProyecto;
     private List<CaminoCritico> caminosCriticos;
     private boolean ultimoCalculoPERTesCorrecto;
+    private int cifrasDecimales;
 
     public RedDeTareas(List<Tarea> tareas){
         this.tareas = tareas;
         this.duracionDelProyecto = -1;
         this.caminosCriticos = new ArrayList<CaminoCritico>();
         this.ultimoCalculoPERTesCorrecto = false;
+        this.cifrasDecimales = GestorDeCifrasDecimales.getInstance().obtenerCifrasDecimales();
     }
 
     public void agregarTarea(Tarea tarea){
@@ -313,9 +315,11 @@ public class RedDeTareas {
      */
     private boolean esCaminoCritico(List<Tarea> camino){
         double tiempoDelCamino = 0;
-        for (Tarea tarea : camino){
-            tiempoDelCamino += tarea.obtenerDuracionEsperada();
+        for (Tarea tarea : camino){           
+            double d = tarea.obtenerDuracionEsperada();
+            tiempoDelCamino = tiempoDelCamino + d;
         }
-        return tiempoDelCamino == duracionDelProyecto;
+        double valorParaAcotar = Math.pow(10, cifrasDecimales);
+        return Math.round(tiempoDelCamino*valorParaAcotar)/valorParaAcotar == duracionDelProyecto;
     }
 }

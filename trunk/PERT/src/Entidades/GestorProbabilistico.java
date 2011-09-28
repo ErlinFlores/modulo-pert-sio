@@ -28,13 +28,15 @@ public class GestorProbabilistico {
      * @param duracion
      * @return probabilidad de culminación del proyecto
      */
-    public double calcularProbabilidad(double duracion){
+    public double calcularProbabilidad(double duracionExtendida){
         if (!(tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.cargaExitosa))){
             return -1;
         }
-        if (duracion > 0){
-            double zetaExtendido = ((Math.round(duracion * 100) / 100.0) - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
-            return tablaZeta.obtenerProbabilidad(Math.round(zetaExtendido * 100) / 100.0);
+        if (duracionExtendida > 0){
+            double zetaExtendido = (duracionExtendida - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
+            double probabilidadExtendida = tablaZeta.obtenerProbabilidad(Math.round(zetaExtendido * 100) / 100.0);
+            double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
+            return Math.round(probabilidadExtendida * valorParaAcotar) / valorParaAcotar;
         }
         return -1;
     }
@@ -50,7 +52,7 @@ public class GestorProbabilistico {
             return -1;
         }
         if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal
-            double probabilidadAcotada = Math.round(probabilidadExtendida * 1000000) / 1000000.0;
+            double probabilidadAcotada = Math.round(probabilidadExtendida * 1000000) / 1000000.0; // Se acota manteniendo la cantidad de cifras de los valores de la tabla Z.
             double zetaAcotadoAbs;
             boolean zetaNegativo;
             if (probabilidadAcotada < 0.5){
@@ -67,7 +69,8 @@ public class GestorProbabilistico {
                 zetaAcotado = zetaAcotadoAbs;
             }     
             double duracionExtendida = (zetaAcotado * desviacionEstandarDelProyecto) + duracionEsperadaDelProyecto;
-            return Math.round(duracionExtendida * 10000) / 10000.0;
+            double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
+            return Math.round(duracionExtendida * valorParaAcotar) / valorParaAcotar;
         }
         return -1;
     }

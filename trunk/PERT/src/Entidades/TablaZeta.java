@@ -60,7 +60,7 @@ public class TablaZeta {
             }else{
                 probabilidadExtendida = 1 - tablaZ[fila][columna];
             }            
-            return Math.round(probabilidadExtendida*10000)/10000.0;
+            return probabilidadExtendida;
         }else if(zetaAcotado > 3.09){
             return 1;
         }else{
