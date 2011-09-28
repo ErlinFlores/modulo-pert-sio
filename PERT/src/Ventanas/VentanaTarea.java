@@ -120,11 +120,16 @@ public class VentanaTarea extends javax.swing.JDialog {
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
         
         modeloTabla = new DefaultTableModel(0, 2);
-        tabla_TareasPrecedentes.setModel(modeloTabla);    
+        tabla_TareasPrecedentes.setModel(modeloTabla); 
+        tabla_TareasDisponiblesComoPrecedentes.setModel(modeloTabla);
         
+        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
+        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setResizable(false);
         tabla_TareasPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
         tabla_TareasPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
 
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setResizable(false);
         tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
         tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
     }
@@ -327,6 +332,7 @@ public class VentanaTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tabla_TareasPrecedentes.setOpaque(false);
         jScrollPane1.setViewportView(tabla_TareasPrecedentes);
         tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
 
@@ -353,6 +359,7 @@ public class VentanaTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        tabla_TareasDisponiblesComoPrecedentes.setOpaque(false);
         jScrollPane2.setViewportView(tabla_TareasDisponiblesComoPrecedentes);
         tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
 
