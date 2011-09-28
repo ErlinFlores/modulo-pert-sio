@@ -88,7 +88,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         
         this.label_NombreProyecto.setText(etiquetas.getString("proyectoLabelNombreProyecto"));
         this.label_UnidadDeTiempo.setText(etiquetas.getString("proyectoLabelUnidadDeTiempo"));
-        this.label_CifrasDecimales.setText(etiquetas.getString("proyectoLabelCifrasDecimales"));
         this.label_CantidadTareas.setText(etiquetas.getString("proyectoLabelCantidadTareas"));        
         this.label_DescripcionProyecto.setText(etiquetas.getString("proyectoLabelDescripcionProyecto"));
         this.label_TareasProyecto.setText(etiquetas.getString("proyectoLabelTareasProyecto"));
@@ -109,10 +108,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }   
     
     private void inicializarTabla(){
-        modeloDeTablaDeTareas = new DefaultTableModel(0, 6);
-        tabla_TareasProyecto.setModel(modeloDeTablaDeTareas);
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-        dtcr.setHorizontalAlignment(SwingConstants.CENTER);                
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);      
+        
+        modeloDeTablaDeTareas = new DefaultTableModel(0, 6);
+        tabla_TareasProyecto.setModel(modeloDeTablaDeTareas);                  
         tabla_TareasProyecto.getColumnModel().getColumn(0).setMaxWidth(100);
         tabla_TareasProyecto.getColumnModel().getColumn(0).setResizable(false); 
         tabla_TareasProyecto.getColumnModel().getColumn(0).setCellRenderer(dtcr);
@@ -138,7 +138,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @return (si son válidos o no los datos ingresados por el usuario).
      */
     private boolean validarDatosDeEntradaDelUsuario(){
-        if ((campoTexto_NombreProyecto.getText().equals("") && (campoTexto_NombreProyecto.getText().length() > 25))){ 
+        if ((campoTexto_NombreProyecto.getText().equals("") && (campoTexto_NombreProyecto.getText().length() > 40))){ 
             return false;
         }
         if (areaTexto_DescripcionProyecto.getText().length() > 500){ 
@@ -159,7 +159,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private void setearCampos(){                                              
         campoTexto_NombreProyecto.setText(nombre);
         campoTexto_UnidadDeTiempo.setText(unidadDeTiempo);
-        combo_CifrasDecimales.setSelectedIndex(2);
         campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
         areaTexto_DescripcionProyecto.setText(descripcion);
         int fila = 0;
@@ -194,9 +193,9 @@ public class VentanaProyecto extends javax.swing.JFrame {
             }            
             tabla_TareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
             tabla_TareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(combo_CifrasDecimales.getSelectedIndex()), fila, 3);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(combo_CifrasDecimales.getSelectedIndex()), fila, 4);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(combo_CifrasDecimales.getSelectedIndex()), fila, 5);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
+            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
         }      
         tabla_TareasProyecto.updateUI();
     }        
@@ -307,8 +306,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         campoTexto_UnidadDeTiempo = new javax.swing.JTextField();
         campoTexto_CantidadTareas = new javax.swing.JTextField();
         label_CantidadTareas = new javax.swing.JLabel();
-        label_CifrasDecimales = new javax.swing.JLabel();
-        combo_CifrasDecimales = new javax.swing.JComboBox();
         jMenuBar = new javax.swing.JMenuBar();
         menu_Archivo = new javax.swing.JMenu();
         subMenu_Nuevo = new javax.swing.JMenuItem();
@@ -428,11 +425,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         campoTexto_CantidadTareas.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         label_CantidadTareas.setText("lblCantidadTareas");
-
-        label_CifrasDecimales.setText("lblCifrasDecimales");
-
-        combo_CifrasDecimales.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4" }));
-        combo_CifrasDecimales.setSelectedIndex(2);
 
         jMenuBar.setBorder(null);
         jMenuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -579,33 +571,27 @@ public class VentanaProyecto extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(label_CifrasDecimales)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(combo_CifrasDecimales, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                            .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoTexto_NombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addComponent(label_DescripcionProyecto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
                     .addComponent(label_TareasProyecto)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(boton_AnalisisPERT, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                                .addGap(492, 492, 492)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(boton_AnalisisPERT, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                                .addGap(486, 486, 486))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(boton_Salir)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(boton_AgregarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-                                .addComponent(boton_ModificarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(boton_BorrarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(boton_BorrarTodasLasTareas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(boton_ModificarTarea, 0, 0, Short.MAX_VALUE)
+                            .addComponent(boton_AgregarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(boton_BorrarTodasLasTareas, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(boton_BorrarTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                            .addComponent(boton_Salir))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -621,16 +607,12 @@ public class VentanaProyecto extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoTexto_UnidadDeTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(label_UnidadDeTiempo)
-                            .addComponent(label_CifrasDecimales)
-                            .addComponent(combo_CifrasDecimales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(label_UnidadDeTiempo))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoTexto_CantidadTareas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(label_CantidadTareas)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(jScrollPane2, 0, 0, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -658,7 +640,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AgregarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarTareaActionPerformed
         if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas, combo_CifrasDecimales.getSelectedIndex(), helpBroker);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas, helpBroker);
             ventanaTarea.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
@@ -670,7 +652,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         if (filaSeleccionada >= 0){
             String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas, combo_CifrasDecimales.getSelectedIndex(), helpBroker);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas, helpBroker);
             ventanaTarea.setVisible(true);            
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
@@ -679,11 +661,16 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_BorrarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_BorrarTareaActionPerformed
         int filaSeleccionada = tabla_TareasProyecto.getSelectedRow();
-        if (filaSeleccionada >= 0){
+        if (filaSeleccionada >= 0){            
             String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
-            redDeTareas.borrarTarea(idTarea);
-            actualizarTablaDeDatosIngresados(filaSeleccionada, Accion.eliminar, null);
+            limpiarTablaDeTareas();                        
+            redDeTareas.borrarTarea(idTarea);            
+            int fila = 0;
+            for (Tarea tarea : redDeTareas.obtenerTareas()){
+                this.actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
+                fila++;
+            }
             campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
             FabricaDeTareas.getInstance().restaurarIdTarea(idTarea);
         }else{
@@ -700,12 +687,12 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AnalisisPERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AnalisisPERTActionPerformed
         if (redDeTareas.obtenerCantidadDeTareas() > 0){
-            boolean huboError = false;
+            boolean calculoValido = true;
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
-                huboError = redDeTareas.realizarCalculosPERT();                    
+                calculoValido = redDeTareas.realizarCalculosPERT();                    
             }
-            if (!huboError){
-                VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, combo_CifrasDecimales.getSelectedIndex(), helpBroker);
+            if (calculoValido){
+                VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
                 ventanaResultados.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorEnCalculosSobreRedDeTareas"));
@@ -816,14 +803,12 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private javax.swing.JTextField campoTexto_CantidadTareas;
     private javax.swing.JTextField campoTexto_NombreProyecto;
     private javax.swing.JTextField campoTexto_UnidadDeTiempo;
-    private javax.swing.JComboBox combo_CifrasDecimales;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel label_CantidadTareas;
-    private javax.swing.JLabel label_CifrasDecimales;
     private javax.swing.JLabel label_DescripcionProyecto;
     private javax.swing.JLabel label_NombreProyecto;
     private javax.swing.JLabel label_TareasProyecto;
