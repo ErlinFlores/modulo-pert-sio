@@ -21,7 +21,9 @@ import java.util.ResourceBundle;
 import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -36,15 +38,15 @@ public class VentanaTarea extends javax.swing.JDialog {
     private FabricaDeTareas fabricaDeTareas = FabricaDeTareas.getInstance();
     private List<Tarea> posiblesTareasPrecedentes;
     private Accion tipoAccion;
-    private int cifrasDecimales;
     private int id;
     private String nombre;
     private String descripcion;    
     private TiempoEstimado tiemposEstimados;
     private Precedencia tareasPrecedentes;
+    private DefaultTableModel modeloTabla;
     
     /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, int cifrasDecimales, HelpBroker helpBroker) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;      
@@ -52,19 +54,19 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.helpBroker = helpBroker;
         habilitarAyuda();
         this.tipoAccion = Accion.crear;
-        this.cifrasDecimales = cifrasDecimales;
         this.id = -1;
         this.nombre = fabricaDeTareas.getNombreDeProximaTarea();
         this.descripcion = "";
         this.tiemposEstimados = null;
         this.tareasPrecedentes = new Precedencia(new ArrayList<Tarea>());
         this.posiblesTareasPrecedentes = new ArrayList<Tarea>(formularioProyecto.obtenerListaDeTareasDelProyecto());
+        inicializarTablas();
         setearEtiquetas();
         setearDatosDeTarea();
     }
 
      /** Creates new form VentanaTarea */
-    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas, int cifrasDecimales, HelpBroker helpBroker) {
+    public VentanaTarea(java.awt.Frame parent, boolean modal, Tarea tarea, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.formularioProyecto = (VentanaProyecto)parent;        
@@ -72,13 +74,13 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.helpBroker = helpBroker;
         habilitarAyuda();
         this.tipoAccion = Accion.modificar;
-        this.cifrasDecimales = cifrasDecimales;
         this.id = tarea.obtenerId();
         this.nombre = tarea.obtenerNombre();
         this.descripcion = tarea.obtenerDescripcion();
         this.tiemposEstimados = tarea.obtenerTiempoEstimado();
         this.tareasPrecedentes = tarea.obtenerPrecedencia();
         this.posiblesTareasPrecedentes = formularioProyecto.obtenerPosiblesTareasPrecedentes(tarea);
+        inicializarTablas();
         setearEtiquetas();
         setearDatosDeTarea();
     }
@@ -105,9 +107,26 @@ public class VentanaTarea extends javax.swing.JDialog {
         ((TitledBorder)this.panel_Precedencias.getBorder()).setTitle(etiquetas.getString("tareaLabelPrecedencias"));
         this.label_TareasPrecedentes.setText(etiquetas.getString("tareaLabelTareasPrecedentes"));
         this.label_TareasDisponiblesComoPrecedentes.setText(etiquetas.getString("tareaLabelTareasDisponiblesComoPrecedentes"));    
-        //tablas
+        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("tareaTablaColumnaNombre"));
+        tabla_TareasPrecedentes.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("tareaTablaColumnaDescripcion"));
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("tareaTablaColumnaNombre"));
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("tareaTablaColumnaDescripcion"));
         this.boton_Guardar.setText(etiquetas.getString("tareaBotonGuardar"));
         this.boton_Cancelar.setText(etiquetas.getString("tareaBotonCancelar"));
+    }
+    
+    private void inicializarTablas(){
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
+        
+        modeloTabla = new DefaultTableModel(0, 2);
+        tabla_TareasPrecedentes.setModel(modeloTabla);    
+        
+        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
+        tabla_TareasPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
+
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
     }
     
     private void habilitarAyuda(){
@@ -131,7 +150,7 @@ public class VentanaTarea extends javax.swing.JDialog {
     private void setearDatosDeTarea(){
         int indiceFila = 0;        
         for (Tarea tarea : posiblesTareasPrecedentes){      
-            modificarTabla(ttabla_TareasDisponiblesComoPrecedentes, indiceFila, true, tarea);
+            modificarTabla(tabla_TareasDisponiblesComoPrecedentes, indiceFila, true, tarea);
             indiceFila += 1;
         }
         campoTexto_NombreTarea.setText(nombre);
@@ -142,14 +161,14 @@ public class VentanaTarea extends javax.swing.JDialog {
                 indiceFila += 1;
             }            
             campoTexto_DescripcionTarea.setText(descripcion);
-            campoTexto_TiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista(cifrasDecimales)));
-            campoTexto_TiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable(cifrasDecimales)));
-            campoTexto_TiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista(cifrasDecimales)));
+            campoTexto_TiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista()));
+            campoTexto_TiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable()));
+            campoTexto_TiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista()));
         }
     }
     
     private void modificarTabla(JTable tabla, int fila, boolean nuevaFila, Tarea tarea){
-        DefaultTableModel modeloTabla = (DefaultTableModel)tabla.getModel();
+        modeloTabla = (DefaultTableModel)tabla.getModel();
         if (nuevaFila){
             modeloTabla.addRow(new Object[fila]);
             tabla.setValueAt(tarea.obtenerNombre(), fila, 0);
@@ -161,13 +180,13 @@ public class VentanaTarea extends javax.swing.JDialog {
     }  
     
     private Tarea quitarTareaDePosiblesPrecedenciasSegunSeleccion(int filaSeleccionada){
-        String nombreTarea = (String)ttabla_TareasDisponiblesComoPrecedentes.getValueAt(filaSeleccionada, 0);
+        String nombreTarea = (String)tabla_TareasDisponiblesComoPrecedentes.getValueAt(filaSeleccionada, 0);
         int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
         for (Tarea tarea : posiblesTareasPrecedentes){
             if (tarea.obtenerId() == idTarea){
                 Tarea nuevaTareaPrecedente = tarea;
                 posiblesTareasPrecedentes.remove(tarea);
-                modificarTabla(ttabla_TareasDisponiblesComoPrecedentes, filaSeleccionada, false, null);
+                modificarTabla(tabla_TareasDisponiblesComoPrecedentes, filaSeleccionada, false, null);
                 return nuevaTareaPrecedente;
             }
         }
@@ -208,7 +227,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla_TareasPrecedentes = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        ttabla_TareasDisponiblesComoPrecedentes = new javax.swing.JTable();
+        tabla_TareasDisponiblesComoPrecedentes = new javax.swing.JTable();
         boton_AgregarPrecedente = new javax.swing.JButton();
         boton_QuitarPrecedente = new javax.swing.JButton();
         label_TareasPrecedentes = new javax.swing.JLabel();
@@ -311,7 +330,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tabla_TareasPrecedentes);
         tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
 
-        ttabla_TareasDisponiblesComoPrecedentes.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_TareasDisponiblesComoPrecedentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -334,8 +353,8 @@ public class VentanaTarea extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(ttabla_TareasDisponiblesComoPrecedentes);
-        ttabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
+        jScrollPane2.setViewportView(tabla_TareasDisponiblesComoPrecedentes);
+        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(50);
 
         boton_AgregarPrecedente.setText("<");
         boton_AgregarPrecedente.addActionListener(new java.awt.event.ActionListener() {
@@ -458,7 +477,7 @@ public class VentanaTarea extends javax.swing.JDialog {
                 switch (tipoAccion){
                     case crear:
                         tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
-                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, cifrasDecimales, tareasPrecedentes);
+                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, tareasPrecedentes);
                         formularioProyecto.agregarTarea(nuevaTarea);
                         break;
                     case modificar:
@@ -476,7 +495,7 @@ public class VentanaTarea extends javax.swing.JDialog {
 }//GEN-LAST:event_boton_GuardarActionPerformed
 
     private void boton_AgregarPrecedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarPrecedenteActionPerformed
-        int filaSeleccionada = ttabla_TareasDisponiblesComoPrecedentes.getSelectedRow();
+        int filaSeleccionada = tabla_TareasDisponiblesComoPrecedentes.getSelectedRow();
         if (filaSeleccionada != -1){
             Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);
             int nuevaFila = tareasPrecedentes.obtenerCantidadDeTareas();
@@ -491,7 +510,7 @@ public class VentanaTarea extends javax.swing.JDialog {
             Tarea nuevaPosibleTareaPrecedente = quitarTareaDePrecedenciasSegunSeleccion(filaSeleccionada);
             int nuevaFila = posiblesTareasPrecedentes.size();
             posiblesTareasPrecedentes.add(nuevaPosibleTareaPrecedente);
-            modificarTabla(ttabla_TareasDisponiblesComoPrecedentes, nuevaFila, true, nuevaPosibleTareaPrecedente);
+            modificarTabla(tabla_TareasDisponiblesComoPrecedentes, nuevaFila, true, nuevaPosibleTareaPrecedente);
         }
 }//GEN-LAST:event_boton_QuitarPrecedenteActionPerformed
 
@@ -535,7 +554,7 @@ public class VentanaTarea extends javax.swing.JDialog {
     private javax.swing.JLabel label_TiempoPesimista;
     private javax.swing.JPanel panel_Precedencias;
     private javax.swing.JPanel panel_TiemposEstimados;
+    private javax.swing.JTable tabla_TareasDisponiblesComoPrecedentes;
     private javax.swing.JTable tabla_TareasPrecedentes;
-    private javax.swing.JTable ttabla_TareasDisponiblesComoPrecedentes;
     // End of variables declaration//GEN-END:variables
 }
