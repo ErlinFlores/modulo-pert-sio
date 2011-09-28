@@ -74,7 +74,7 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
         label_Tutoriado.setText("Tutoriado por: Ing. Daniel Paolillo");
 
         label_version.setForeground(new java.awt.Color(0, 0, 255));
-        label_version.setText("Version 1.1 beta");
+        label_version.setText("Version 1.2 beta");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
