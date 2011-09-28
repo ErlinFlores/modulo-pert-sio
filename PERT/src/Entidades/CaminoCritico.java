@@ -67,6 +67,7 @@ public class CaminoCritico {
      * @return desviación estándar
      */
     public double obtenerDesviacionEstandar(){
-        return Math.sqrt(this.obtenerVarianza());
+        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
+        return Math.round(Math.sqrt(this.obtenerVarianza())*valorParaAcotar)/valorParaAcotar;
     }
 }

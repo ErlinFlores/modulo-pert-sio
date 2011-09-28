@@ -15,15 +15,13 @@ public class Tarea extends TareaAbstracta{
     private String nombre;
     private String descripcion;
     private TiempoEstimado tiempoEstimado;
-    private int cifrasDecimales;
     private Precedencia precedencia;
     
-    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, int cifrasDecimales, Precedencia precedencia){
+    public Tarea(int id, String nombre, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.tiempoEstimado = tiempoEstimado;
-        this.cifrasDecimales = cifrasDecimales;
         this.precedencia = precedencia;
         resetearTiemposCalculables();
     }    
@@ -57,14 +55,17 @@ public class Tarea extends TareaAbstracta{
     }    
     
     public double obtenerDuracionEsperada() {
-        return tiempoEstimado.obtenerDuracionEsperada(cifrasDecimales);
+        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
+        return Math.round(tiempoEstimado.obtenerDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
     }
 
     public double obtenerDesviacionEstandar() {
-        return tiempoEstimado.obtenerDesviacionEstandar(cifrasDecimales);
+        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
+        return Math.round(tiempoEstimado.obtenerDesviacionEstandar()*valorParaAcotar)/valorParaAcotar;
     }
 
     public double obtenerVarianza() {
-        return tiempoEstimado.obtenerVarianza(cifrasDecimales);
+        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
+        return Math.round(tiempoEstimado.obtenerVarianza()*valorParaAcotar)/valorParaAcotar;
     }
 }
