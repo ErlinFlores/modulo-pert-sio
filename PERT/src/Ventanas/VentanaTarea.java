@@ -43,7 +43,8 @@ public class VentanaTarea extends javax.swing.JDialog {
     private String descripcion;    
     private TiempoEstimado tiemposEstimados;
     private Precedencia tareasPrecedentes;
-    private DefaultTableModel modeloTabla;
+    private DefaultTableModel modeloTablaDeTareasPrecedentes;
+    private DefaultTableModel modeloTablaDePosiblesTareasPrecedentes;
     
     /** Creates new form VentanaTarea */
     public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, HelpBroker helpBroker) {
@@ -119,15 +120,15 @@ public class VentanaTarea extends javax.swing.JDialog {
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
         
-        modeloTabla = new DefaultTableModel(0, 2);
-        tabla_TareasPrecedentes.setModel(modeloTabla); 
-        tabla_TareasDisponiblesComoPrecedentes.setModel(modeloTabla);
-        
+        modeloTablaDeTareasPrecedentes = new DefaultTableModel(0, 2);
+        tabla_TareasPrecedentes.setModel(modeloTablaDeTareasPrecedentes);        
         tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
         tabla_TareasPrecedentes.getColumnModel().getColumn(0).setResizable(false);
         tabla_TareasPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
         tabla_TareasPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
 
+        modeloTablaDePosiblesTareasPrecedentes = new DefaultTableModel(0, 2);
+        tabla_TareasDisponiblesComoPrecedentes.setModel(modeloTablaDePosiblesTareasPrecedentes);
         tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
         tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setResizable(false);
         tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
@@ -173,7 +174,7 @@ public class VentanaTarea extends javax.swing.JDialog {
     }
     
     private void modificarTabla(JTable tabla, int fila, boolean nuevaFila, Tarea tarea){
-        modeloTabla = (DefaultTableModel)tabla.getModel();
+        DefaultTableModel modeloTabla = (DefaultTableModel)tabla.getModel();
         if (nuevaFila){
             modeloTabla.addRow(new Object[fila]);
             tabla.setValueAt(tarea.obtenerNombre(), fila, 0);
