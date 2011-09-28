@@ -18,7 +18,9 @@ import Entidades.Tarea;
 import java.util.ResourceBundle;
 import javax.help.HelpBroker;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,27 +30,28 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaResultados extends javax.swing.JDialog {
 
     private ResourceBundle etiquetas;
-    private int cifrasDecimales;
     private HelpBroker helpBroker;
     private RedDeTareas redDeTareas;
     private String unidadDeTiempo;
     private EstrategiaDeSeleccionDeDesvEst estrategia;
     private GestorProbabilistico gestorProbabilistico;
+    private DefaultTableModel modeloDeTablaDeResultadosCalculados;
+    private DefaultTableModel modeloDeTablaDeCaminosCriticos;
     
     /** Creates new form VentanaResultados */
-    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, int cifrasDecimales, HelpBroker helpBroker) {
+    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.etiquetas = etiquetas;
-        this.cifrasDecimales = cifrasDecimales;
         this.helpBroker = helpBroker;
         habilitarAyuda();
         this.redDeTareas = redDeTareas;
         this.unidadDeTiempo = unidadDeTiempo;
         this.estrategia = resetearEstrategiaDeSeleccionDeDesvEst();
         this.gestorProbabilistico = new GestorProbabilistico(redDeTareas.obtenerDuracionDelProyecto(), redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
+        inicializarTablas();
         actualizarTablaDeCalculosRealizados();
-        actualizarInformacionDelProyecto();
+        actualizarInformacionDelProyecto();        
         setearEtiquetas();
     }
 
@@ -57,29 +60,21 @@ public class VentanaResultados extends javax.swing.JDialog {
      */
     private void setearEtiquetas(){
         setTitle(etiquetas.getString("resultadosTitulo"));
-         /**String[] columnasDeTablaRsultadosCalculados = {
-            etiquetas.getString("resultadosTablaNombre"),
-            etiquetas.getString("resultadosTablaDuracion"),
-            etiquetas.getString("resultadosTablaPrecedencia"),
-            etiquetas.getString("resultadosTablaComienzoTemprano"),
-            etiquetas.getString("resultadosTablaFinTemprano"),
-            etiquetas.getString("resultadosTablaComienzoTardio"),
-            etiquetas.getString("resultadosTablaFinTardio"),
-            etiquetas.getString("resultadosTablaHolgura"),
-            etiquetas.getString("resultadosTablaCritica"),
-            etiquetas.getString("resultadosTablaDesviacionEstandar")
-        };
-        Object[][] datos = {{"1", "2", "3", "4", "5", "6", "7, "8", "9", "10"}};
-        DefaultTableModel modeloDeTablaDeResultadosCalculados = new DefaultTableModel(datos, columnasDeTablaRsultadosCalculados);
-        this.tabla_ResultadoDeCalculos= new JTable(modeloDeTablaDeResultadosCalculados);**/
-        /**String[] columnasDeTablaDeCaminosCriticos = {
-            etiquetas.getString("resultadosTablaNumero"),
-            etiquetas.getString("resutladosTablaCaminoCritico"),
-            etiquetas.getString("resultadosTablaDesviacionEstandar"),
-        };
-        Object[][] datos = {{"1", "2", "3"}};
-        DefaultTableModel modeloDeTablaDeCaminosCriticos = new DefaultTableModel(datos, columnasDeTablaDeCaminosCriticos);
-        this.tabla_CaminosCriticos= new JTable(modeloDeTablaDeResultadosCalculados);**/
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("resultadosTablaNombre"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("resultadosTablaDuracion"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(2).setHeaderValue(etiquetas.getString("resultadosTablaPrecedencia"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(3).setHeaderValue(etiquetas.getString("resultadosTablaComienzoTemprano"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(4).setHeaderValue(etiquetas.getString("resultadosTablaFinTemprano"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(5).setHeaderValue(etiquetas.getString("resultadosTablaComienzoTardio"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(6).setHeaderValue(etiquetas.getString("resultadosTablaFinTardio"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(7).setHeaderValue(etiquetas.getString("resultadosTablaHolgura"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(8).setHeaderValue(etiquetas.getString("resultadosTablaCritica"));
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(9).setHeaderValue(etiquetas.getString("resultadosTablaDesviacionEstandar"));
+        
+        tabla_CaminosCriticos.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("resultadosTablaNumero"));
+        tabla_CaminosCriticos.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("resutladosTablaCaminoCritico"));
+        tabla_CaminosCriticos.getColumnModel().getColumn(2).setHeaderValue(etiquetas.getString("resultadosTablaDesviacionEstandar"));
+        
         ((TitledBorder)this.panel_InformacionDelProyecto.getBorder()).setTitle(etiquetas.getString("resultadosLabelInformacionDelProyecto"));
         this.label_DuracionDelProyecto.setText(etiquetas.getString("resultadosLabelDuracionDelProyecto"));
         ((TitledBorder)this.panel_Estrategia.getBorder()).setTitle(etiquetas.getString("resultadosLabelEstrategia"));
@@ -96,6 +91,34 @@ public class VentanaResultados extends javax.swing.JDialog {
         this.boton_CalcularProbabilidad.setText(etiquetas.getString("resultadosBotonCalcularProbabilidad"));
         this.boton_CalcularDuracion.setText(etiquetas.getString("resultadosBotonCalcularDuracion")); 
         this.boton_Salir.setText(etiquetas.getString("resultadosBotonSalir"));
+    }
+    
+    private void inicializarTablas(){
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
+        
+        modeloDeTablaDeResultadosCalculados = new DefaultTableModel(0, 10);
+        tabla_ResultadoDeCalculos.setModel(modeloDeTablaDeResultadosCalculados);                      
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setMaxWidth(100);
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setResizable(false); 
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setCellRenderer(dtcr);
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(2).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(3).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(4).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(5).setCellRenderer(dtcr);
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(6).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(7).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(8).setCellRenderer(dtcr);        
+        tabla_ResultadoDeCalculos.getColumnModel().getColumn(9).setCellRenderer(dtcr);
+        
+        modeloDeTablaDeCaminosCriticos = new DefaultTableModel(0, 3);
+        tabla_CaminosCriticos.setModel(modeloDeTablaDeCaminosCriticos);
+        tabla_CaminosCriticos.getColumnModel().getColumn(0).setMaxWidth(50);
+        tabla_CaminosCriticos.getColumnModel().getColumn(0).setResizable(false); 
+        tabla_CaminosCriticos.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
+        tabla_CaminosCriticos.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
+        tabla_CaminosCriticos.getColumnModel().getColumn(2).setCellRenderer(dtcr);       
     }
     
     private void habilitarAyuda(){
@@ -132,7 +155,7 @@ public class VentanaResultados extends javax.swing.JDialog {
      * holgura y si es tarea crítica).
      */
     private void actualizarTablaDeCalculosRealizados(){
-        DefaultTableModel modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tabla_ResultadoDeCalculos.getModel();
+        modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tabla_ResultadoDeCalculos.getModel();
         int cantidadDeFilasActual = modeloDeTablaDeResultadosCalculados.getRowCount();
         for (int i = 0; i < cantidadDeFilasActual; i++){//Se eliminan todas las filas actuales. O sea, se limpia la tabla.
             modeloDeTablaDeResultadosCalculados.removeRow(0);
@@ -149,23 +172,23 @@ public class VentanaResultados extends javax.swing.JDialog {
             tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
             tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
             tabla_ResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
-            tabla_ResultadoDeCalculos.setValueAt(Math.round(tarea.obtenerDesviacionEstandar()*100)/100.0, fila, 9);
+            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDesviacionEstandar(), fila, 9);
             fila += 1;            
         }
         tabla_ResultadoDeCalculos.updateUI();
     }
     
     private void actualizarInformacionDelProyecto(){
-        String duracionDelProyectoStr = String.valueOf((Math.round(redDeTareas.obtenerDuracionDelProyecto()*100)/100.0)+" "+unidadDeTiempo);
+        String duracionDelProyectoStr = String.valueOf(redDeTareas.obtenerDuracionDelProyecto()+" "+unidadDeTiempo);
         this.campoTexto_DuracionDelProyecto.setText(duracionDelProyectoStr);
-        DefaultTableModel modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tabla_CaminosCriticos.getModel();
+        modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tabla_CaminosCriticos.getModel();
         int fila = 0;
         for (CaminoCritico caminoCritico : redDeTareas.obtenerCaminosCriticos()){
             modeloDeTablaDeCaminosCriticos.addRow(new Object[fila]);
             int numeroDeCaminoCritico = fila + 1;
             modeloDeTablaDeCaminosCriticos.setValueAt(numeroDeCaminoCritico,fila,0);
             modeloDeTablaDeCaminosCriticos.setValueAt(caminoCritico.obtenerTareasConcatenadas(),fila,1);
-            modeloDeTablaDeCaminosCriticos.setValueAt(Math.round(caminoCritico.obtenerDesviacionEstandar()*100)/100.0, fila, 2);
+            modeloDeTablaDeCaminosCriticos.setValueAt(caminoCritico.obtenerDesviacionEstandar(), fila, 2);
             fila += 1;
         }
     }
