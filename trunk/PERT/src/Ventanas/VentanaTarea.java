@@ -35,16 +35,19 @@ public class VentanaTarea extends javax.swing.JDialog {
     private VentanaProyecto formularioProyecto;
     private ResourceBundle etiquetas;
     private HelpBroker helpBroker;
+    
     private FabricaDeTareas fabricaDeTareas = FabricaDeTareas.getInstance();
     private List<Tarea> posiblesTareasPrecedentes;
+    
+    private DefaultTableModel modeloTablaDeTareasPrecedentes;
+    private DefaultTableModel modeloTablaDePosiblesTareasPrecedentes;
+    
     private Accion tipoAccion;
     private int id;
     private String nombre;
     private String descripcion;    
-    private TiempoEstimado tiemposEstimados;
-    private Precedencia tareasPrecedentes;
-    private DefaultTableModel modeloTablaDeTareasPrecedentes;
-    private DefaultTableModel modeloTablaDePosiblesTareasPrecedentes;
+    private TiempoEstimado tiemposEstimados;    
+    private Precedencia tareasPrecedentes;    
     
     /** Creates new form VentanaTarea */
     public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, HelpBroker helpBroker) {
@@ -138,9 +141,7 @@ public class VentanaTarea extends javax.swing.JDialog {
     private void habilitarAyuda(){
         if (helpBroker != null){            
             helpBroker.enableHelpKey(this.getContentPane(), "tarea", helpBroker.getHelpSet());
-        }else{
-            System.out.println("Error al cargar la ayuda");
-        } 
+        }
     }
     
     private boolean validarDatosDeEntradaDelUsuario(){
