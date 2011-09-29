@@ -32,7 +32,7 @@ public class Precedencia {
      * Método que retorna el conjunto de tareas precedentes.
      * @return conjunto de tareas precedentes
      */
-    public List<Tarea> obtenerTareas() {
+    public List<Tarea> obtenerPrecedentes() {
         return tareas;
     } 
     
@@ -40,7 +40,7 @@ public class Precedencia {
      * Método que agrega una tarea precedente.
      * @param tarea 
      */
-    public void agregarTarea(Tarea tarea){
+    public void agregarPrecedente(Tarea tarea){
         this.tareas.add(tarea);
     }
 
@@ -49,7 +49,7 @@ public class Precedencia {
      * @param tarea
      * @return tarea precedente que se borra
      */
-    public boolean borrarTarea(Tarea tarea){
+    public boolean borrarPrecedente(Tarea tarea){
         return this.tareas.remove(tarea);
     }
     
