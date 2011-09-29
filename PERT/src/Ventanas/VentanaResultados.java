@@ -31,12 +31,15 @@ public class VentanaResultados extends javax.swing.JDialog {
 
     private ResourceBundle etiquetas;
     private HelpBroker helpBroker;
-    private RedDeTareas redDeTareas;
+    
+    private DefaultTableModel modeloDeTablaDeResultadosCalculados;
+    private DefaultTableModel modeloDeTablaDeCaminosCriticos;   
+    
     private String unidadDeTiempo;
     private EstrategiaDeSeleccionDeDesvEst estrategia;
+    private RedDeTareas redDeTareas;    
+    
     private GestorProbabilistico gestorProbabilistico;
-    private DefaultTableModel modeloDeTablaDeResultadosCalculados;
-    private DefaultTableModel modeloDeTablaDeCaminosCriticos;
     
     /** Creates new form VentanaResultados */
     public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, HelpBroker helpBroker) {
@@ -44,10 +47,10 @@ public class VentanaResultados extends javax.swing.JDialog {
         initComponents();
         this.etiquetas = etiquetas;
         this.helpBroker = helpBroker;
-        habilitarAyuda();
-        this.redDeTareas = redDeTareas;
+        habilitarAyuda();        
         this.unidadDeTiempo = unidadDeTiempo;
-        this.estrategia = resetearEstrategiaDeSeleccionDeDesvEst();
+        this.redDeTareas = redDeTareas;
+        this.estrategia = resetearEstrategiaDeSeleccionDeDesvEst();        
         this.gestorProbabilistico = new GestorProbabilistico(redDeTareas.obtenerDuracionDelProyecto(), redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
         inicializarTablas();
         actualizarTablaDeCalculosRealizados();
@@ -124,8 +127,6 @@ public class VentanaResultados extends javax.swing.JDialog {
     private void habilitarAyuda(){
         if (helpBroker != null){            
             helpBroker.enableHelpKey(this.getContentPane(), "resultados", helpBroker.getHelpSet());
-        }else{
-            System.out.println("Error al cargar la ayuda");
         } 
     }
     
@@ -555,23 +556,15 @@ public class VentanaResultados extends javax.swing.JDialog {
 
     private void boton_CalcularDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularDuracionActionPerformed
         double probabilidad = 0;
-        boolean probabilidadCorrecta = false;
         try{
             probabilidad = Double.parseDouble(campoTexto_ProbabilidadParaDuracion.getText());
-            if ((0 <= probabilidad) && (probabilidad <= 1)){
-                probabilidadCorrecta = true;
-            }
-            if (probabilidadCorrecta){                
-                try{
-                    double duracion = gestorProbabilistico.calcularDuracion(probabilidad);
-                    if (probabilidad != -1){
-                        this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+unidadDeTiempo);                    
-                    }else{
-                        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
-                    }
-                }catch(Exception e){
-                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlCargarLaTablaZeta"));
-                }                                
+            if ((0 <= probabilidad) && (probabilidad <= 1)){                     
+                double duracion = gestorProbabilistico.calcularDuracion(probabilidad);
+                if (duracion != -1){
+                    this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+unidadDeTiempo);                    
+                }else{
+                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
+                }                             
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProbabilidadIncorrecta"));
             }
@@ -582,23 +575,15 @@ public class VentanaResultados extends javax.swing.JDialog {
 
     private void boton_CalcularProbabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularProbabilidadActionPerformed
         double tiempo = 0;
-        boolean tiempoCorrecto = false;
         try{
             tiempo = Double.parseDouble(campoTexto_DuracionParaProbabilidad.getText());
             if (tiempo > 0){
-                tiempoCorrecto = true;
-            }
-            if (tiempoCorrecto){
-                try{
-                    double probabilidad = gestorProbabilistico.calcularProbabilidad(tiempo);
-                    if (probabilidad != -1){
-                        this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(probabilidad));
-                    }else{
-                        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
-                    }          
-                }catch(Exception e){
-                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlCargarLaTablaZeta"));
-                }
+                double probabilidad = gestorProbabilistico.calcularProbabilidad(tiempo);
+                if (probabilidad != -1){
+                    this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(probabilidad));
+                }else{
+                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
+                }          
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDuracionIncorrecta"));
             } 

@@ -34,13 +34,15 @@ import javax.swing.table.DefaultTableModel;
 public class VentanaProyecto extends javax.swing.JFrame {
   
     private Locale lugarConfigurado;
+    private ResourceBundle etiquetas;   
     private HelpBroker helpBroker;
-    private ResourceBundle etiquetas;
+    
+    private DefaultTableModel modeloDeTablaDeTareas;
+    
     private String nombre;
     private String unidadDeTiempo;
     private String descripcion;    
-    private RedDeTareas redDeTareas;    
-    private DefaultTableModel modeloDeTablaDeTareas;
+    private RedDeTareas redDeTareas;
     
     
     /** Creates new form VentanaProyecto */
@@ -51,14 +53,14 @@ public class VentanaProyecto extends javax.swing.JFrame {
         habilitarAyuda();
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeProyectos.getInstance().reset();
-        FabricaDeTareas.getInstance().reset();              
-        this.nombre = etiquetas.getString("proyectoSugerenciaNombreProyecto");
-        this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
-        this.descripcion = etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
-        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());      
+        FabricaDeTareas.getInstance().reset();  
         inicializarTabla();
         setearEtiquetas();  
         setearCampos();
+        this.nombre = etiquetas.getString("proyectoSugerenciaNombreProyecto");
+        this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
+        this.descripcion = etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
+        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());         
     }  
 
     /**
@@ -127,9 +129,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         if (helpBroker != null){
             helpBroker.enableHelpOnButton(this.subMenu_AyudaContenidos, "aplicacion", helpBroker.getHelpSet());
             helpBroker.enableHelpKey(this.getContentPane(), "aplicacion", helpBroker.getHelpSet());
-        }else{
-            System.out.println("Error al cargar la ayuda");
-        } 
+        }
     }
     
     /**
@@ -154,7 +154,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
     } 
     
     /**
-     * Se setean los campos de la pantalla por primera vez, con los datos correspondientes.
+     * Se setean los campos de la pantalla, con los datos correspondientes.
      */
     private void setearCampos(){                                              
         campoTexto_NombreProyecto.setText(nombre);
@@ -168,6 +168,9 @@ public class VentanaProyecto extends javax.swing.JFrame {
         }
     }    
     
+    /**
+     * Método que resetea la aplicación dejando el sistema en limpio (sin proyecto activo).
+     */
     private void limpiarPantallaProyecto(){
         this.campoTexto_NombreProyecto.setText("");        
         this.areaTexto_DescripcionProyecto.setText("");
@@ -201,6 +204,17 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }        
 
     /**
+     * Se almacena una tarea en el conjunto de tareas del proyecto y
+     * también se actualiza la tabla de datos ingresados por el usuario (de tareas).
+     * @param tarea (nueva tarea del proyecto).
+     */
+    public void agregarTarea(Tarea tarea){        
+        this.redDeTareas.agregarTarea(tarea);
+        actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, Accion.crear, tarea);
+        this.campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
+    }
+    
+    /**
      * Al modificar una tarea especifica, también se actualiza dicha tarea
      * en la tabla de datos ingresados por el usuario.
      * @param idTarea
@@ -217,18 +231,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
             }
         }        
     }
-    
-    /**
-     * Se almacena una tarea en el conjunto de tareas del proyecto y
-     * también se actualiza la tabla de datos ingresados por el usuario (de tareas).
-     * @param tarea (nueva tarea del proyecto).
-     */
-    public void agregarTarea(Tarea tarea){        
-        this.redDeTareas.agregarTarea(tarea);
-        actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, Accion.crear, tarea);
-        this.campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
-    }
-    
+        
     /**
      * Se devuelve la lista de tareas del conjunto de tareas del proyecto.
      * @return 
@@ -690,6 +693,9 @@ public class VentanaProyecto extends javax.swing.JFrame {
             boolean calculoValido = true;
             if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
                 calculoValido = redDeTareas.realizarCalculosPERT();                    
+            }
+            if (!redDeTareas.tieneAlMenosUnCaminoCriticoDefinido()){
+                calculoValido = false;
             }
             if (calculoValido){
                 VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
