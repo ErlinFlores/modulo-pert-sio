@@ -163,8 +163,8 @@ public class VentanaTarea extends javax.swing.JDialog {
         campoTexto_NombreTarea.setText(nombre);
         if (tipoAccion == Accion.modificar){
             indiceFila = 0;
-            for (Tarea tarea : tareasPrecedentes.obtenerTareas()){
-                modificarTabla(tabla_TareasPrecedentes, indiceFila, true, tarea);
+            for (Tarea tareaPrecedente : tareasPrecedentes.obtenerPrecedentes()){
+                modificarTabla(tabla_TareasPrecedentes, indiceFila, true, tareaPrecedente);
                 indiceFila += 1;
             }            
             campoTexto_DescripcionTarea.setText(descripcion);
@@ -204,7 +204,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         String nombreTarea = (String)tabla_TareasPrecedentes.getValueAt(filaSeleccionada, 0);
         int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
         Tarea nuevaPosibleTareaPrecedente = tareasPrecedentes.obtenerTareaPorID(idTarea);
-        tareasPrecedentes.borrarTarea(nuevaPosibleTareaPrecedente);
+        tareasPrecedentes.borrarPrecedente(nuevaPosibleTareaPrecedente);
         modificarTabla(tabla_TareasPrecedentes, filaSeleccionada, false, null);
         return nuevaPosibleTareaPrecedente;
     }
@@ -508,7 +508,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         if (filaSeleccionada != -1){
             Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);
             int nuevaFila = tareasPrecedentes.obtenerCantidadDeTareas();
-            tareasPrecedentes.agregarTarea(nuevaTareaPrecedente);
+            tareasPrecedentes.agregarPrecedente(nuevaTareaPrecedente);
             modificarTabla(tabla_TareasPrecedentes, nuevaFila, true, nuevaTareaPrecedente);
         }
 }//GEN-LAST:event_boton_AgregarPrecedenteActionPerformed
