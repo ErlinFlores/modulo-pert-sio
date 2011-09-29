@@ -53,14 +53,14 @@ public class VentanaProyecto extends javax.swing.JFrame {
         habilitarAyuda();
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeProyectos.getInstance().reset();
-        FabricaDeTareas.getInstance().reset();  
-        inicializarTabla();
-        setearEtiquetas();  
-        setearCampos();
+        FabricaDeTareas.getInstance().reset();          
         this.nombre = etiquetas.getString("proyectoSugerenciaNombreProyecto");
         this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
         this.descripcion = etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
-        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>());         
+        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>()); 
+        inicializarTabla();
+        setearEtiquetas();  
+        setearCampos();
     }  
 
     /**
