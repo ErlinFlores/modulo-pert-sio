@@ -52,7 +52,7 @@ public class RedDeTareas {
         for (Tarea tareaDelProyecto : tareas){
             Precedencia precedenciaDeTareaDelProyecto = tareaDelProyecto.obtenerPrecedencia();
             if (precedenciaDeTareaDelProyecto.esPrecedente(tarea.obtenerId())){
-                precedenciaDeTareaDelProyecto.borrarTarea(tarea);
+                precedenciaDeTareaDelProyecto.borrarPrecedente(tarea);
             }
         }
     }
@@ -109,7 +109,7 @@ public class RedDeTareas {
     private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
         Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
         boolean existeCamino = false;
-        for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerTareas()){
+        for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerPrecedentes()){
             if (!(tarea.obtenerId() == tareaInicio.obtenerId())){
                 existeCamino = hayCamino(tareaInicio, tarea);
             }else{
@@ -131,7 +131,9 @@ public class RedDeTareas {
     }
     
     public double obtenerDuracionDelProyecto(){
-        return duracionDelProyecto;
+        if (this.elUltimoCalculoPERTesCorrecto())
+            return duracionDelProyecto;
+        return -1;
     }
     
     public double obtenerDesviacionEstandarDelProyecto(EstrategiaDeSeleccionDeDesvEst estrategia){
@@ -201,7 +203,6 @@ public class RedDeTareas {
      */
     public boolean realizarCalculosPERT(){
         reset();
-        caminosCriticos = new ArrayList<CaminoCritico>();
         if (obtenerCantidadDeTareas() == 0){
             return true;
         }        
@@ -213,7 +214,7 @@ public class RedDeTareas {
                 tarea.setearFinTemprano(tarea.obtenerDuracionEsperada());
             }else{
                 double finTempranoMasGrandeDeLosPrecedentes = 0;
-                for (Tarea tareaPrecedente : tarea.obtenerPrecedencia().obtenerTareas()){
+                for (Tarea tareaPrecedente : tarea.obtenerPrecedencia().obtenerPrecedentes()){
                     double finTemprano = tareaPrecedente.obtenerFinTemprano();
                     if (finTempranoMasGrandeDeLosPrecedentes < finTemprano){
                         finTempranoMasGrandeDeLosPrecedentes = finTemprano;
@@ -235,7 +236,7 @@ public class RedDeTareas {
             }
             double comienzoTardio = tarea.obtenerFinTardio() - tarea.obtenerDuracionEsperada();
             tarea.setearComienzoTardio(comienzoTardio);
-            for (Tarea tareaPrecedente : tarea.obtenerPrecedencia().obtenerTareas()){
+            for (Tarea tareaPrecedente : tarea.obtenerPrecedencia().obtenerPrecedentes()){
                 double finTardioActual = tareaPrecedente.obtenerFinTardio();
                 if ((finTardioActual > comienzoTardio) || (finTardioActual == -1)){
                     tareaPrecedente.setearFinTardio(comienzoTardio);
@@ -297,7 +298,7 @@ public class RedDeTareas {
      */
     private void obtenerCaminosCriticos(Tarea tareaInicio, Tarea tareaDestino, List<Tarea> camino){        
         Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
-        for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerTareas()){
+        for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerPrecedentes()){
             if (tarea.esTareaCritica()){                
                 List<Tarea> caminoActual = new ArrayList<Tarea>(camino);
                 caminoActual.add(0,tarea);
