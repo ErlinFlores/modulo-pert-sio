@@ -177,6 +177,10 @@ public class RedDeTareas {
         return ultimoCalculoPERTesCorrecto;
     }
     
+    public boolean tieneAlMenosUnCaminoCriticoDefinido(){
+        return caminosCriticos.size() > 0;
+    }
+    
     /**
      * Se resetean todos los valores relacionados al analisis PERT para poder realizar nuevamente los cálculos.
      */
