@@ -55,17 +55,14 @@ public class Tarea extends TareaAbstracta{
     }    
     
     public double obtenerDuracionEsperada() {
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        return Math.round(tiempoEstimado.obtenerDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
+        return tiempoEstimado.obtenerDuracionEsperada();
     }
 
     public double obtenerDesviacionEstandar() {
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        return Math.round(tiempoEstimado.obtenerDesviacionEstandar()*valorParaAcotar)/valorParaAcotar;
+        return tiempoEstimado.obtenerDesviacionEstandar();
     }
 
     public double obtenerVarianza() {
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        return Math.round(tiempoEstimado.obtenerVarianza()*valorParaAcotar)/valorParaAcotar;
+        return tiempoEstimado.obtenerVarianza();
     }
 }
