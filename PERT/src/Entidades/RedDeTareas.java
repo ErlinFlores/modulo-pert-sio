@@ -6,6 +6,7 @@
 package Entidades;
 
 import Entidades.Estados.EstrategiaDeSeleccionDeDesvEst;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -322,11 +323,10 @@ public class RedDeTareas {
      * @return si es camino crítico
      */
     private boolean esCaminoCritico(List<Tarea> camino){
-        double tiempoDelCamino = 0;
+        BigDecimal tiempoDelCamino = BigDecimal.ZERO;
         for (Tarea tarea : camino){           
-            double d = tarea.obtenerDuracionEsperada();
-            tiempoDelCamino = tiempoDelCamino + d;
+            tiempoDelCamino = tiempoDelCamino.add(new BigDecimal(tarea.obtenerDuracionEsperada()+""));
         }
-        return tiempoDelCamino == duracionDelProyecto;
+        return tiempoDelCamino.compareTo(new BigDecimal(duracionDelProyecto+"")) == 0;
     }
 }
