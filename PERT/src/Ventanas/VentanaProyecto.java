@@ -232,6 +232,33 @@ public class VentanaProyecto extends javax.swing.JFrame {
         }        
     }
         
+    public void establecerConsistenciaEnElOrdenDeTareas(){
+        List<Tarea> tareasDelProyectoOrdenadas = new ArrayList<Tarea>();
+        List<Tarea> tareasDelProyectoDesordenadas = redDeTareas.obtenerTareas();
+        for(int i = 0; i < tareasDelProyectoDesordenadas.size(); i++){
+            Tarea tareaAUbicar = tareasDelProyectoDesordenadas.get(i);
+            boolean seUbico = false;
+            for(int j = 0; j < tareasDelProyectoOrdenadas.size(); j++){
+                Tarea unaTareaUbicada = tareasDelProyectoOrdenadas.get(j);                
+                if (redDeTareas.hayCamino(tareaAUbicar,unaTareaUbicada)){
+                    tareasDelProyectoOrdenadas.add(j,tareaAUbicar);
+                    seUbico = true;
+                    break;
+                }
+            }
+            if (!seUbico){
+                tareasDelProyectoOrdenadas.add(tareaAUbicar);
+            }
+        }
+        redDeTareas.setearTareas(tareasDelProyectoOrdenadas);
+        this.limpiarTablaDeTareas();
+        int fila = 0;
+        for (Tarea tarea : redDeTareas.obtenerTareas()){
+            actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
+            fila += 1;
+        }        
+    }
+    
     /**
      * Se devuelve la lista de tareas del conjunto de tareas del proyecto.
      * @return 
