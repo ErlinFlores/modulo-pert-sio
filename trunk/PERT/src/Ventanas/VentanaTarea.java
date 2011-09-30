@@ -49,6 +49,8 @@ public class VentanaTarea extends javax.swing.JDialog {
     private TiempoEstimado tiemposEstimados;    
     private Precedencia tareasPrecedentes;    
     
+    private boolean posibleInconsistenciaEnElOrdenDeTareasDelProyecto;
+    
     /** Creates new form VentanaTarea */
     public VentanaTarea(java.awt.Frame parent, boolean modal, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
@@ -67,6 +69,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         inicializarTablas();
         setearEtiquetas();
         setearDatosDeTarea();
+        this.posibleInconsistenciaEnElOrdenDeTareasDelProyecto = false;
     }
 
      /** Creates new form VentanaTarea */
@@ -87,6 +90,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         inicializarTablas();
         setearEtiquetas();
         setearDatosDeTarea();
+        this.posibleInconsistenciaEnElOrdenDeTareasDelProyecto = false;
     }
     
     /**
@@ -492,6 +496,9 @@ public class VentanaTarea extends javax.swing.JDialog {
                     case modificar:
                         tiemposEstimados.setearTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
                         formularioProyecto.modificarTarea(id, descripcion);
+                        if (this.posibleInconsistenciaEnElOrdenDeTareasDelProyecto){
+                            formularioProyecto.establecerConsistenciaEnElOrdenDeTareas();
+                        }                        
                         break;
                 }
                 this.dispose();
@@ -509,7 +516,8 @@ public class VentanaTarea extends javax.swing.JDialog {
             Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);
             int nuevaFila = tareasPrecedentes.obtenerCantidadDeTareas();
             tareasPrecedentes.agregarPrecedente(nuevaTareaPrecedente);
-            modificarTabla(tabla_TareasPrecedentes, nuevaFila, true, nuevaTareaPrecedente);
+            posibleInconsistenciaEnElOrdenDeTareasDelProyecto = true;
+            modificarTabla(tabla_TareasPrecedentes, nuevaFila, true, nuevaTareaPrecedente);            
         }
 }//GEN-LAST:event_boton_AgregarPrecedenteActionPerformed
 
