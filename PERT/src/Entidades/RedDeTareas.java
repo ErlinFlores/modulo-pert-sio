@@ -19,14 +19,16 @@ public class RedDeTareas {
     private double duracionDelProyecto;
     private List<CaminoCritico> caminosCriticos;
     private boolean ultimoCalculoPERTesCorrecto;
-    private int cifrasDecimales;
 
     public RedDeTareas(List<Tarea> tareas){
         this.tareas = tareas;
         this.duracionDelProyecto = -1;
         this.caminosCriticos = new ArrayList<CaminoCritico>();
         this.ultimoCalculoPERTesCorrecto = false;
-        this.cifrasDecimales = GestorDeCifrasDecimales.getInstance().obtenerCifrasDecimales();
+    }
+    
+    public void setearTareas(List<Tarea> tareas){
+        this.tareas = tareas;
     }
 
     public void agregarTarea(Tarea tarea){
@@ -100,13 +102,14 @@ public class RedDeTareas {
         return tareasHabilitadasParaSerPrecedentes;
     }
     
+    
      /**
      * Método que determina si existe un camino entre dos tareas específicas.
      * @param tareaInicio
      * @param tareaDestino
      * @return 
      */
-    private boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
+    public boolean hayCamino(Tarea tareaInicio, Tarea tareaDestino){
         Precedencia tareasPrecedentesDeTareaDestino = tareaDestino.obtenerPrecedencia();
         boolean existeCamino = false;
         for (Tarea tarea : tareasPrecedentesDeTareaDestino.obtenerPrecedentes()){
@@ -324,7 +327,6 @@ public class RedDeTareas {
             double d = tarea.obtenerDuracionEsperada();
             tiempoDelCamino = tiempoDelCamino + d;
         }
-        double valorParaAcotar = Math.pow(10, cifrasDecimales);
-        return Math.round(tiempoDelCamino*valorParaAcotar)/valorParaAcotar == duracionDelProyecto;
+        return tiempoDelCamino == duracionDelProyecto;
     }
 }

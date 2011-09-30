@@ -32,7 +32,7 @@ public class GestorDeCifrasDecimales {
     private double valorParaAcotar;
     
     private GestorDeCifrasDecimales(){
-        cifrasDecimales = 4;
+        cifrasDecimales = 2;
         valorParaAcotar = Math.pow(10, cifrasDecimales);
     }
     
