@@ -6,6 +6,7 @@ package Entidades;
 
 import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
 import EntradaSalida.ManejadorDeArchivos;
+import java.math.BigDecimal;
 
 /**
  *
@@ -51,16 +52,17 @@ public class TablaZeta {
      */
     public double obtenerProbabilidad(double zetaAcotado){
         if ((-3.09 <= zetaAcotado) && (zetaAcotado <= 3.09)){
-            double zetaAcotadoAbs = Math.abs(zetaAcotado);
-            int fila = (int)(zetaAcotadoAbs*10);
-            int columna = (int)(((zetaAcotadoAbs*10)-fila)*10);
-            double probabilidadExtendida;
+            BigDecimal zetaAcotadoAbs = new BigDecimal(Math.abs(zetaAcotado)+"");
+            int fila = (zetaAcotadoAbs.multiply(new BigDecimal(10+""))).intValue();
+            int columna = (((zetaAcotadoAbs.multiply(new BigDecimal(10+""))).subtract(new BigDecimal(fila+""))).multiply(new BigDecimal(10+""))).intValue();
+            BigDecimal probabilidadExtendida;
+            BigDecimal probabilidadDeTabla = new BigDecimal(tablaZ[fila][columna]+"");
             if (zetaAcotado >= 0){
-                probabilidadExtendida = tablaZ[fila][columna];
+                probabilidadExtendida = probabilidadDeTabla;
             }else{
-                probabilidadExtendida = 1 - tablaZ[fila][columna];
+                probabilidadExtendida = new BigDecimal(1+"").subtract(probabilidadDeTabla);
             }            
-            return probabilidadExtendida;
+            return probabilidadExtendida.doubleValue();
         }else if(zetaAcotado > 3.09){
             return 1;
         }else{
