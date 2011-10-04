@@ -152,7 +152,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         double to = Double.parseDouble(campoTexto_TiempoOptimista.getText());
         double tmp = Double.parseDouble(campoTexto_TiempoMasProbable.getText());
         double tp = Double.parseDouble(campoTexto_TiempoPesimista.getText());
-        if (!((0 < to) && (to <= tmp) && (tmp < tp) && (tp < 256))){
+        if (!((0 <= to) && (to <= tmp) && (tmp <= tp) && (tp < 256))){
             return false;
         }
         return true;
