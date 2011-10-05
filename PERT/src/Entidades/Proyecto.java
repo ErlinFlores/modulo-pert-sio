@@ -11,15 +11,15 @@ package Entidades;
  * @author Manuel Lorenze
  */
 public class Proyecto {
-
-    private int id;    
+   
     private String nombre;
+    private String descripcion;
     private RedDeTareas redDeTareas;
     private String unidadDeTiempo;
     
-    public Proyecto(int id, String nombre, RedDeTareas redDeTareas, String unidadDeTiempo){
-        this.id = id;
+    public Proyecto(String nombre, String descripcion, RedDeTareas redDeTareas, String unidadDeTiempo){
         this.nombre = nombre;
+        this.descripcion = descripcion;
         this.redDeTareas = redDeTareas;
         this.unidadDeTiempo = unidadDeTiempo;
     }        
@@ -27,10 +27,6 @@ public class Proyecto {
     public int obtenerCantidadDeTareas(){
         return redDeTareas.obtenerCantidadDeTareas();
     }      
-
-    public int obtenerId() {
-        return id;
-    }
     
     public String obtenerNombre() {
         return nombre;
@@ -38,6 +34,14 @@ public class Proyecto {
 
     public void setearNombre(String nombre) {
         this.nombre = nombre;
+    }
+    
+    public String obtenerDescripcion(){
+        return descripcion;
+    }
+    
+    public void setearDescripcion(String descripcion){
+        this.descripcion = descripcion;
     }
 
     public RedDeTareas obtenerRedDeTareas() {
