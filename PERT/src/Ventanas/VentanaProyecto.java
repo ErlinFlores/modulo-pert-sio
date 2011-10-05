@@ -17,11 +17,14 @@ import Demo.Demo2;
 import Demo.Demo3;
 import Demo.IDemo;
 import Entidades.*;
+import EntradaSalida.ManejadorDeArchivos;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.help.HelpBroker;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -52,7 +55,6 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.helpBroker = helpBroker;
         habilitarAyuda();
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
-        FabricaDeProyectos.getInstance().reset();
         FabricaDeTareas.getInstance().reset();          
         this.nombre = etiquetas.getString("proyectoSugerenciaNombreProyecto");
         this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
@@ -725,8 +727,13 @@ public class VentanaProyecto extends javax.swing.JFrame {
                 calculoValido = false;
             }
             if (calculoValido){
-                VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
-                ventanaResultados.setVisible(true);
+                if (! (campoTexto_UnidadDeTiempo.getText().length() > 15)){
+                    unidadDeTiempo = this.campoTexto_UnidadDeTiempo.getText();
+                    VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
+                    ventanaResultados.setVisible(true);
+                }else{ 
+                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeLargoDeUnidadDeTiempoExcedido"));
+                }
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorEnCalculosSobreRedDeTareas"));
             }            
@@ -778,15 +785,23 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_subMenu_NuevoActionPerformed
 
     private void subMenu_AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AbrirActionPerformed
-        /**JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setLocale(lugarConfigurado);
+        JFileChooser fileChooser = new JFileChooser();
         int seleccion = fileChooser.showOpenDialog(subMenu_Abrir);
         if (seleccion == JFileChooser.APPROVE_OPTION)
         {
            File fichero = fileChooser.getSelectedFile();
-           // y a trabajar con fichero ....
-        }**/
-        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
+           Proyecto proyecto = ManejadorDeArchivos.abrirProyecto(fichero);
+           if (proyecto != null){
+               limpiarTablaDeTareas();
+               this.nombre = proyecto.obtenerNombre();
+               this.unidadDeTiempo = proyecto.obtenerUnidadDeTiempo();
+               this.descripcion = proyecto.obtenerDescripcion();        
+               this.redDeTareas = proyecto.obtenerRedDeTareas();
+               setearCampos();
+           }else{
+               JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorAlCargarProyecto"));
+           }           
+        }
     }//GEN-LAST:event_subMenu_AbrirActionPerformed
 
     private void subMenu_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarActionPerformed
