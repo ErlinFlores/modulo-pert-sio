@@ -77,15 +77,15 @@ public class TablaZeta {
      * @return 
      */
     public double obtenerZeta(double probabilidad){
-        double diferenciaAnterior = 0;
+        BigDecimal diferenciaAnterior = new BigDecimal(0+"");
         int filaAnterior = -1;
         int columnaAnterior = -1;
         for(int filaActual = 0; filaActual <= 30; filaActual++){
             for(int columnaActual = 0; columnaActual <= 9; columnaActual++){
-                double diferenciaActual = tablaZ[filaActual][columnaActual] - probabilidad;
-                if ((0 <= diferenciaActual) && !((filaActual == 0) && (columnaActual == 0))){
-                    diferenciaAnterior = Math.abs(diferenciaAnterior);
-                    if (diferenciaAnterior >= diferenciaActual){
+                BigDecimal diferenciaActual = new BigDecimal(tablaZ[filaActual][columnaActual]+"").subtract(new BigDecimal(probabilidad+""));
+                if ((0 <= diferenciaActual.doubleValue()) && !((filaActual == 0) && (columnaActual == 0))){
+                    diferenciaAnterior = diferenciaAnterior.abs();
+                    if (diferenciaAnterior.doubleValue() >= diferenciaActual.doubleValue()){
                         return (filaActual/10.0)+(columnaActual/100.0);
                     }else{
                         if (!(columnaActual == 0)){

@@ -51,6 +51,33 @@ public class FabricaDeTareas {
         return new Tarea(id, getNombreByIdTarea(id), descripcion, tiempoEstimado, precedencia);
     }   
     
+    public Tarea crearTarea(int id, String descripcion, TiempoEstimado tiempoEstimado, Precedencia precedencia){
+        return new Tarea(id, getNombreByIdTarea(id), descripcion, tiempoEstimado, precedencia);
+    }
+    
+    public void establecerConsistencia(int proximoId, List<Integer> listaDeIdsDeTareasUsadas){
+        this.proximoId = proximoId;
+        int unId = 0;
+        for (int i = 0; i < listaDeIdsDeTareasUsadas.size(); i++){
+            int idUsado = listaDeIdsDeTareasUsadas.get(i);
+            boolean encontro = false;
+            while ((!encontro) && unId < proximoId){
+                if (unId != idUsado){
+                    listaDeIdsDeTareasEliminadas.add(unId);
+                    unId += 1;
+                }else{
+                    unId += 1;
+                    encontro = true;
+                }
+            }
+        }
+        if ((unId+1) != proximoId){
+            for (int j = unId; j < proximoId; j++){
+                listaDeIdsDeTareasEliminadas.add(unId);
+            }
+        }
+    }
+    
     private int getId(){
         int id = proximoId;
         proximoId += 1;        
