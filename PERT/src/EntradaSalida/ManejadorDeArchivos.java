@@ -7,14 +7,24 @@ package EntradaSalida;
 import Entidades.Estados.ResultadoDeCargaDeAyuda;
 import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
 import Entidades.Estados.ResultadoDeEscrituraDeLogDeErrores;
+import Entidades.FabricaDeTareas;
+import Entidades.Precedencia;
+import Entidades.Proyecto;
+import Entidades.RedDeTareas;
+import Entidades.Tarea;
+import Entidades.TiempoEstimado;
 import com.csvreader.CsvReader;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.help.HelpBroker;
@@ -113,5 +123,66 @@ public class ManejadorDeArchivos {
                 e.printStackTrace();
              }
         }           
+    }
+    
+    public static Proyecto abrirProyecto(File archivoDelProyecto) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(archivoDelProyecto));
+            String lineaDeDatos = reader.readLine();
+            if (lineaDeDatos != null){
+                List<String[]> datosDelProyecto = new ArrayList<String[]>();
+                while (lineaDeDatos != null)
+                {
+                    datosDelProyecto.add(lineaDeDatos.split(";&"));
+                    lineaDeDatos = reader.readLine();                    
+                }
+                if (datosDelProyecto.size() > 1){
+                    String[] infoBasicaDelProyecto = datosDelProyecto.get(0);
+                    RedDeTareas redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
+                    List<Integer> listaDeIdsDeTareasUsadas = new ArrayList<Integer>();
+                    for (int i = 1; i < datosDelProyecto.size(); i++){
+                        String[] infoTarea = datosDelProyecto.get(i);
+                        TiempoEstimado tiemposEstimados = new TiempoEstimado(Double.valueOf(infoTarea[3]), Double.valueOf(infoTarea[4]), Double.valueOf(infoTarea[5]));
+                        String[] infoDeTareasPrecedentes = infoTarea[2].split("-");
+                        List<Tarea> tareasPrecedentes = new ArrayList<Tarea>();
+                        for (int j = 0; j < infoDeTareasPrecedentes.length; j++){
+                            if (!infoDeTareasPrecedentes[j].equals(""))
+                                tareasPrecedentes.add(redDeTareas.obtenerTareaPorID(Integer.valueOf(infoDeTareasPrecedentes[j])));
+                        }
+                        Precedencia precedencia = new Precedencia(tareasPrecedentes);        
+                        Integer idTarea = Integer.valueOf(infoTarea[0]);
+                        listaDeIdsDeTareasUsadas.add(idTarea);
+                        Tarea tarea = FabricaDeTareas.getInstance().crearTarea(idTarea, infoTarea[1], tiemposEstimados, precedencia);
+                        redDeTareas.agregarTarea(tarea);
+                    }     
+                    listaDeIdsDeTareasUsadas = ordenarListaDeIdsDeTareasUsadas(listaDeIdsDeTareasUsadas);
+                    FabricaDeTareas.getInstance().establecerConsistencia(1+listaDeIdsDeTareasUsadas.get(listaDeIdsDeTareasUsadas.size()-1), listaDeIdsDeTareasUsadas);
+                    return new Proyecto(infoBasicaDelProyecto[0], infoBasicaDelProyecto[1], redDeTareas, infoBasicaDelProyecto[2]);                   
+                }
+            }             
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }       
+        return null;
+    }
+    
+    private static List<Integer> ordenarListaDeIdsDeTareasUsadas(List<Integer> lista){
+        List<Integer> listaOrdenada = new ArrayList<Integer>();
+        for (int i = 0; i < lista.size(); i++){
+            boolean ubico = false;
+            for (int j = 0; j < listaOrdenada.size(); j++){
+                if (lista.get(i) < listaOrdenada.get(j)){
+                    listaOrdenada.add(j, lista.get(i));
+                    ubico = true;
+                    break;
+                }
+            }
+            if (!ubico){
+                listaOrdenada.add(lista.get(i));
+            }
+        }
+        return listaOrdenada;
     }
 }
