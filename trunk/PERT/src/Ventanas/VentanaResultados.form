@@ -167,7 +167,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="label_DuracionDelProyecto" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="campoTexto_DuracionDelProyecto" min="-2" pref="143" max="-2" attributes="0"/>
+                          <Component id="campoTexto_DuracionDelProyecto" pref="233" max="32767" attributes="0"/>
                       </Group>
                       <Component id="panel_Estrategia" alignment="0" max="32767" attributes="1"/>
                   </Group>
@@ -347,7 +347,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="boton_CalcularProbabilidad" min="-2" pref="176" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="campoTexto_ProbabilidadCalculada" min="-2" pref="113" max="-2" attributes="1"/>
+                              <Component id="campoTexto_ProbabilidadCalculada" min="-2" pref="174" max="-2" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="label_Duracion" min="-2" max="-2" attributes="0"/>
@@ -357,7 +357,7 @@
                               <Component id="label_UnidadDeTiempoEnCalculoDeProbabilidades" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="127" max="32767" attributes="0"/>
+                      <EmptySpace pref="66" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -441,7 +441,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="boton_CalcularDuracion" min="-2" pref="180" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="campoTexto_DuracionCalculada" min="-2" pref="122" max="-2" attributes="1"/>
+                              <Component id="campoTexto_DuracionCalculada" min="-2" pref="177" max="-2" attributes="1"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="label_Probabilidad" min="-2" max="-2" attributes="0"/>
@@ -449,7 +449,7 @@
                               <Component id="campoTexto_ProbabilidadParaDuracion" min="-2" pref="58" max="-2" attributes="1"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="114" max="32767" attributes="0"/>
+                      <EmptySpace pref="59" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
