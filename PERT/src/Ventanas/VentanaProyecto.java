@@ -18,6 +18,8 @@ import Demo.Demo3;
 import Demo.IDemo;
 import Entidades.*;
 import EntradaSalida.ManejadorDeArchivos;
+import EntradaSalida.ProyectoES;
+import EntradaSalida.TareaES;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private Locale lugarConfigurado;
     private ResourceBundle etiquetas;   
     private HelpBroker helpBroker;
+    private String pathDeArchivoDelProyecto;
     
     private DefaultTableModel modeloDeTablaDeTareas;
     
@@ -53,6 +56,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         initComponents();   
         this.lugarConfigurado = lugarConfigurado;
         this.helpBroker = helpBroker;
+        this.pathDeArchivoDelProyecto = null;
         habilitarAyuda();
         etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
         FabricaDeTareas.getInstance().reset();          
@@ -142,12 +146,18 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private boolean validarDatosDeEntradaDelUsuario(){
         if ((campoTexto_NombreProyecto.getText().equals("") && (campoTexto_NombreProyecto.getText().length() > 40))){ 
             return false;
+        }else{
+            nombre = campoTexto_NombreProyecto.getText();
         }
         if (areaTexto_DescripcionProyecto.getText().length() > 500){ 
             return false;
+        }else{
+            descripcion = areaTexto_DescripcionProyecto.getText();
         }
         if ((campoTexto_UnidadDeTiempo.getText().equals("") && (campoTexto_UnidadDeTiempo.getText().length() > 15))){
             return false;
+        }else{
+            unidadDeTiempo = campoTexto_UnidadDeTiempo.getText();
         }    
         if (redDeTareas.obtenerCantidadDeTareas()==0){
             return false;
@@ -309,7 +319,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.descripcion = demo.obtenerDescripcion();        
         this.redDeTareas = demo.obtenerRedDeTareas();
         setearCampos();
-    }
+    }    
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -787,15 +797,15 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private void subMenu_AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AbrirActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         int seleccion = fileChooser.showOpenDialog(subMenu_Abrir);
-        if (seleccion == JFileChooser.APPROVE_OPTION)
-        {
-           File fichero = fileChooser.getSelectedFile();
-           Proyecto proyecto = ManejadorDeArchivos.abrirProyecto(fichero);
-           if (proyecto != null){
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+           File archivo = fileChooser.getSelectedFile();
+           ProyectoES proyectoES = (ProyectoES)ManejadorDeArchivos.LeerXML(archivo.getAbsolutePath());
+           if (proyectoES != null){
+               Proyecto proyecto = GestorDeTransformacion.transformarProyectoESEnProyecto(proyectoES);
                limpiarTablaDeTareas();
                this.nombre = proyecto.obtenerNombre();
                this.unidadDeTiempo = proyecto.obtenerUnidadDeTiempo();
-               this.descripcion = proyecto.obtenerDescripcion();        
+               this.descripcion = proyecto.obtenerDescripcion();                  
                this.redDeTareas = proyecto.obtenerRedDeTareas();
                setearCampos();
            }else{
@@ -805,11 +815,34 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_subMenu_AbrirActionPerformed
 
     private void subMenu_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarActionPerformed
-        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
+        if (validarDatosDeEntradaDelUsuario()){
+            if (pathDeArchivoDelProyecto == null){
+                JFileChooser fileChooser = new JFileChooser();
+                int seleccion = fileChooser.showSaveDialog(subMenu_Guardar);
+                if (seleccion == JFileChooser.APPROVE_OPTION) {
+                   File archivo = fileChooser.getSelectedFile();
+                   ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(nombre, descripcion, redDeTareas, unidadDeTiempo);
+                   ManejadorDeArchivos.EscribirXML(archivo.getAbsolutePath(), proyectoES);
+                   pathDeArchivoDelProyecto = archivo.getAbsolutePath();
+                }
+            }else{
+                ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(nombre, descripcion, redDeTareas, unidadDeTiempo);
+                ManejadorDeArchivos.EscribirXML(pathDeArchivoDelProyecto, proyectoES);
+            }
+        }
     }//GEN-LAST:event_subMenu_GuardarActionPerformed
 
     private void subMenu_GuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarComoActionPerformed
-        JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeFuncionalidadAunNoDisponible"));
+        if (validarDatosDeEntradaDelUsuario()){
+            JFileChooser fileChooser = new JFileChooser();
+            int seleccion = fileChooser.showSaveDialog(subMenu_Guardar);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+               File archivo = fileChooser.getSelectedFile();
+               ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(nombre, descripcion, redDeTareas, unidadDeTiempo);
+               ManejadorDeArchivos.EscribirXML(archivo.getAbsolutePath(), proyectoES);
+               pathDeArchivoDelProyecto = archivo.getAbsolutePath();
+            }
+        }
     }//GEN-LAST:event_subMenu_GuardarComoActionPerformed
 
     private void subMenu_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_SalirActionPerformed

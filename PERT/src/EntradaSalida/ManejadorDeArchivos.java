@@ -14,9 +14,15 @@ import Entidades.RedDeTareas;
 import Entidades.Tarea;
 import Entidades.TiempoEstimado;
 import com.csvreader.CsvReader;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -184,5 +190,31 @@ public class ManejadorDeArchivos {
             }
         }
         return listaOrdenada;
+    }
+    
+    public static Object LeerXML(String root) {
+        Object o = null;
+        try {
+            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(root)));
+            o = decoder.readObject();
+            decoder.close();
+            return o;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return o;
+    }
+
+    public static boolean EscribirXML(String root, Object datos) {
+        boolean escrituraExitosa = false;
+        try {
+            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(root)));
+            encoder.writeObject(datos);
+            encoder.close();
+            escrituraExitosa = true;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return escrituraExitosa;
     }
 }
