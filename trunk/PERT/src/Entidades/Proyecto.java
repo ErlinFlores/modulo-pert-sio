@@ -48,7 +48,15 @@ public class Proyecto {
         return redDeTareas;
     }
     
+    public void setearRedDeTareas(RedDeTareas redDeTareas){
+        this.redDeTareas = redDeTareas;
+    }
+    
     public String obtenerUnidadDeTiempo(){
         return unidadDeTiempo;
+    }
+    
+    public void setearUnidadDeTiempo(String unidadDeTiempo){
+        this.unidadDeTiempo = unidadDeTiempo;
     }
 }
