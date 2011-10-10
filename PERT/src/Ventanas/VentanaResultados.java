@@ -13,6 +13,7 @@ package Ventanas;
 import Entidades.CaminoCritico;
 import Entidades.Estados.EstrategiaDeSeleccionDeDesvEst;
 import Entidades.GestorProbabilistico;
+import Entidades.Proyecto;
 import Entidades.RedDeTareas;
 import Entidades.Tarea;
 import java.util.ResourceBundle;
@@ -35,120 +36,118 @@ public class VentanaResultados extends javax.swing.JDialog {
     private DefaultTableModel modeloDeTablaDeResultadosCalculados;
     private DefaultTableModel modeloDeTablaDeCaminosCriticos;   
     
-    private String unidadDeTiempo;
-    private EstrategiaDeSeleccionDeDesvEst estrategia;
-    private RedDeTareas redDeTareas;    
+    private Proyecto proyecto;
+    private EstrategiaDeSeleccionDeDesvEst estrategia;  
     
     private GestorProbabilistico gestorProbabilistico;
     
     /** Creates new form VentanaResultados */
-    public VentanaResultados(java.awt.Frame parent, boolean modal, RedDeTareas redDeTareas, String unidadDeTiempo, ResourceBundle etiquetas, HelpBroker helpBroker) {
+    public VentanaResultados(java.awt.Frame parent, boolean modal, Proyecto proyecto, ResourceBundle etiquetas, HelpBroker helpBroker) {
         super(parent, modal);
         initComponents();
         this.etiquetas = etiquetas;
         this.helpBroker = helpBroker;
         habilitarAyuda();        
-        this.unidadDeTiempo = unidadDeTiempo;
-        this.redDeTareas = redDeTareas;
+        this.proyecto = proyecto;
         this.estrategia = resetearEstrategiaDeSeleccionDeDesvEst();        
-        this.gestorProbabilistico = new GestorProbabilistico(redDeTareas.obtenerDuracionDelProyecto(), redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
-        inicializarTablas();
-        actualizarTablaDeCalculosRealizados();
-        actualizarInformacionDelProyecto();        
+        this.gestorProbabilistico = new GestorProbabilistico(this.proyecto.obtenerRedDeTareas().obtenerDuracionDelProyecto(), this.proyecto.obtenerRedDeTareas().obtenerDesviacionEstandarDelProyecto(this.estrategia));
+        inicializarTablas();                
         setearEtiquetas();
+        actualizarTablaDeCalculosRealizados();
+        actualizarInformacionDelProyecto();
     }
 
-    /**
-     * Se setean las etiquetas de la pantalla según el idioma configurado.
-     */
-    private void setearEtiquetas(){
-        setTitle(etiquetas.getString("resultadosTitulo"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("resultadosTablaNombre"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("resultadosTablaDuracion"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(2).setHeaderValue(etiquetas.getString("resultadosTablaPrecedencia"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(3).setHeaderValue(etiquetas.getString("resultadosTablaComienzoTemprano"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(4).setHeaderValue(etiquetas.getString("resultadosTablaFinTemprano"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(5).setHeaderValue(etiquetas.getString("resultadosTablaComienzoTardio"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(6).setHeaderValue(etiquetas.getString("resultadosTablaFinTardio"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(7).setHeaderValue(etiquetas.getString("resultadosTablaHolgura"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(8).setHeaderValue(etiquetas.getString("resultadosTablaCritica"));
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(9).setHeaderValue(etiquetas.getString("resultadosTablaDesviacionEstandar"));
-        
-        tabla_CaminosCriticos.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("resultadosTablaNumero"));
-        tabla_CaminosCriticos.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("resutladosTablaCaminoCritico"));
-        tabla_CaminosCriticos.getColumnModel().getColumn(2).setHeaderValue(etiquetas.getString("resultadosTablaDesviacionEstandar"));
-        
-        ((TitledBorder)this.panel_InformacionDelProyecto.getBorder()).setTitle(etiquetas.getString("resultadosLabelInformacionDelProyecto"));
-        this.label_DuracionDelProyecto.setText(etiquetas.getString("resultadosLabelDuracionDelProyecto"));
-        ((TitledBorder)this.panel_Estrategia.getBorder()).setTitle(etiquetas.getString("resultadosLabelEstrategia"));
-        this.checkBox_Suma.setText(etiquetas.getString("resultadosLabelSuma"));
-        this.checkBox_Promedio.setText(etiquetas.getString("resultadosLabelPromedio"));
-        this.checkBox_Mayor.setText(etiquetas.getString("resultadosLabelMayor"));
-        this.panelDeTab_Estadistica.setTitleAt(0, etiquetas.getString("resultadosLabelPanelDeTabCalculoDeProbabilidad"));
-        this.panelDeTab_Estadistica.setTitleAt(1, etiquetas.getString("resultadosLabelPanelDeTabCalculoDeDuracion"));
-        this.label_PreguntaProbabilidad.setText(etiquetas.getString("resultadosLabelPreguntaProbabilidad"));
-        this.label_PreguntaDuracion.setText(etiquetas.getString("resultadosLabelPreguntaDuracion"));
-        this.label_Probabilidad.setText(etiquetas.getString("resultadosLabelProbabilidad"));
-        this.label_Duracion.setText(etiquetas.getString("resultadosLabelDuracion"));
-        this.label_UnidadDeTiempoEnCalculoDeProbabilidades.setText(unidadDeTiempo);               
-        this.boton_CalcularProbabilidad.setText(etiquetas.getString("resultadosBotonCalcularProbabilidad"));
-        this.boton_CalcularDuracion.setText(etiquetas.getString("resultadosBotonCalcularDuracion")); 
-        this.boton_Salir.setText(etiquetas.getString("resultadosBotonSalir"));
+    private void habilitarAyuda(){
+        if (this.helpBroker != null){            
+            this.helpBroker.enableHelpKey(this.getContentPane(), "resultados", this.helpBroker.getHelpSet());
+        } 
     }
+    
+    private EstrategiaDeSeleccionDeDesvEst resetearEstrategiaDeSeleccionDeDesvEst(){
+        if (this.proyecto.obtenerRedDeTareas().obtenerCantidadDeCaminosCriticos() > 1){
+            this.checkBox_Suma.setEnabled(true);
+            this.checkBox_Promedio.setEnabled(true);
+            this.checkBox_Mayor.setEnabled(true); 
+            this.checkBox_Suma.setSelected(false);
+            this.checkBox_Promedio.setSelected(true);
+            this.checkBox_Mayor.setSelected(false);
+            return EstrategiaDeSeleccionDeDesvEst.promedio;
+        }else{         
+            this.checkBox_Suma.setSelected(false);
+            this.checkBox_Promedio.setSelected(false);
+            this.checkBox_Mayor.setSelected(false);
+            this.checkBox_Suma.setEnabled(false);
+            this.checkBox_Promedio.setEnabled(false);
+            this.checkBox_Mayor.setEnabled(false);       
+            return EstrategiaDeSeleccionDeDesvEst.ninguna;
+        }        
+    }  
     
     private void inicializarTablas(){
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
         
-        modeloDeTablaDeResultadosCalculados = new DefaultTableModel(0, 10);
-        tabla_ResultadoDeCalculos.setModel(modeloDeTablaDeResultadosCalculados);                      
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setMaxWidth(100);
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setResizable(false); 
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setCellRenderer(dtcr);
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(2).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(3).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(4).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(5).setCellRenderer(dtcr);
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(6).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(7).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(8).setCellRenderer(dtcr);        
-        tabla_ResultadoDeCalculos.getColumnModel().getColumn(9).setCellRenderer(dtcr);
+        this.modeloDeTablaDeResultadosCalculados = new DefaultTableModel(0, 10);
+        this.tabla_ResultadoDeCalculos.setModel(this.modeloDeTablaDeResultadosCalculados);                      
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setMaxWidth(100);
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setResizable(false); 
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setCellRenderer(dtcr);
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(2).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(3).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(4).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(5).setCellRenderer(dtcr);
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(6).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(7).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(8).setCellRenderer(dtcr);        
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(9).setCellRenderer(dtcr);
         
-        modeloDeTablaDeCaminosCriticos = new DefaultTableModel(0, 3);
-        tabla_CaminosCriticos.setModel(modeloDeTablaDeCaminosCriticos);
-        tabla_CaminosCriticos.getColumnModel().getColumn(0).setMaxWidth(50);
-        tabla_CaminosCriticos.getColumnModel().getColumn(0).setResizable(false); 
-        tabla_CaminosCriticos.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
-        tabla_CaminosCriticos.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
-        tabla_CaminosCriticos.getColumnModel().getColumn(2).setCellRenderer(dtcr);       
+        this.modeloDeTablaDeCaminosCriticos = new DefaultTableModel(0, 3);
+        this.tabla_CaminosCriticos.setModel(this.modeloDeTablaDeCaminosCriticos);
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(0).setMaxWidth(50);
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(0).setResizable(false); 
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(2).setCellRenderer(dtcr);       
     }
     
-    private void habilitarAyuda(){
-        if (helpBroker != null){            
-            helpBroker.enableHelpKey(this.getContentPane(), "resultados", helpBroker.getHelpSet());
-        } 
-    }
-    
-    private EstrategiaDeSeleccionDeDesvEst resetearEstrategiaDeSeleccionDeDesvEst(){
-        if (redDeTareas.obtenerCantidadDeCaminosCriticos() > 1){
-            checkBox_Suma.setEnabled(true);
-            checkBox_Promedio.setEnabled(true);
-            checkBox_Mayor.setEnabled(true); 
-            checkBox_Suma.setSelected(false);
-            checkBox_Promedio.setSelected(true);
-            checkBox_Mayor.setSelected(false);
-            return EstrategiaDeSeleccionDeDesvEst.promedio;
-        }else{         
-            checkBox_Suma.setSelected(false);
-            checkBox_Promedio.setSelected(false);
-            checkBox_Mayor.setSelected(false);
-            checkBox_Suma.setEnabled(false);
-            checkBox_Promedio.setEnabled(false);
-            checkBox_Mayor.setEnabled(false);       
-            return EstrategiaDeSeleccionDeDesvEst.ninguna;
-        }        
-    }  
+    /**
+     * Se setean las etiquetas de la pantalla según el idioma configurado.
+     */
+    private void setearEtiquetas(){
+        setTitle(this.etiquetas.getString("resultadosTitulo"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(0).setHeaderValue(this.etiquetas.getString("resultadosTablaNombre"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(1).setHeaderValue(this.etiquetas.getString("resultadosTablaDuracion"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(2).setHeaderValue(this.etiquetas.getString("resultadosTablaPrecedencia"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(3).setHeaderValue(this.etiquetas.getString("resultadosTablaComienzoTemprano"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(4).setHeaderValue(this.etiquetas.getString("resultadosTablaFinTemprano"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(5).setHeaderValue(this.etiquetas.getString("resultadosTablaComienzoTardio"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(6).setHeaderValue(this.etiquetas.getString("resultadosTablaFinTardio"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(7).setHeaderValue(this.etiquetas.getString("resultadosTablaHolgura"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(8).setHeaderValue(this.etiquetas.getString("resultadosTablaCritica"));
+        this.tabla_ResultadoDeCalculos.getColumnModel().getColumn(9).setHeaderValue(this.etiquetas.getString("resultadosTablaDesviacionEstandar"));
+        
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(0).setHeaderValue(this.etiquetas.getString("resultadosTablaNumero"));
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(1).setHeaderValue(this.etiquetas.getString("resutladosTablaCaminoCritico"));
+        this.tabla_CaminosCriticos.getColumnModel().getColumn(2).setHeaderValue(this.etiquetas.getString("resultadosTablaDesviacionEstandar"));
+        
+        ((TitledBorder)this.panel_InformacionDelProyecto.getBorder()).setTitle(this.etiquetas.getString("resultadosLabelInformacionDelProyecto"));
+        this.label_DuracionDelProyecto.setText(this.etiquetas.getString("resultadosLabelDuracionDelProyecto"));
+        ((TitledBorder)this.panel_Estrategia.getBorder()).setTitle(this.etiquetas.getString("resultadosLabelEstrategia"));
+        this.checkBox_Suma.setText(this.etiquetas.getString("resultadosLabelSuma"));
+        this.checkBox_Promedio.setText(this.etiquetas.getString("resultadosLabelPromedio"));
+        this.checkBox_Mayor.setText(this.etiquetas.getString("resultadosLabelMayor"));
+        this.panelDeTab_Estadistica.setTitleAt(0, this.etiquetas.getString("resultadosLabelPanelDeTabCalculoDeProbabilidad"));
+        this.panelDeTab_Estadistica.setTitleAt(1, this.etiquetas.getString("resultadosLabelPanelDeTabCalculoDeDuracion"));
+        this.label_PreguntaProbabilidad.setText(this.etiquetas.getString("resultadosLabelPreguntaProbabilidad"));
+        this.label_PreguntaDuracion.setText(this.etiquetas.getString("resultadosLabelPreguntaDuracion"));
+        this.label_Probabilidad.setText(this.etiquetas.getString("resultadosLabelProbabilidad"));
+        this.label_Duracion.setText(this.etiquetas.getString("resultadosLabelDuracion"));
+        this.label_UnidadDeTiempoEnCalculoDeProbabilidades.setText(this.proyecto.obtenerUnidadDeTiempo());               
+        this.boton_CalcularProbabilidad.setText(this.etiquetas.getString("resultadosBotonCalcularProbabilidad"));
+        this.boton_CalcularDuracion.setText(this.etiquetas.getString("resultadosBotonCalcularDuracion")); 
+        this.boton_Salir.setText(this.etiquetas.getString("resultadosBotonSalir"));
+    }       
     
     /**
      * Se modifica la tabla de tareas del proyecto en la cual se muestran los resultados calculados
@@ -156,42 +155,43 @@ public class VentanaResultados extends javax.swing.JDialog {
      * holgura y si es tarea crítica).
      */
     private void actualizarTablaDeCalculosRealizados(){
-        modeloDeTablaDeResultadosCalculados = (DefaultTableModel)tabla_ResultadoDeCalculos.getModel();
-        int cantidadDeFilasActual = modeloDeTablaDeResultadosCalculados.getRowCount();
+        this.modeloDeTablaDeResultadosCalculados = (DefaultTableModel)this.tabla_ResultadoDeCalculos.getModel();
+        int cantidadDeFilasActual = this.modeloDeTablaDeResultadosCalculados.getRowCount();
         for (int i = 0; i < cantidadDeFilasActual; i++){//Se eliminan todas las filas actuales. O sea, se limpia la tabla.
-            modeloDeTablaDeResultadosCalculados.removeRow(0);
+            this.modeloDeTablaDeResultadosCalculados.removeRow(0);
         }
         int fila = 0;
-        for (Tarea tarea : redDeTareas.obtenerTareas()){//Se ingresan las filas con los datos actuales.            
-            modeloDeTablaDeResultadosCalculados.addRow(new Object[fila]);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTemprano(), fila, 3);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTemprano(), fila, 4);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
-            tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDesviacionEstandar(), fila, 9);
+        for (Tarea tarea : this.proyecto.obtenerRedDeTareas().obtenerTareas()){//Se ingresan las filas con los datos actuales.            
+            this.modeloDeTablaDeResultadosCalculados.addRow(new Object[fila]);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerNombre(), fila, 0);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDuracionEsperada(), fila, 1);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTemprano(), fila, 3);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTemprano(), fila, 4);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
+            this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDesviacionEstandar(), fila, 9);
             fila += 1;            
         }
-        tabla_ResultadoDeCalculos.updateUI();
+        this.tabla_ResultadoDeCalculos.updateUI();
     }
     
     private void actualizarInformacionDelProyecto(){
-        String duracionDelProyectoStr = String.valueOf(redDeTareas.obtenerDuracionDelProyecto()+" "+unidadDeTiempo);
+        String duracionDelProyectoStr = String.valueOf(this.proyecto.obtenerRedDeTareas().obtenerDuracionDelProyecto()+" "+this.proyecto.obtenerUnidadDeTiempo());
         this.campoTexto_DuracionDelProyecto.setText(duracionDelProyectoStr);
-        modeloDeTablaDeCaminosCriticos = (DefaultTableModel)tabla_CaminosCriticos.getModel();
+        this.modeloDeTablaDeCaminosCriticos = (DefaultTableModel)this.tabla_CaminosCriticos.getModel();
         int fila = 0;
-        for (CaminoCritico caminoCritico : redDeTareas.obtenerCaminosCriticos()){
-            modeloDeTablaDeCaminosCriticos.addRow(new Object[fila]);
+        for (CaminoCritico caminoCritico : this.proyecto.obtenerRedDeTareas().obtenerCaminosCriticos()){
+            this.modeloDeTablaDeCaminosCriticos.addRow(new Object[fila]);
             int numeroDeCaminoCritico = fila + 1;
-            modeloDeTablaDeCaminosCriticos.setValueAt(numeroDeCaminoCritico,fila,0);
-            modeloDeTablaDeCaminosCriticos.setValueAt(caminoCritico.obtenerTareasConcatenadas(),fila,1);
-            modeloDeTablaDeCaminosCriticos.setValueAt(caminoCritico.obtenerDesviacionEstandar(), fila, 2);
+            this.modeloDeTablaDeCaminosCriticos.setValueAt(numeroDeCaminoCritico,fila,0);
+            this.modeloDeTablaDeCaminosCriticos.setValueAt(caminoCritico.obtenerTareasConcatenadas(),fila,1);
+            this.modeloDeTablaDeCaminosCriticos.setValueAt(caminoCritico.obtenerDesviacionEstandar(), fila, 2);
             fila += 1;
         }
+        this.tabla_CaminosCriticos.updateUI();
     }
     
     /** This method is called from within the constructor to
@@ -531,64 +531,64 @@ public class VentanaResultados extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void checkBox_SumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_SumaActionPerformed
-        checkBox_Suma.setSelected(true);
-        checkBox_Promedio.setSelected(false);
-        checkBox_Mayor.setSelected(false);
-        estrategia = EstrategiaDeSeleccionDeDesvEst.suma;
-        gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
+        this.checkBox_Suma.setSelected(true);
+        this.checkBox_Promedio.setSelected(false);
+        this.checkBox_Mayor.setSelected(false);
+        this.estrategia = EstrategiaDeSeleccionDeDesvEst.suma;
+        this.gestorProbabilistico.setearDesviacionEstandarDelProyecto(this.proyecto.obtenerRedDeTareas().obtenerDesviacionEstandarDelProyecto(estrategia));
 }//GEN-LAST:event_checkBox_SumaActionPerformed
 
     private void checkBox_PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_PromedioActionPerformed
-        checkBox_Suma.setSelected(false);
-        checkBox_Promedio.setSelected(true);
-        checkBox_Mayor.setSelected(false);
-        estrategia = EstrategiaDeSeleccionDeDesvEst.promedio;
-        gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
+        this.checkBox_Suma.setSelected(false);
+        this.checkBox_Promedio.setSelected(true);
+        this.checkBox_Mayor.setSelected(false);
+        this.estrategia = EstrategiaDeSeleccionDeDesvEst.promedio;
+        this.gestorProbabilistico.setearDesviacionEstandarDelProyecto(this.proyecto.obtenerRedDeTareas().obtenerDesviacionEstandarDelProyecto(estrategia));
 }//GEN-LAST:event_checkBox_PromedioActionPerformed
 
     private void checkBox_MayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBox_MayorActionPerformed
-        checkBox_Suma.setSelected(false);
-        checkBox_Promedio.setSelected(false);
-        checkBox_Mayor.setSelected(true);
-        estrategia = EstrategiaDeSeleccionDeDesvEst.mayor;
-        gestorProbabilistico.setearDesviacionEstandarDelProyecto(redDeTareas.obtenerDesviacionEstandarDelProyecto(estrategia));
+        this.checkBox_Suma.setSelected(false);
+        this.checkBox_Promedio.setSelected(false);
+        this.checkBox_Mayor.setSelected(true);
+        this.estrategia = EstrategiaDeSeleccionDeDesvEst.mayor;
+        this.gestorProbabilistico.setearDesviacionEstandarDelProyecto(this.proyecto.obtenerRedDeTareas().obtenerDesviacionEstandarDelProyecto(estrategia));
 }//GEN-LAST:event_checkBox_MayorActionPerformed
 
     private void boton_CalcularDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularDuracionActionPerformed
         double probabilidad = 0;
         try{
-            probabilidad = Double.parseDouble(campoTexto_ProbabilidadParaDuracion.getText());
+            probabilidad = Double.parseDouble(this.campoTexto_ProbabilidadParaDuracion.getText());
             if ((0 <= probabilidad) && (probabilidad <= 1)){                     
-                double duracion = gestorProbabilistico.calcularDuracion(probabilidad);
+                double duracion = this.gestorProbabilistico.calcularDuracion(probabilidad);
                 if (duracion != -1){
-                    this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+unidadDeTiempo);                    
+                    this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+this.proyecto.obtenerUnidadDeTiempo());                    
                 }else{
-                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
+                    JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
                 }                             
             }else{
-                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProbabilidadIncorrecta"));
+                JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeProbabilidadIncorrecta"));
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
+            JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeDatosIncorrectos"));
         }
 }//GEN-LAST:event_boton_CalcularDuracionActionPerformed
 
     private void boton_CalcularProbabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularProbabilidadActionPerformed
         double tiempo = 0;
         try{
-            tiempo = Double.parseDouble(campoTexto_DuracionParaProbabilidad.getText());
+            tiempo = Double.parseDouble(this.campoTexto_DuracionParaProbabilidad.getText());
             if (tiempo > 0){
-                double probabilidad = gestorProbabilistico.calcularProbabilidad(tiempo);
+                double probabilidad = this.gestorProbabilistico.calcularProbabilidad(tiempo);
                 if (probabilidad != -1){
                     this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(probabilidad));
                 }else{
-                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
+                    JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
                 }          
             }else{
-                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDuracionIncorrecta"));
+                JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeDuracionIncorrecta"));
             } 
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
+            JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeDatosIncorrectos"));
         }                
 }//GEN-LAST:event_boton_CalcularProbabilidadActionPerformed
 

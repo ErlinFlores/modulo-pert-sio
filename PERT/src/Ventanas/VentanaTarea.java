@@ -65,7 +65,7 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.descripcion = "";
         this.tiemposEstimados = null;
         this.tareasPrecedentes = new Precedencia(new ArrayList<Tarea>());
-        this.posiblesTareasPrecedentes = new ArrayList<Tarea>(formularioProyecto.obtenerListaDeTareasDelProyecto());
+        this.posiblesTareasPrecedentes = new ArrayList<Tarea>(this.formularioProyecto.obtenerListaDeTareasDelProyecto());
         inicializarTablas();
         setearEtiquetas();
         setearDatosDeTarea();
@@ -86,60 +86,11 @@ public class VentanaTarea extends javax.swing.JDialog {
         this.descripcion = tarea.obtenerDescripcion();
         this.tiemposEstimados = tarea.obtenerTiempoEstimado();
         this.tareasPrecedentes = tarea.obtenerPrecedencia();
-        this.posiblesTareasPrecedentes = formularioProyecto.obtenerPosiblesTareasPrecedentes(tarea);
+        this.posiblesTareasPrecedentes = this.formularioProyecto.obtenerPosiblesTareasPrecedentes(tarea);
         inicializarTablas();
         setearEtiquetas();
         setearDatosDeTarea();
         this.posibleInconsistenciaEnElOrdenDeTareasDelProyecto = false;
-    }
-    
-    /**
-     * Se setean las etiquetas de la pantalla.
-     */
-    private void setearEtiquetas(){
-        if (tipoAccion == Accion.crear){
-            setTitle(etiquetas.getString("tareaTituloCrearTarea"));
-        }else{
-            if (tipoAccion == Accion.modificar){
-                setTitle(etiquetas.getString("tareaTituloModificarTarea"));
-            }else{
-                setTitle(etiquetas.getString("tareaTituloTarea"));
-            }
-        }        
-        this.label_NombreTarea.setText(etiquetas.getString("tareaLabelNombreTarea"));
-        this.label_DescripcionTarea.setText(etiquetas.getString("tareaLabelDescripcionTarea"));        
-        ((TitledBorder)this.panel_TiemposEstimados.getBorder()).setTitle(etiquetas.getString("tareaLabelTiemposEstimados"));
-        this.label_TiempoOptimista.setText(etiquetas.getString("tareaLabelTiempoOptimista"));
-        this.label_TiempoMasProbable.setText(etiquetas.getString("tareaLabelTiempoMasProbable"));
-        this.label_TiempoPesimista.setText(etiquetas.getString("tareaLabelTiempoPesimista"));        
-        ((TitledBorder)this.panel_Precedencias.getBorder()).setTitle(etiquetas.getString("tareaLabelPrecedencias"));
-        this.label_TareasPrecedentes.setText(etiquetas.getString("tareaLabelTareasPrecedentes"));
-        this.label_TareasDisponiblesComoPrecedentes.setText(etiquetas.getString("tareaLabelTareasDisponiblesComoPrecedentes"));    
-        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("tareaTablaColumnaNombre"));
-        tabla_TareasPrecedentes.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("tareaTablaColumnaDescripcion"));
-        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("tareaTablaColumnaNombre"));
-        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("tareaTablaColumnaDescripcion"));
-        this.boton_Guardar.setText(etiquetas.getString("tareaBotonGuardar"));
-        this.boton_Cancelar.setText(etiquetas.getString("tareaBotonCancelar"));
-    }
-    
-    private void inicializarTablas(){
-        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-        dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
-        
-        modeloTablaDeTareasPrecedentes = new DefaultTableModel(0, 2);
-        tabla_TareasPrecedentes.setModel(modeloTablaDeTareasPrecedentes);        
-        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
-        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setResizable(false);
-        tabla_TareasPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
-        tabla_TareasPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
-
-        modeloTablaDePosiblesTareasPrecedentes = new DefaultTableModel(0, 2);
-        tabla_TareasDisponiblesComoPrecedentes.setModel(modeloTablaDePosiblesTareasPrecedentes);
-        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
-        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setResizable(false);
-        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
-        tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
     }
     
     private void habilitarAyuda(){
@@ -148,10 +99,59 @@ public class VentanaTarea extends javax.swing.JDialog {
         }
     }
     
+    private void inicializarTablas(){
+        DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+        dtcr.setHorizontalAlignment(SwingConstants.CENTER);  
+        
+        this.modeloTablaDeTareasPrecedentes = new DefaultTableModel(0, 2);
+        this.tabla_TareasPrecedentes.setModel(this.modeloTablaDeTareasPrecedentes);        
+        this.tabla_TareasPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
+        this.tabla_TareasPrecedentes.getColumnModel().getColumn(0).setResizable(false);
+        this.tabla_TareasPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
+        this.tabla_TareasPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
+
+        this.modeloTablaDePosiblesTareasPrecedentes = new DefaultTableModel(0, 2);
+        this.tabla_TareasDisponiblesComoPrecedentes.setModel(this.modeloTablaDePosiblesTareasPrecedentes);
+        this.tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setMaxWidth(100);
+        this.tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setResizable(false);
+        this.tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setCellRenderer(dtcr);        
+        this.tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setCellRenderer(dtcr);
+    }
+    
+    /**
+     * Se setean las etiquetas de la pantalla.
+     */
+    private void setearEtiquetas(){
+        if (this.tipoAccion == Accion.crear){
+            setTitle(etiquetas.getString("tareaTituloCrearTarea"));
+        }else{
+            if (this.tipoAccion == Accion.modificar){
+                setTitle(this.etiquetas.getString("tareaTituloModificarTarea"));
+            }else{
+                setTitle(this.etiquetas.getString("tareaTituloTarea"));
+            }
+        }        
+        this.label_NombreTarea.setText(this.etiquetas.getString("tareaLabelNombreTarea"));
+        this.label_DescripcionTarea.setText(etiquetas.getString("tareaLabelDescripcionTarea"));        
+        ((TitledBorder)this.panel_TiemposEstimados.getBorder()).setTitle(this.etiquetas.getString("tareaLabelTiemposEstimados"));
+        this.label_TiempoOptimista.setText(this.etiquetas.getString("tareaLabelTiempoOptimista"));
+        this.label_TiempoMasProbable.setText(this.etiquetas.getString("tareaLabelTiempoMasProbable"));
+        this.label_TiempoPesimista.setText(this.etiquetas.getString("tareaLabelTiempoPesimista"));        
+        ((TitledBorder)this.panel_Precedencias.getBorder()).setTitle(this.etiquetas.getString("tareaLabelPrecedencias"));
+        this.label_TareasPrecedentes.setText(this.etiquetas.getString("tareaLabelTareasPrecedentes"));
+        this.label_TareasDisponiblesComoPrecedentes.setText(this.etiquetas.getString("tareaLabelTareasDisponiblesComoPrecedentes"));    
+        this.tabla_TareasPrecedentes.getColumnModel().getColumn(0).setHeaderValue(this.etiquetas.getString("tareaTablaColumnaNombre"));
+        this.tabla_TareasPrecedentes.getColumnModel().getColumn(1).setHeaderValue(this.etiquetas.getString("tareaTablaColumnaDescripcion"));
+        this.tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(0).setHeaderValue(this.etiquetas.getString("tareaTablaColumnaNombre"));
+        this.tabla_TareasDisponiblesComoPrecedentes.getColumnModel().getColumn(1).setHeaderValue(this.etiquetas.getString("tareaTablaColumnaDescripcion"));
+        this.boton_Guardar.setText(this.etiquetas.getString("tareaBotonGuardar"));
+        this.boton_Cancelar.setText(this.etiquetas.getString("tareaBotonCancelar"));
+    }    
+    
     private boolean validarDatosDeEntradaDelUsuario(){
-        double to = Double.parseDouble(campoTexto_TiempoOptimista.getText());
-        double tmp = Double.parseDouble(campoTexto_TiempoMasProbable.getText());
-        double tp = Double.parseDouble(campoTexto_TiempoPesimista.getText());
+        double to = Double.parseDouble(this.campoTexto_TiempoOptimista.getText());
+        double tmp = Double.parseDouble(this.campoTexto_TiempoMasProbable.getText());
+        double tp = Double.parseDouble(this.campoTexto_TiempoPesimista.getText());
         if (!((0 <= to) && (to <= tmp) && (tmp <= tp) && (tp < 256))){
             return false;
         }
@@ -160,21 +160,21 @@ public class VentanaTarea extends javax.swing.JDialog {
     
     private void setearDatosDeTarea(){
         int indiceFila = 0;        
-        for (Tarea tarea : posiblesTareasPrecedentes){      
-            modificarTabla(tabla_TareasDisponiblesComoPrecedentes, indiceFila, true, tarea);
+        for (Tarea tarea : this.posiblesTareasPrecedentes){      
+            modificarTabla(this.tabla_TareasDisponiblesComoPrecedentes, indiceFila, true, tarea);
             indiceFila += 1;
         }
-        campoTexto_NombreTarea.setText(nombre);
-        if (tipoAccion == Accion.modificar){
+        this.campoTexto_NombreTarea.setText(nombre);
+        if (this.tipoAccion == Accion.modificar){
             indiceFila = 0;
-            for (Tarea tareaPrecedente : tareasPrecedentes.obtenerPrecedentes()){
-                modificarTabla(tabla_TareasPrecedentes, indiceFila, true, tareaPrecedente);
+            for (Tarea tareaPrecedente : this.tareasPrecedentes.obtenerPrecedentes()){
+                modificarTabla(this.tabla_TareasPrecedentes, indiceFila, true, tareaPrecedente);
                 indiceFila += 1;
             }            
-            campoTexto_DescripcionTarea.setText(descripcion);
-            campoTexto_TiempoOptimista.setText(Double.toString(tiemposEstimados.obtenerTiempoOptimista()));
-            campoTexto_TiempoMasProbable.setText(Double.toString(tiemposEstimados.obtenerTiempoMasProbable()));
-            campoTexto_TiempoPesimista.setText(Double.toString(tiemposEstimados.obtenerTiempoPesimista()));
+            this.campoTexto_DescripcionTarea.setText(this.descripcion);
+            this.campoTexto_TiempoOptimista.setText(Double.toString(this.tiemposEstimados.obtenerTiempoOptimista()));
+            this.campoTexto_TiempoMasProbable.setText(Double.toString(this.tiemposEstimados.obtenerTiempoMasProbable()));
+            this.campoTexto_TiempoPesimista.setText(Double.toString(this.tiemposEstimados.obtenerTiempoPesimista()));
         }
     }
     
@@ -191,13 +191,13 @@ public class VentanaTarea extends javax.swing.JDialog {
     }  
     
     private Tarea quitarTareaDePosiblesPrecedenciasSegunSeleccion(int filaSeleccionada){
-        String nombreTarea = (String)tabla_TareasDisponiblesComoPrecedentes.getValueAt(filaSeleccionada, 0);
-        int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
-        for (Tarea tarea : posiblesTareasPrecedentes){
+        String nombreTarea = (String)this.tabla_TareasDisponiblesComoPrecedentes.getValueAt(filaSeleccionada, 0);
+        int idTarea = this.fabricaDeTareas.getIdTareaByNombre(nombreTarea);
+        for (Tarea tarea : this.posiblesTareasPrecedentes){
             if (tarea.obtenerId() == idTarea){
                 Tarea nuevaTareaPrecedente = tarea;
-                posiblesTareasPrecedentes.remove(tarea);
-                modificarTabla(tabla_TareasDisponiblesComoPrecedentes, filaSeleccionada, false, null);
+                this.posiblesTareasPrecedentes.remove(tarea);
+                modificarTabla(this.tabla_TareasDisponiblesComoPrecedentes, filaSeleccionada, false, null);
                 return nuevaTareaPrecedente;
             }
         }
@@ -205,11 +205,11 @@ public class VentanaTarea extends javax.swing.JDialog {
     }
     
     private Tarea quitarTareaDePrecedenciasSegunSeleccion(int filaSeleccionada){
-        String nombreTarea = (String)tabla_TareasPrecedentes.getValueAt(filaSeleccionada, 0);
-        int idTarea = fabricaDeTareas.getIdTareaByNombre(nombreTarea);
-        Tarea nuevaPosibleTareaPrecedente = tareasPrecedentes.obtenerTareaPorID(idTarea);
-        tareasPrecedentes.borrarPrecedente(nuevaPosibleTareaPrecedente);
-        modificarTabla(tabla_TareasPrecedentes, filaSeleccionada, false, null);
+        String nombreTarea = (String)this.tabla_TareasPrecedentes.getValueAt(filaSeleccionada, 0);
+        int idTarea = this.fabricaDeTareas.getIdTareaByNombre(nombreTarea);
+        Tarea nuevaPosibleTareaPrecedente = this.tareasPrecedentes.obtenerTareaPorID(idTarea);
+        this.tareasPrecedentes.borrarPrecedente(nuevaPosibleTareaPrecedente);
+        modificarTabla(this.tabla_TareasPrecedentes, filaSeleccionada, false, null);
         return nuevaPosibleTareaPrecedente;
     }
     
@@ -483,51 +483,51 @@ public class VentanaTarea extends javax.swing.JDialog {
     private void boton_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_GuardarActionPerformed
         try{
             if (validarDatosDeEntradaDelUsuario()){
-                descripcion = campoTexto_DescripcionTarea.getText();
-                double tiempoOptimista = Double.parseDouble(campoTexto_TiempoOptimista.getText());
-                double tiempoMasProbable = Double.parseDouble(campoTexto_TiempoMasProbable.getText());
-                double tiempoPesimista = Double.parseDouble(campoTexto_TiempoPesimista.getText());
-                switch (tipoAccion){
+                this.descripcion = this.campoTexto_DescripcionTarea.getText();
+                double tiempoOptimista = Double.parseDouble(this.campoTexto_TiempoOptimista.getText());
+                double tiempoMasProbable = Double.parseDouble(this.campoTexto_TiempoMasProbable.getText());
+                double tiempoPesimista = Double.parseDouble(this.campoTexto_TiempoPesimista.getText());
+                switch (this.tipoAccion){
                     case crear:
-                        tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
-                        Tarea nuevaTarea = fabricaDeTareas.crearTarea(descripcion, tiemposEstimados, tareasPrecedentes);
-                        formularioProyecto.agregarTarea(nuevaTarea);
+                        this.tiemposEstimados = new TiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
+                        Tarea nuevaTarea = this.fabricaDeTareas.crearTarea(this.descripcion, this.tiemposEstimados, this.tareasPrecedentes);
+                        this.formularioProyecto.agregarTarea(nuevaTarea);
                         break;
                     case modificar:
-                        tiemposEstimados.setearTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
-                        formularioProyecto.modificarTarea(id, descripcion);
+                        this.tiemposEstimados.setearTiempoEstimado(tiempoOptimista, tiempoMasProbable, tiempoPesimista);
+                        this.formularioProyecto.modificarTarea(this.id, this.descripcion);
                         if (this.posibleInconsistenciaEnElOrdenDeTareasDelProyecto){
-                            formularioProyecto.establecerConsistenciaEnElOrdenDeTareas();
+                            this.formularioProyecto.establecerConsistenciaEnElOrdenDeTareas();
                         }                        
                         break;
                 }
                 this.dispose();
             }else{
-                JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeValoresDeTiemposEstimadosIncorrectos"));
+                JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeValoresDeTiemposEstimadosIncorrectos"));
             }
         }catch(Exception ex){
-            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDatosIncorrectos"));
+            JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeDatosIncorrectos"));
         }
 }//GEN-LAST:event_boton_GuardarActionPerformed
 
     private void boton_AgregarPrecedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarPrecedenteActionPerformed
-        int filaSeleccionada = tabla_TareasDisponiblesComoPrecedentes.getSelectedRow();
+        int filaSeleccionada = this.tabla_TareasDisponiblesComoPrecedentes.getSelectedRow();
         if (filaSeleccionada != -1){
             Tarea nuevaTareaPrecedente = quitarTareaDePosiblesPrecedenciasSegunSeleccion(filaSeleccionada);
-            int nuevaFila = tareasPrecedentes.obtenerCantidadDeTareas();
-            tareasPrecedentes.agregarPrecedente(nuevaTareaPrecedente);
-            posibleInconsistenciaEnElOrdenDeTareasDelProyecto = true;
-            modificarTabla(tabla_TareasPrecedentes, nuevaFila, true, nuevaTareaPrecedente);            
+            int nuevaFila = this.tareasPrecedentes.obtenerCantidadDeTareas();
+            this.tareasPrecedentes.agregarPrecedente(nuevaTareaPrecedente);
+            this.posibleInconsistenciaEnElOrdenDeTareasDelProyecto = true;
+            modificarTabla(this.tabla_TareasPrecedentes, nuevaFila, true, nuevaTareaPrecedente);            
         }
 }//GEN-LAST:event_boton_AgregarPrecedenteActionPerformed
 
     private void boton_QuitarPrecedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_QuitarPrecedenteActionPerformed
-        int filaSeleccionada = tabla_TareasPrecedentes.getSelectedRow();
+        int filaSeleccionada = this.tabla_TareasPrecedentes.getSelectedRow();
         if (filaSeleccionada != -1){
             Tarea nuevaPosibleTareaPrecedente = quitarTareaDePrecedenciasSegunSeleccion(filaSeleccionada);
-            int nuevaFila = posiblesTareasPrecedentes.size();
-            posiblesTareasPrecedentes.add(nuevaPosibleTareaPrecedente);
-            modificarTabla(tabla_TareasDisponiblesComoPrecedentes, nuevaFila, true, nuevaPosibleTareaPrecedente);
+            int nuevaFila = this.posiblesTareasPrecedentes.size();
+            this.posiblesTareasPrecedentes.add(nuevaPosibleTareaPrecedente);
+            modificarTabla(this.tabla_TareasDisponiblesComoPrecedentes, nuevaFila, true, nuevaPosibleTareaPrecedente);
         }
 }//GEN-LAST:event_boton_QuitarPrecedenteActionPerformed
 

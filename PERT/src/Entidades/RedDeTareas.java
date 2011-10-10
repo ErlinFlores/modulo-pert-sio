@@ -49,6 +49,7 @@ public class RedDeTareas {
         borrarTareaDePrecedencias(tarea);
         this.tareas.remove(tarea);
         this.ultimoCalculoPERTesCorrecto = false;
+        FabricaDeTareas.getInstance().restaurarIdTarea(idTarea);
     }
     
     private void borrarTareaDePrecedencias(Tarea tarea){
