@@ -25,7 +25,9 @@ public class Demo1 implements IDemo{
     private String descripcion;       
     private RedDeTareas redDeTareas;
     
-    public Demo1(){
+    public Demo1(){}
+    
+    public void inicializar(){
         FabricaDeTareas.getInstance().reset();
         tipoAccion = Accion.modificar;
         nombre = "Proyecto Demo 1";

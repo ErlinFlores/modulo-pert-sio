@@ -13,6 +13,8 @@ import Entidades.RedDeTareas;
  */
 public interface IDemo {
     
+    public void inicializar();
+    
     public String obtenerNombre();
     
     public String obtenerUnidadDeTiempo();
