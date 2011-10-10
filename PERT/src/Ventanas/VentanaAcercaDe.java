@@ -29,13 +29,13 @@ public class VentanaAcercaDe extends javax.swing.JDialog {
     }
     
     private void setearEtiquetas(){
-        this.setTitle(etiquetas.getString("acercaDeTitulo"));
-        this.label_Titulo.setText(etiquetas.getString("acercaDeLabelTitulo"));
-        this.label_Herramienta.setText(etiquetas.getString("acercaDeLabelHerramienta"));
-        this.label_version.setText(etiquetas.getString("acercaDeVersion"));
-        this.label_Desarrollado.setText(etiquetas.getString("acercaDeLabelDesarrollado"));
-        this.label_Tutoriado.setText(etiquetas.getString("acercaDeLabelTutoriado"));
-        this.boton_Cerrar.setText(etiquetas.getString("acercaDeBotonCerrar"));
+        this.setTitle(this.etiquetas.getString("acercaDeTitulo"));
+        this.label_Titulo.setText(this.etiquetas.getString("acercaDeLabelTitulo"));
+        this.label_Herramienta.setText(this.etiquetas.getString("acercaDeLabelHerramienta"));
+        this.label_version.setText(this.etiquetas.getString("acercaDeVersion"));
+        this.label_Desarrollado.setText(this.etiquetas.getString("acercaDeLabelDesarrollado"));
+        this.label_Tutoriado.setText(this.etiquetas.getString("acercaDeLabelTutoriado"));
+        this.boton_Cerrar.setText(this.etiquetas.getString("acercaDeBotonCerrar"));
     }
 
     /** This method is called from within the constructor to

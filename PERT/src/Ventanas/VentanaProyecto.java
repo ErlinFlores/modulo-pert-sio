@@ -284,13 +284,14 @@ public class VentanaProyecto extends javax.swing.JFrame {
      /**
      * Método que resetea la aplicación dejando el sistema en limpio (sin proyecto activo).
      */
-    private void resetearProyecto(){
+    private void resetearProyecto(){                
+        resetearTablaDeTareas();   
         proyecto = new Proyecto("", "", new RedDeTareas(new ArrayList<Tarea>()), "");
         this.campoTexto_NombreProyecto.setText(this.proyecto.obtenerNombre());        
         this.areaTexto_DescripcionProyecto.setText(this.proyecto.obtenerDescripcion());
         this.campoTexto_UnidadDeTiempo.setText(this.proyecto.obtenerUnidadDeTiempo());
         this.campoTexto_CantidadTareas.setText("0");
-        resetearTablaDeTareas();        
+        FabricaDeTareas.getInstance().reset();
     }
     
     private void resetearTablaDeTareas(){
