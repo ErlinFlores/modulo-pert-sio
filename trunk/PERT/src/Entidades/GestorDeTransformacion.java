@@ -44,8 +44,8 @@ public class GestorDeTransformacion {
         return new Proyecto(proyectoES.getNombre(), proyectoES.getDescripcion(), redDeTareas, proyectoES.getUnidadDeTiempo());
     }
     
-    public static ProyectoES transformarProyectoEnProyectoES(String nombre, String descripcion, RedDeTareas redDeTareas, String unidadDeTiempo){
-        List<Tarea> listaDeTareas = redDeTareas.obtenerTareas();
+    public static ProyectoES transformarProyectoEnProyectoES(Proyecto proyecto){
+        List<Tarea> listaDeTareas = proyecto.obtenerRedDeTareas().obtenerTareas();
         List<TareaES> listaDeTareasES = new ArrayList<TareaES>();
         for (Tarea tarea : listaDeTareas){
             Precedencia precedencia = tarea.obtenerPrecedencia();
@@ -56,6 +56,6 @@ public class GestorDeTransformacion {
             TareaES tareaES = new TareaES(new Integer(tarea.obtenerId()), tarea.obtenerNombre(), tarea.obtenerDescripcion(), listaDeTareasPrecedentes, new Double(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista()), new Double(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable()), new Double(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista()));
             listaDeTareasES.add(tareaES);
         }
-        return new ProyectoES(nombre, descripcion, listaDeTareasES, unidadDeTiempo);
+        return new ProyectoES(proyecto.obtenerNombre(), proyecto.obtenerDescripcion(), listaDeTareasES, proyecto.obtenerUnidadDeTiempo());
     }
 }

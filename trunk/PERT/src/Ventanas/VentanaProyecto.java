@@ -19,7 +19,6 @@ import Demo.IDemo;
 import Entidades.*;
 import EntradaSalida.ManejadorDeArchivos;
 import EntradaSalida.ProyectoES;
-import EntradaSalida.TareaES;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,151 +44,141 @@ public class VentanaProyecto extends javax.swing.JFrame {
     
     private DefaultTableModel modeloDeTablaDeTareas;
     
-    private String nombre;
-    private String unidadDeTiempo;
-    private String descripcion;    
-    private RedDeTareas redDeTareas;
-    
+    private Proyecto proyecto;    
     
     /** Creates new form VentanaProyecto */
     public VentanaProyecto(Locale lugarConfigurado, HelpBroker helpBroker) {
         initComponents();   
         this.lugarConfigurado = lugarConfigurado;
-        this.helpBroker = helpBroker;
-        this.pathDeArchivoDelProyecto = null;
-        habilitarAyuda();
-        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
-        FabricaDeTareas.getInstance().reset();          
-        this.nombre = etiquetas.getString("proyectoSugerenciaNombreProyecto");
-        this.unidadDeTiempo = etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
-        this.descripcion = etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
-        this.redDeTareas = new RedDeTareas(new ArrayList<Tarea>()); 
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.helpBroker = helpBroker;       
+        this.pathDeArchivoDelProyecto = null;        
+        crearProyectoInicial();
+        habilitarAyuda();                
         inicializarTabla();
         setearEtiquetas();  
-        setearCampos();
+        setearDatosEnLosCampos();
     }  
 
-    /**
-     * Se setean las etiquetas de la pantalla según el idioma configurado.
-     */
-    private void setearEtiquetas(){
-        setTitle(etiquetas.getString("proyectoTitulo"));
-        this.menu_Archivo.setText(etiquetas.getString("proyectoMenuArchivo"));
-        this.subMenu_Nuevo.setText(etiquetas.getString("proyectoSubMenuNuevo"));
-        this.subMenu_Abrir.setText(etiquetas.getString("proyectoSubMenuAbrir"));
-        this.subMenu_Guardar.setText(etiquetas.getString("proyectoSubMenuGuardar"));
-        this.subMenu_GuardarComo.setText(etiquetas.getString("proyectoSubMenuGuardarComo"));
-        this.subMenu_Salir.setText(etiquetas.getString("proyectoSubMenuSalir"));
-        this.menu_Idioma.setText(etiquetas.getString("proyectoMenuIdioma"));
-        this.subMenu_Español.setText(etiquetas.getString("proyectoSubMenuEspañol"));
-        this.subMenu_Español.setText(etiquetas.getString("proyectoSubMenuEspañol"));
-        this.subMenu_Español.setText(etiquetas.getString("proyectoSubMenuEspañol"));
-        this.subMenu_Ingles.setText(etiquetas.getString("proyectoSubMenuIngles"));
-        this.subMenu_Portugues.setText(etiquetas.getString("proyectoSubMenuPortugues"));
-        this.menu_Demos.setText(etiquetas.getString("proyectoMenuDemos"));
-        this.subMenu_Demo1.setText(etiquetas.getString("proyectoSubMenuDemo1"));
-        this.subMenu_Demo2.setText(etiquetas.getString("proyectoSubMenuDemo2"));
-        this.subMenu_Demo3.setText(etiquetas.getString("proyectoSubMenuDemo3"));
-        this.menu_Ayuda.setText(etiquetas.getString("proyectoMenuAyuda"));
-        this.subMenu_AyudaContenidos.setText(etiquetas.getString("proyectoSubMenuAyudaContenidos"));
-        this.subMenu_AcercaDe.setText(etiquetas.getString("proyectoSubMenuAcercaDe"));
-        
-        this.label_NombreProyecto.setText(etiquetas.getString("proyectoLabelNombreProyecto"));
-        this.label_UnidadDeTiempo.setText(etiquetas.getString("proyectoLabelUnidadDeTiempo"));
-        this.label_CantidadTareas.setText(etiquetas.getString("proyectoLabelCantidadTareas"));        
-        this.label_DescripcionProyecto.setText(etiquetas.getString("proyectoLabelDescripcionProyecto"));
-        this.label_TareasProyecto.setText(etiquetas.getString("proyectoLabelTareasProyecto"));
-        
-        this.boton_AgregarTarea.setText(etiquetas.getString("proyectoBotonAgregarTarea"));
-        this.boton_ModificarTarea.setText(etiquetas.getString("proyectoBotonModificarTarea"));
-        this.boton_BorrarTarea.setText(etiquetas.getString("proyectoBotonBorrarTarea"));
-        this.boton_BorrarTodasLasTareas.setText(etiquetas.getString("proyectoBotonBorrarTodasLasTareas"));        
-        this.boton_Salir.setText(etiquetas.getString("proyectoBotonSalir"));
-        this.boton_AnalisisPERT.setText(etiquetas.getString("proyectoBotonAnalisisPERT")); 
-        
-        tabla_TareasProyecto.getColumnModel().getColumn(0).setHeaderValue(etiquetas.getString("proyectoTablaColumnaNombreTarea"));
-        tabla_TareasProyecto.getColumnModel().getColumn(1).setHeaderValue(etiquetas.getString("proyectoTablaColumnaDescripcionTarea"));
-        tabla_TareasProyecto.getColumnModel().getColumn(2).setHeaderValue(etiquetas.getString("proyectoTablaColumnaPrecedenciaTarea"));
-        tabla_TareasProyecto.getColumnModel().getColumn(3).setHeaderValue(etiquetas.getString("proyectoTablaColumnaTiempoOptimistaTarea"));
-        tabla_TareasProyecto.getColumnModel().getColumn(4).setHeaderValue(etiquetas.getString("proyectoTablaColumnaTiempoMasProbableTarea"));
-        tabla_TareasProyecto.getColumnModel().getColumn(5).setHeaderValue(etiquetas.getString("proyectoTablaColumnaTiempoPesimistaTarea"));
-    }   
+    private void crearProyectoInicial(){
+        FabricaDeTareas.getInstance().reset();
+        String nombre = this.etiquetas.getString("proyectoSugerenciaNombreProyecto");        
+        String descripcion = this.etiquetas.getString("proyectoSugerenciaDescripcionProyecto");
+        RedDeTareas redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
+        String unidadDeTiempo = this.etiquetas.getString("proyectoSugerenciaUnidadDeTiempo"); 
+        this.proyecto = new Proyecto(nombre, descripcion, redDeTareas, unidadDeTiempo);         
+    }
+    
+    private void habilitarAyuda(){
+        if (this.helpBroker != null){
+            this.helpBroker.enableHelpOnButton(this.subMenu_AyudaContenidos, "aplicacion", this.helpBroker.getHelpSet());
+            this.helpBroker.enableHelpKey(this.getContentPane(), "aplicacion", this.helpBroker.getHelpSet());
+        }
+    }
     
     private void inicializarTabla(){
         DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
         dtcr.setHorizontalAlignment(SwingConstants.CENTER);      
         
-        modeloDeTablaDeTareas = new DefaultTableModel(0, 6);
-        tabla_TareasProyecto.setModel(modeloDeTablaDeTareas);                  
-        tabla_TareasProyecto.getColumnModel().getColumn(0).setMaxWidth(100);
-        tabla_TareasProyecto.getColumnModel().getColumn(0).setResizable(false); 
-        tabla_TareasProyecto.getColumnModel().getColumn(0).setCellRenderer(dtcr);
-        tabla_TareasProyecto.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
-        tabla_TareasProyecto.getColumnModel().getColumn(2).setCellRenderer(dtcr);        
-        tabla_TareasProyecto.getColumnModel().getColumn(3).setCellRenderer(dtcr);        
-        tabla_TareasProyecto.getColumnModel().getColumn(4).setCellRenderer(dtcr);        
-        tabla_TareasProyecto.getColumnModel().getColumn(5).setCellRenderer(dtcr);
+        this.modeloDeTablaDeTareas = new DefaultTableModel(0, 6);
+        this.tabla_TareasProyecto.setModel(this.modeloDeTablaDeTareas);                  
+        this.tabla_TareasProyecto.getColumnModel().getColumn(0).setMaxWidth(100);
+        this.tabla_TareasProyecto.getColumnModel().getColumn(0).setResizable(false); 
+        this.tabla_TareasProyecto.getColumnModel().getColumn(0).setCellRenderer(dtcr);
+        this.tabla_TareasProyecto.getColumnModel().getColumn(1).setCellRenderer(dtcr);        
+        this.tabla_TareasProyecto.getColumnModel().getColumn(2).setCellRenderer(dtcr);        
+        this.tabla_TareasProyecto.getColumnModel().getColumn(3).setCellRenderer(dtcr);        
+        this.tabla_TareasProyecto.getColumnModel().getColumn(4).setCellRenderer(dtcr);        
+        this.tabla_TareasProyecto.getColumnModel().getColumn(5).setCellRenderer(dtcr);
     }
-
-    private void habilitarAyuda(){
-        if (helpBroker != null){
-            helpBroker.enableHelpOnButton(this.subMenu_AyudaContenidos, "aplicacion", helpBroker.getHelpSet());
-            helpBroker.enableHelpKey(this.getContentPane(), "aplicacion", helpBroker.getHelpSet());
+    
+    /**
+     * Se setean las etiquetas de la pantalla según el idioma configurado.
+     */
+    private void setearEtiquetas(){
+        setTitle(this.etiquetas.getString("proyectoTitulo"));
+        this.menu_Archivo.setText(this.etiquetas.getString("proyectoMenuArchivo"));
+        this.subMenu_Nuevo.setText(this.etiquetas.getString("proyectoSubMenuNuevo"));
+        this.subMenu_Abrir.setText(this.etiquetas.getString("proyectoSubMenuAbrir"));
+        this.subMenu_Guardar.setText(this.etiquetas.getString("proyectoSubMenuGuardar"));
+        this.subMenu_GuardarComo.setText(this.etiquetas.getString("proyectoSubMenuGuardarComo"));
+        this.subMenu_Salir.setText(this.etiquetas.getString("proyectoSubMenuSalir"));
+        this.menu_Idioma.setText(this.etiquetas.getString("proyectoMenuIdioma"));
+        this.subMenu_Español.setText(this.etiquetas.getString("proyectoSubMenuEspañol"));
+        this.subMenu_Español.setText(this.etiquetas.getString("proyectoSubMenuEspañol"));
+        this.subMenu_Español.setText(this.etiquetas.getString("proyectoSubMenuEspañol"));
+        this.subMenu_Ingles.setText(this.etiquetas.getString("proyectoSubMenuIngles"));
+        this.subMenu_Portugues.setText(this.etiquetas.getString("proyectoSubMenuPortugues"));
+        this.menu_Demos.setText(this.etiquetas.getString("proyectoMenuDemos"));
+        this.subMenu_Demo1.setText(this.etiquetas.getString("proyectoSubMenuDemo1"));
+        this.subMenu_Demo2.setText(this.etiquetas.getString("proyectoSubMenuDemo2"));
+        this.subMenu_Demo3.setText(this.etiquetas.getString("proyectoSubMenuDemo3"));
+        this.menu_Ayuda.setText(this.etiquetas.getString("proyectoMenuAyuda"));
+        this.subMenu_AyudaContenidos.setText(this.etiquetas.getString("proyectoSubMenuAyudaContenidos"));
+        this.subMenu_AcercaDe.setText(this.etiquetas.getString("proyectoSubMenuAcercaDe"));
+        
+        this.label_NombreProyecto.setText(this.etiquetas.getString("proyectoLabelNombreProyecto"));
+        this.label_UnidadDeTiempo.setText(this.etiquetas.getString("proyectoLabelUnidadDeTiempo"));
+        this.label_CantidadTareas.setText(this.etiquetas.getString("proyectoLabelCantidadTareas"));        
+        this.label_DescripcionProyecto.setText(this.etiquetas.getString("proyectoLabelDescripcionProyecto"));
+        this.label_TareasProyecto.setText(this.etiquetas.getString("proyectoLabelTareasProyecto"));
+        
+        this.boton_AgregarTarea.setText(this.etiquetas.getString("proyectoBotonAgregarTarea"));
+        this.boton_ModificarTarea.setText(this.etiquetas.getString("proyectoBotonModificarTarea"));
+        this.boton_BorrarTarea.setText(this.etiquetas.getString("proyectoBotonBorrarTarea"));
+        this.boton_BorrarTodasLasTareas.setText(this.etiquetas.getString("proyectoBotonBorrarTodasLasTareas"));        
+        this.boton_Salir.setText(this.etiquetas.getString("proyectoBotonSalir"));
+        this.boton_AnalisisPERT.setText(this.etiquetas.getString("proyectoBotonAnalisisPERT")); 
+        
+        this.tabla_TareasProyecto.getColumnModel().getColumn(0).setHeaderValue(this.etiquetas.getString("proyectoTablaColumnaNombreTarea"));
+        this.tabla_TareasProyecto.getColumnModel().getColumn(1).setHeaderValue(this.etiquetas.getString("proyectoTablaColumnaDescripcionTarea"));
+        this.tabla_TareasProyecto.getColumnModel().getColumn(2).setHeaderValue(this.etiquetas.getString("proyectoTablaColumnaPrecedenciaTarea"));
+        this.tabla_TareasProyecto.getColumnModel().getColumn(3).setHeaderValue(this.etiquetas.getString("proyectoTablaColumnaTiempoOptimistaTarea"));
+        this.tabla_TareasProyecto.getColumnModel().getColumn(4).setHeaderValue(this.etiquetas.getString("proyectoTablaColumnaTiempoMasProbableTarea"));
+        this.tabla_TareasProyecto.getColumnModel().getColumn(5).setHeaderValue(this.etiquetas.getString("proyectoTablaColumnaTiempoPesimistaTarea"));
+    }   
+    
+    /**
+     * Se setean los campos de la pantalla, con los datos correspondientes.
+     */
+    private void setearDatosEnLosCampos(){                                              
+        this.campoTexto_NombreProyecto.setText(this.proyecto.obtenerNombre());     
+        this.areaTexto_DescripcionProyecto.setText(this.proyecto.obtenerDescripcion());
+        this.campoTexto_CantidadTareas.setText(String.valueOf(this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas()));        
+        this.campoTexto_UnidadDeTiempo.setText(this.proyecto.obtenerUnidadDeTiempo());
+        int fila = 0;
+        for (Tarea tarea : this.proyecto.obtenerRedDeTareas().obtenerTareas()){
+            actualizarTablaDeTareas(fila, Accion.crear, tarea);
+            fila += 1;
         }
-    }
+    }    
     
     /**
      * Previo al almacenamiento en la estructura de datos de los datos ingresados por el usuario,
      * se verifica que los mismos sean correctos.
      * @return (si son válidos o no los datos ingresados por el usuario).
      */
-    private boolean validarDatosDeEntradaDelUsuario(){
-        if ((campoTexto_NombreProyecto.getText().equals("") && (campoTexto_NombreProyecto.getText().length() > 40))){ 
+    private boolean obtenerDatosDeLosCampos(){
+        if ((this.campoTexto_NombreProyecto.getText().equals("") && (this.campoTexto_NombreProyecto.getText().length() > 40))){ 
             return false;
         }else{
-            nombre = campoTexto_NombreProyecto.getText();
+            this.proyecto.setearNombre(this.campoTexto_NombreProyecto.getText());
         }
-        if (areaTexto_DescripcionProyecto.getText().length() > 500){ 
+        if (this.areaTexto_DescripcionProyecto.getText().length() > 500){ 
             return false;
         }else{
-            descripcion = areaTexto_DescripcionProyecto.getText();
+            this.proyecto.setearDescripcion(this.areaTexto_DescripcionProyecto.getText());
         }
-        if ((campoTexto_UnidadDeTiempo.getText().equals("") && (campoTexto_UnidadDeTiempo.getText().length() > 15))){
+        if ((this.campoTexto_UnidadDeTiempo.getText().equals("") && (this.campoTexto_UnidadDeTiempo.getText().length() > 15))){
             return false;
         }else{
-            unidadDeTiempo = campoTexto_UnidadDeTiempo.getText();
+            this.proyecto.setearUnidadDeTiempo(this.campoTexto_UnidadDeTiempo.getText());
         }    
-        if (redDeTareas.obtenerCantidadDeTareas()==0){
+        if (this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas()==0){
             return false;
         }
         return true;
-    } 
-    
-    /**
-     * Se setean los campos de la pantalla, con los datos correspondientes.
-     */
-    private void setearCampos(){                                              
-        campoTexto_NombreProyecto.setText(nombre);
-        campoTexto_UnidadDeTiempo.setText(unidadDeTiempo);
-        campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
-        areaTexto_DescripcionProyecto.setText(descripcion);
-        int fila = 0;
-        for (Tarea tarea : redDeTareas.obtenerTareas()){
-            actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
-            fila += 1;
-        }
-    }    
-    
-    /**
-     * Método que resetea la aplicación dejando el sistema en limpio (sin proyecto activo).
-     */
-    private void limpiarPantallaProyecto(){
-        this.campoTexto_NombreProyecto.setText("");        
-        this.areaTexto_DescripcionProyecto.setText("");
-        this.campoTexto_UnidadDeTiempo.setText("");
-        boton_BorrarTodasLasTareasActionPerformed(null);        
-        this.campoTexto_CantidadTareas.setText("0");
-    }
+    }            
     
     /**
      * Se modifica la tabla de tareas del proyecto en la cual se muestran los datos ingresados por el usuario
@@ -198,32 +187,34 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @param nuevaFila (determina si se trata de una nueva fila a agregar o de eliminar una existente).
      * @param tarea (tarea que forma parte de la modificación).
      */
-    private void actualizarTablaDeDatosIngresados(int fila, Accion accion, Tarea tarea){
-        if (accion.equals(Accion.eliminar)){
-            modeloDeTablaDeTareas.removeRow(fila);            
-        }else{ 
-            if (accion.equals(Accion.crear)) {
-                modeloDeTablaDeTareas.addRow(new Object[fila]);
-                tabla_TareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
-            }            
-            tabla_TareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
-            tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
-        }      
-        tabla_TareasProyecto.updateUI();
+    private void actualizarTablaDeTareas(int fila, Accion accion, Tarea tarea){
+        if (accion != null){
+            if (accion.equals(Accion.eliminar)){
+                this.modeloDeTablaDeTareas.removeRow(fila);            
+            }else{ 
+                if (accion.equals(Accion.crear)) {
+                    this.modeloDeTablaDeTareas.addRow(new Object[fila]);
+                    this.tabla_TareasProyecto.setValueAt(tarea.obtenerNombre(), fila, 0);
+                }            
+                this.tabla_TareasProyecto.setValueAt(tarea.obtenerDescripcion(), fila, 1);
+                this.tabla_TareasProyecto.setValueAt(tarea.obtenerPrecedencia().obtenerTareasConcatenadas(), fila, 2);
+                this.tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoOptimista(), fila, 3);
+                this.tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoMasProbable(), fila, 4);
+                this.tabla_TareasProyecto.setValueAt(tarea.obtenerTiempoEstimado().obtenerTiempoPesimista(), fila, 5);
+            }      
+            this.tabla_TareasProyecto.updateUI();
+        }
     }        
-
+    
     /**
      * Se almacena una tarea en el conjunto de tareas del proyecto y
      * también se actualiza la tabla de datos ingresados por el usuario (de tareas).
      * @param tarea (nueva tarea del proyecto).
      */
     public void agregarTarea(Tarea tarea){        
-        this.redDeTareas.agregarTarea(tarea);
-        actualizarTablaDeDatosIngresados(redDeTareas.obtenerCantidadDeTareas()-1, Accion.crear, tarea);
-        this.campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
+        this.proyecto.obtenerRedDeTareas().agregarTarea(tarea);
+        actualizarTablaDeTareas(this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas()-1, Accion.crear, tarea);
+        this.campoTexto_CantidadTareas.setText(String.valueOf(this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas()));
     }
     
     /**
@@ -233,26 +224,26 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @param descripcion
      */    
     public void modificarTarea(int idTarea, String descripcion){
-        Tarea tareaModificada = redDeTareas.modificarTarea(idTarea, descripcion);
-        for (int i = 0; i < tabla_TareasProyecto.getRowCount(); i++){
-            String nombreTareaAux = (String)tabla_TareasProyecto.getValueAt(i, 0);
+        Tarea tareaModificada = this.proyecto.obtenerRedDeTareas().modificarTarea(idTarea, descripcion);
+        for (int i = 0; i < this.tabla_TareasProyecto.getRowCount(); i++){
+            String nombreTareaAux = (String)this.tabla_TareasProyecto.getValueAt(i, 0);
             int idTareaAux = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTareaAux);
             if (idTareaAux == idTarea){
-                actualizarTablaDeDatosIngresados(i, Accion.modificar, tareaModificada);
+                actualizarTablaDeTareas(i, Accion.modificar, tareaModificada);
                 break;
             }
         }        
-    }
+    }   
         
     public void establecerConsistenciaEnElOrdenDeTareas(){
         List<Tarea> tareasDelProyectoOrdenadas = new ArrayList<Tarea>();
-        List<Tarea> tareasDelProyectoDesordenadas = redDeTareas.obtenerTareas();
+        List<Tarea> tareasDelProyectoDesordenadas = this.proyecto.obtenerRedDeTareas().obtenerTareas();
         for(int i = 0; i < tareasDelProyectoDesordenadas.size(); i++){
             Tarea tareaAUbicar = tareasDelProyectoDesordenadas.get(i);
             boolean seUbico = false;
             for(int j = 0; j < tareasDelProyectoOrdenadas.size(); j++){
                 Tarea unaTareaUbicada = tareasDelProyectoOrdenadas.get(j);                
-                if (redDeTareas.hayCamino(tareaAUbicar,unaTareaUbicada)){
+                if (this.proyecto.obtenerRedDeTareas().hayCamino(tareaAUbicar,unaTareaUbicada)){
                     tareasDelProyectoOrdenadas.add(j,tareaAUbicar);
                     seUbico = true;
                     break;
@@ -262,11 +253,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
                 tareasDelProyectoOrdenadas.add(tareaAUbicar);
             }
         }
-        redDeTareas.setearTareas(tareasDelProyectoOrdenadas);
-        this.limpiarTablaDeTareas();
+        this.proyecto.obtenerRedDeTareas().setearTareas(tareasDelProyectoOrdenadas);
+        resetearTablaDeTareas();
         int fila = 0;
-        for (Tarea tarea : redDeTareas.obtenerTareas()){
-            actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
+        for (Tarea tarea : proyecto.obtenerRedDeTareas().obtenerTareas()){
+            actualizarTablaDeTareas(fila, Accion.crear, tarea);
             fila += 1;
         }        
     }
@@ -276,7 +267,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @return 
      */
     public List<Tarea> obtenerListaDeTareasDelProyecto(){
-        return redDeTareas.obtenerTareas();
+        return this.proyecto.obtenerRedDeTareas().obtenerTareas();
     }       
     
     /**
@@ -287,39 +278,50 @@ public class VentanaProyecto extends javax.swing.JFrame {
      * @return 
      */
     public List<Tarea> obtenerPosiblesTareasPrecedentes(Tarea tarea){
-        return redDeTareas.obtenerPosiblesTareasPrecedentes(tarea);
+        return this.proyecto.obtenerRedDeTareas().obtenerPosiblesTareasPrecedentes(tarea);
     }    
    
-    
-    private void salirDelSistema(){
-        int seleccion = JOptionPane.showOptionDialog(
-           this,
-           etiquetas.getString("mensajeSalirProyecto"), 
-           etiquetas.getString("mensajeTituloSalirProyecto"), 
-           JOptionPane.OK_CANCEL_OPTION,
-           JOptionPane.WARNING_MESSAGE,
-           null,    
-           new Object[] { etiquetas.getString("mensajeOk"), etiquetas.getString("mensajeCancelar") },   
-           "OK");
-        if (seleccion == 0){
-            this.dispose();
-        }
+     /**
+     * Método que resetea la aplicación dejando el sistema en limpio (sin proyecto activo).
+     */
+    private void resetearProyecto(){
+        proyecto = new Proyecto("", "", new RedDeTareas(new ArrayList<Tarea>()), "");
+        this.campoTexto_NombreProyecto.setText(this.proyecto.obtenerNombre());        
+        this.areaTexto_DescripcionProyecto.setText(this.proyecto.obtenerDescripcion());
+        this.campoTexto_UnidadDeTiempo.setText(this.proyecto.obtenerUnidadDeTiempo());
+        this.campoTexto_CantidadTareas.setText("0");
+        resetearTablaDeTareas();        
     }
     
-    private void limpiarTablaDeTareas(){
-        for (int fila = 0; fila < redDeTareas.obtenerCantidadDeTareas(); fila++){
-            actualizarTablaDeDatosIngresados(0, Accion.eliminar, null);
+    private void resetearTablaDeTareas(){
+        for (int fila = 0; fila < this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas(); fila++){
+            actualizarTablaDeTareas(0, Accion.eliminar, null);
         }
     }
     
     private void cargarProyectoDemo(IDemo demo){
-        limpiarTablaDeTareas();
-        this.nombre = demo.obtenerNombre();
-        this.unidadDeTiempo = demo.obtenerUnidadDeTiempo();
-        this.descripcion = demo.obtenerDescripcion();        
-        this.redDeTareas = demo.obtenerRedDeTareas();
-        setearCampos();
-    }    
+        resetearProyecto();
+        proyecto.setearNombre(demo.obtenerNombre());
+        proyecto.setearUnidadDeTiempo(demo.obtenerUnidadDeTiempo());
+        proyecto.setearDescripcion(demo.obtenerDescripcion());        
+        proyecto.setearRedDeTareas(demo.obtenerRedDeTareas());
+        setearDatosEnLosCampos();
+    }
+    
+    private void salirDelSistema(){
+        int seleccion = JOptionPane.showOptionDialog(
+           this,
+           this.etiquetas.getString("mensajeSalirProyecto"), 
+           this.etiquetas.getString("mensajeTituloSalirProyecto"), 
+           JOptionPane.OK_CANCEL_OPTION,
+           JOptionPane.WARNING_MESSAGE,
+           null,    
+           new Object[] { this.etiquetas.getString("mensajeOk"), this.etiquetas.getString("mensajeCancelar") },   
+           "OK");
+        if (seleccion == 0){
+            System.exit(0);
+        }
+    }      
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -682,67 +684,66 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void boton_AgregarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AgregarTareaActionPerformed
         if (FabricaDeTareas.getInstance().esPosibleCrearNuevaTarea()){
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, etiquetas, helpBroker);
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, this.etiquetas, this.helpBroker);
             ventanaTarea.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
+            JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeNoSePuedenCrearMasTareas"));
         }
     }//GEN-LAST:event_boton_AgregarTareaActionPerformed
 
     private void boton_ModificarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_ModificarTareaActionPerformed
-        int filaSeleccionada = tabla_TareasProyecto.getSelectedRow();
+        int filaSeleccionada = this.tabla_TareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){
-            String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
-            Tarea tarea = redDeTareas.obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
-            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, etiquetas, helpBroker);
+            String nombreTarea = (String)this.tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
+            Tarea tarea = this.proyecto.obtenerRedDeTareas().obtenerTareaPorID(FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea));
+            VentanaTarea ventanaTarea = new VentanaTarea(this, true, tarea, this.etiquetas, this.helpBroker);
             ventanaTarea.setVisible(true);            
         }else{
-            JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
+            JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
         }
     }//GEN-LAST:event_boton_ModificarTareaActionPerformed
 
     private void boton_BorrarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_BorrarTareaActionPerformed
-        int filaSeleccionada = tabla_TareasProyecto.getSelectedRow();
+        int filaSeleccionada = this.tabla_TareasProyecto.getSelectedRow();
         if (filaSeleccionada >= 0){            
-            String nombreTarea = (String)tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
+            String nombreTarea = (String)this.tabla_TareasProyecto.getValueAt(filaSeleccionada, 0);
             int idTarea = FabricaDeTareas.getInstance().getIdTareaByNombre(nombreTarea);
-            limpiarTablaDeTareas();                        
-            redDeTareas.borrarTarea(idTarea);            
+            resetearTablaDeTareas();                        
+            this.proyecto.obtenerRedDeTareas().borrarTarea(idTarea);            
             int fila = 0;
-            for (Tarea tarea : redDeTareas.obtenerTareas()){
-                this.actualizarTablaDeDatosIngresados(fila, Accion.crear, tarea);
+            for (Tarea tarea : this.proyecto.obtenerRedDeTareas().obtenerTareas()){
+                this.actualizarTablaDeTareas(fila, Accion.crear, tarea);
                 fila++;
             }
-            campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
-            FabricaDeTareas.getInstance().restaurarIdTarea(idTarea);
+            this.campoTexto_CantidadTareas.setText(String.valueOf(this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas()));            
         }else{
             JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeDebeSeleccionarUnaFila"));
         }        
     }//GEN-LAST:event_boton_BorrarTareaActionPerformed
 
     private void boton_BorrarTodasLasTareasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_BorrarTodasLasTareasActionPerformed
-        limpiarTablaDeTareas();
-        redDeTareas = new RedDeTareas(new ArrayList<Tarea>());
-        campoTexto_CantidadTareas.setText(String.valueOf(redDeTareas.obtenerCantidadDeTareas()));
+        resetearTablaDeTareas();
+        this.proyecto.setearRedDeTareas(new RedDeTareas(new ArrayList<Tarea>()));
         FabricaDeTareas.getInstance().reset();
+        this.campoTexto_CantidadTareas.setText(String.valueOf(this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas()));
     }//GEN-LAST:event_boton_BorrarTodasLasTareasActionPerformed
 
     private void boton_AnalisisPERTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_AnalisisPERTActionPerformed
-        if (redDeTareas.obtenerCantidadDeTareas() > 0){
+        if (this.proyecto.obtenerRedDeTareas().obtenerCantidadDeTareas() > 0){
             boolean calculoValido = true;
-            if (!redDeTareas.elUltimoCalculoPERTesCorrecto()){
-                calculoValido = redDeTareas.realizarCalculosPERT();                    
+            if (!this.proyecto.obtenerRedDeTareas().elUltimoCalculoPERTesCorrecto()){
+                calculoValido = this.proyecto.obtenerRedDeTareas().realizarCalculosPERT();                    
             }
-            if (!redDeTareas.tieneAlMenosUnCaminoCriticoDefinido()){
+            if (!this.proyecto.obtenerRedDeTareas().tieneAlMenosUnCaminoCriticoDefinido()){
                 calculoValido = false;
             }
             if (calculoValido){
-                if (! (campoTexto_UnidadDeTiempo.getText().length() > 15)){
-                    unidadDeTiempo = this.campoTexto_UnidadDeTiempo.getText();
-                    VentanaResultados ventanaResultados = new VentanaResultados(this, true, redDeTareas, unidadDeTiempo, etiquetas, helpBroker);
+                if (! (this.campoTexto_UnidadDeTiempo.getText().length() > 15)){
+                    this.proyecto.setearUnidadDeTiempo(this.campoTexto_UnidadDeTiempo.getText());
+                    VentanaResultados ventanaResultados = new VentanaResultados(this, true, this.proyecto, this.etiquetas, this.helpBroker);
                     ventanaResultados.setVisible(true);
                 }else{ 
-                    JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeLargoDeUnidadDeTiempoExcedido"));
+                    JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeLargoDeUnidadDeTiempoExcedido"));
                 }
             }else{
                 JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorEnCalculosSobreRedDeTareas"));
@@ -757,90 +758,86 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_SalirActionPerformed
 
     private void subMenu_EspañolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_EspañolActionPerformed
-        lugarConfigurado = new Locale("es", "UY");
-        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
-        this.setearEtiquetas();
+        this.lugarConfigurado = new Locale("es", "UY");
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", this.lugarConfigurado);
+        setearEtiquetas();
     }//GEN-LAST:event_subMenu_EspañolActionPerformed
 
     private void subMenu_InglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_InglesActionPerformed
-        lugarConfigurado = new Locale("en", "US");
-        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.lugarConfigurado = new Locale("en", "US");
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", this.lugarConfigurado);
         this.setearEtiquetas();
     }//GEN-LAST:event_subMenu_InglesActionPerformed
 
     private void subMenu_PortuguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_PortuguesActionPerformed
-        lugarConfigurado = new Locale("po", "BR");
-        etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.lugarConfigurado = new Locale("po", "BR");
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", this.lugarConfigurado);
         this.setearEtiquetas();
     }//GEN-LAST:event_subMenu_PortuguesActionPerformed
 
     private void subMenu_AcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AcercaDeActionPerformed
-        VentanaAcercaDe ventanaAcercaDe = new VentanaAcercaDe(this, true, etiquetas);
+        VentanaAcercaDe ventanaAcercaDe = new VentanaAcercaDe(this, true, this.etiquetas);
         ventanaAcercaDe.setVisible(true);
     }//GEN-LAST:event_subMenu_AcercaDeActionPerformed
 
     private void subMenu_NuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_NuevoActionPerformed
         int seleccion = JOptionPane.showOptionDialog(
            this,
-           etiquetas.getString("mensajeNuevoProyecto"), 
-           etiquetas.getString("mensajeTituloNuevoProyecto"), 
+           this.etiquetas.getString("mensajeNuevoProyecto"), 
+           this.etiquetas.getString("mensajeTituloNuevoProyecto"), 
            JOptionPane.OK_CANCEL_OPTION,
            JOptionPane.WARNING_MESSAGE,
            null,    
-           new Object[] { etiquetas.getString("mensajeOk"), etiquetas.getString("mensajeCancelar") },   
+           new Object[] { this.etiquetas.getString("mensajeOk"), this.etiquetas.getString("mensajeCancelar") },   
            "OK");
         if (seleccion == 0){
-            limpiarPantallaProyecto();
+            resetearProyecto();
         }  
     }//GEN-LAST:event_subMenu_NuevoActionPerformed
 
     private void subMenu_AbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_AbrirActionPerformed
         JFileChooser fileChooser = new JFileChooser();
-        int seleccion = fileChooser.showOpenDialog(subMenu_Abrir);
+        int seleccion = fileChooser.showOpenDialog(this.subMenu_Abrir);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
            File archivo = fileChooser.getSelectedFile();
            ProyectoES proyectoES = (ProyectoES)ManejadorDeArchivos.LeerXML(archivo.getAbsolutePath());
            if (proyectoES != null){
-               Proyecto proyecto = GestorDeTransformacion.transformarProyectoESEnProyecto(proyectoES);
-               limpiarTablaDeTareas();
-               this.nombre = proyecto.obtenerNombre();
-               this.unidadDeTiempo = proyecto.obtenerUnidadDeTiempo();
-               this.descripcion = proyecto.obtenerDescripcion();                  
-               this.redDeTareas = proyecto.obtenerRedDeTareas();
-               setearCampos();
+               this.resetearProyecto();
+               this.proyecto = GestorDeTransformacion.transformarProyectoESEnProyecto(proyectoES);
+               setearDatosEnLosCampos();
            }else{
-               JOptionPane.showMessageDialog(this, etiquetas.getString("mensajeErrorAlCargarProyecto"));
+               JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeErrorAlCargarProyecto"));
            }           
         }
     }//GEN-LAST:event_subMenu_AbrirActionPerformed
 
     private void subMenu_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarActionPerformed
-        if (validarDatosDeEntradaDelUsuario()){
+        if (obtenerDatosDeLosCampos()){
             if (pathDeArchivoDelProyecto == null){
                 JFileChooser fileChooser = new JFileChooser();
-                int seleccion = fileChooser.showSaveDialog(subMenu_Guardar);
+                int seleccion = fileChooser.showSaveDialog(this.subMenu_Guardar);
                 if (seleccion == JFileChooser.APPROVE_OPTION) {
                    File archivo = fileChooser.getSelectedFile();
-                   ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(nombre, descripcion, redDeTareas, unidadDeTiempo);
+                   ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(this.proyecto);
                    ManejadorDeArchivos.EscribirXML(archivo.getAbsolutePath(), proyectoES);
-                   pathDeArchivoDelProyecto = archivo.getAbsolutePath();
+                   this.pathDeArchivoDelProyecto = archivo.getAbsolutePath();
                 }
             }else{
-                ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(nombre, descripcion, redDeTareas, unidadDeTiempo);
-                ManejadorDeArchivos.EscribirXML(pathDeArchivoDelProyecto, proyectoES);
+                ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(this.proyecto);
+                ManejadorDeArchivos.EscribirXML(this.pathDeArchivoDelProyecto, proyectoES);
             }
         }
     }//GEN-LAST:event_subMenu_GuardarActionPerformed
 
     private void subMenu_GuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_GuardarComoActionPerformed
-        if (validarDatosDeEntradaDelUsuario()){
+        if (obtenerDatosDeLosCampos()){
             JFileChooser fileChooser = new JFileChooser();
-            int seleccion = fileChooser.showSaveDialog(subMenu_Guardar);
+            int seleccion = fileChooser.showSaveDialog(this.subMenu_GuardarComo);
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                File archivo = fileChooser.getSelectedFile();
-               ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(nombre, descripcion, redDeTareas, unidadDeTiempo);
+               ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(this.proyecto);
                ManejadorDeArchivos.EscribirXML(archivo.getAbsolutePath(), proyectoES);
-               pathDeArchivoDelProyecto = archivo.getAbsolutePath();
+               this.pathDeArchivoDelProyecto = archivo.getAbsolutePath();
             }
         }
     }//GEN-LAST:event_subMenu_GuardarComoActionPerformed
@@ -850,15 +847,15 @@ public class VentanaProyecto extends javax.swing.JFrame {
     }//GEN-LAST:event_subMenu_SalirActionPerformed
 
     private void subMenu_Demo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo1ActionPerformed
-         cargarProyectoDemo(new Demo1());
+        cargarProyectoDemo(new Demo1());
     }//GEN-LAST:event_subMenu_Demo1ActionPerformed
 
     private void subMenu_Demo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo2ActionPerformed
-         cargarProyectoDemo(new Demo2());
+        cargarProyectoDemo(new Demo2());
     }//GEN-LAST:event_subMenu_Demo2ActionPerformed
 
     private void subMenu_Demo3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_Demo3ActionPerformed
-         cargarProyectoDemo(new Demo3());
+        cargarProyectoDemo(new Demo3());
     }//GEN-LAST:event_subMenu_Demo3ActionPerformed
 
     // Este main se deja sin efecto dado que el inicio del programa se maneja desde la clase pert/Main.java

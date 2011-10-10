@@ -49,7 +49,7 @@ public class Proyecto {
     }
     
     public void setearRedDeTareas(RedDeTareas redDeTareas){
-        this.redDeTareas = redDeTareas;
+        this.redDeTareas = redDeTareas;        
     }
     
     public String obtenerUnidadDeTiempo(){
