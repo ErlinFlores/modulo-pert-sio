@@ -806,6 +806,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
                this.resetearProyecto();
                this.proyecto = GestorDeTransformacion.transformarProyectoESEnProyecto(proyectoES);
                setearDatosEnLosCampos();
+               this.pathDeArchivoDelProyecto = archivo.getAbsolutePath();
            }else{
                JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeErrorAlCargarProyecto"));
            }           
