@@ -302,6 +302,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
     
     private void cargarProyectoDemo(IDemo demo){
         resetearProyecto();
+        demo.inicializar();
         proyecto.setearNombre(demo.obtenerNombre());
         proyecto.setearUnidadDeTiempo(demo.obtenerUnidadDeTiempo());
         proyecto.setearDescripcion(demo.obtenerDescripcion());        
