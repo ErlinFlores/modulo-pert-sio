@@ -121,25 +121,25 @@ public class ManejadorDeArchivos {
         }           
     } 
     
-    public static Object ObtenerProyectoDeXML(String root) {
-        Object o = null;
+    public static Object ObtenerProyectoDeXML(String raiz) {
+        Object objetoProyectoES = null;
         try {
-            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(root)));
-            o = decoder.readObject();
+            XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(raiz)));
+            objetoProyectoES = decoder.readObject();
             decoder.close();
-            return o;
+            return objetoProyectoES;
         } catch (FileNotFoundException ex1) {
             Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex1);
         } catch (Exception ex2){ 
             Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex2);
         }
-        return o;
+        return objetoProyectoES;
     }
 
-    public static boolean GuardarProyectoEnXML(String root, Object datos) {
+    public static boolean GuardarProyectoEnXML(String raiz, Object datos) {
         boolean escrituraExitosa = false;
         try {
-            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(root)));
+            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(raiz)));
             encoder.writeObject(datos);
             encoder.close();
             escrituraExitosa = true;
