@@ -292,6 +292,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.campoTexto_UnidadDeTiempo.setText(this.proyecto.obtenerUnidadDeTiempo());
         this.campoTexto_CantidadTareas.setText("0");
         FabricaDeTareas.getInstance().reset();
+        this.pathDeArchivoDelProyecto = null;
     }
     
     private void resetearTablaDeTareas(){
