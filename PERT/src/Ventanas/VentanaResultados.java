@@ -14,7 +14,6 @@ import Entidades.CaminoCritico;
 import Entidades.Estados.EstrategiaDeSeleccionDeDesvEst;
 import Entidades.GestorProbabilistico;
 import Entidades.Proyecto;
-import Entidades.RedDeTareas;
 import Entidades.Tarea;
 import java.util.ResourceBundle;
 import javax.help.HelpBroker;
@@ -228,6 +227,7 @@ public class VentanaResultados extends javax.swing.JDialog {
         campoTexto_DuracionCalculada = new javax.swing.JTextField();
         campoTexto_ProbabilidadParaDuracion = new javax.swing.JTextField();
         label_Probabilidad = new javax.swing.JLabel();
+        label_NoExisteDuracion = new javax.swing.JLabel();
         boton_Salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -268,7 +268,7 @@ public class VentanaResultados extends javax.swing.JDialog {
         label_DuracionDelProyecto.setText("Duración del proyecto: ");
 
         campoTexto_DuracionDelProyecto.setEditable(false);
-        campoTexto_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        campoTexto_DuracionDelProyecto.setFont(new java.awt.Font("Times New Roman", 1, 14));
         campoTexto_DuracionDelProyecto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         tabla_CaminosCriticos.setFont(new java.awt.Font("Times New Roman", 1, 12));
@@ -390,7 +390,7 @@ public class VentanaResultados extends javax.swing.JDialog {
         });
 
         campoTexto_ProbabilidadCalculada.setEditable(false);
-        campoTexto_ProbabilidadCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        campoTexto_ProbabilidadCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14));
         campoTexto_ProbabilidadCalculada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         label_Duracion.setText("Duración:");
@@ -446,12 +446,15 @@ public class VentanaResultados extends javax.swing.JDialog {
         });
 
         campoTexto_DuracionCalculada.setEditable(false);
-        campoTexto_DuracionCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        campoTexto_DuracionCalculada.setFont(new java.awt.Font("Times New Roman", 1, 14));
         campoTexto_DuracionCalculada.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         campoTexto_ProbabilidadParaDuracion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         label_Probabilidad.setText("Probabilidad:");
+
+        label_NoExisteDuracion.setForeground(new java.awt.Color(204, 0, 0));
+        label_NoExisteDuracion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
         javax.swing.GroupLayout panel_CalculoDuracionLayout = new javax.swing.GroupLayout(panel_CalculoDuracion);
         panel_CalculoDuracion.setLayout(panel_CalculoDuracionLayout);
@@ -468,7 +471,8 @@ public class VentanaResultados extends javax.swing.JDialog {
                     .addGroup(panel_CalculoDuracionLayout.createSequentialGroup()
                         .addComponent(label_Probabilidad)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(label_NoExisteDuracion))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         panel_CalculoDuracionLayout.setVerticalGroup(
@@ -480,7 +484,9 @@ public class VentanaResultados extends javax.swing.JDialog {
                 .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_Probabilidad)
                     .addComponent(campoTexto_ProbabilidadParaDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(label_NoExisteDuracion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_CalculoDuracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton_CalcularDuracion)
                     .addComponent(campoTexto_DuracionCalculada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -555,13 +561,19 @@ public class VentanaResultados extends javax.swing.JDialog {
 }//GEN-LAST:event_checkBox_MayorActionPerformed
 
     private void boton_CalcularDuracionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularDuracionActionPerformed
+        this.label_NoExisteDuracion.setText("");
+        this.campoTexto_DuracionCalculada.setText("");        
         double probabilidad = 0;
         try{
             probabilidad = Double.parseDouble(this.campoTexto_ProbabilidadParaDuracion.getText());
             if ((0 <= probabilidad) && (probabilidad <= 1)){                     
-                double duracion = this.gestorProbabilistico.calcularDuracion(probabilidad);
-                if (duracion != -1){
-                    this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+this.proyecto.obtenerUnidadDeTiempo());                    
+                Double duracion = this.gestorProbabilistico.calcularDuracion(probabilidad);                
+                if (duracion != null){
+                    if (duracion <= 0){
+                        this.label_NoExisteDuracion.setText(this.etiquetas.getString("resultadosNoExisteDuracionConProbabilidadDada"));                    
+                    }else{                        
+                        this.campoTexto_DuracionCalculada.setText(String.valueOf(duracion)+" "+this.proyecto.obtenerUnidadDeTiempo());                    
+                    }                    
                 }else{
                     JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
                 }                             
@@ -574,12 +586,13 @@ public class VentanaResultados extends javax.swing.JDialog {
 }//GEN-LAST:event_boton_CalcularDuracionActionPerformed
 
     private void boton_CalcularProbabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularProbabilidadActionPerformed
+        this.campoTexto_ProbabilidadCalculada.setText("");
         double tiempo = 0;
         try{
             tiempo = Double.parseDouble(this.campoTexto_DuracionParaProbabilidad.getText());
             if (tiempo > 0){
-                double probabilidad = this.gestorProbabilistico.calcularProbabilidad(tiempo);
-                if (probabilidad != -1){
+                Double probabilidad = this.gestorProbabilistico.calcularProbabilidad(tiempo);
+                if (probabilidad != null){
                     this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(probabilidad));
                 }else{
                     JOptionPane.showMessageDialog(this, this.etiquetas.getString("mensajeProblemaAlRealizarCalculos"));
@@ -631,6 +644,7 @@ public class VentanaResultados extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel label_Duracion;
     private javax.swing.JLabel label_DuracionDelProyecto;
+    private javax.swing.JLabel label_NoExisteDuracion;
     private javax.swing.JLabel label_PreguntaDuracion;
     private javax.swing.JLabel label_PreguntaProbabilidad;
     private javax.swing.JLabel label_Probabilidad;

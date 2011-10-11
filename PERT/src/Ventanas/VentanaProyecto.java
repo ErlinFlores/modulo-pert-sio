@@ -802,7 +802,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         int seleccion = fileChooser.showOpenDialog(this.subMenu_Abrir);
         if (seleccion == JFileChooser.APPROVE_OPTION) {
            File archivo = fileChooser.getSelectedFile();
-           ProyectoES proyectoES = (ProyectoES)ManejadorDeArchivos.LeerXML(archivo.getAbsolutePath());
+           ProyectoES proyectoES = (ProyectoES)ManejadorDeArchivos.ObtenerProyectoDeXML(archivo.getAbsolutePath());
            if (proyectoES != null){
                this.resetearProyecto();
                this.proyecto = GestorDeTransformacion.transformarProyectoESEnProyecto(proyectoES);
@@ -822,12 +822,12 @@ public class VentanaProyecto extends javax.swing.JFrame {
                 if (seleccion == JFileChooser.APPROVE_OPTION) {
                    File archivo = fileChooser.getSelectedFile();
                    ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(this.proyecto);
-                   ManejadorDeArchivos.EscribirXML(archivo.getAbsolutePath(), proyectoES);
+                   ManejadorDeArchivos.GuardarProyectoEnXML(archivo.getAbsolutePath(), proyectoES);
                    this.pathDeArchivoDelProyecto = archivo.getAbsolutePath();
                 }
             }else{
                 ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(this.proyecto);
-                ManejadorDeArchivos.EscribirXML(this.pathDeArchivoDelProyecto, proyectoES);
+                ManejadorDeArchivos.GuardarProyectoEnXML(this.pathDeArchivoDelProyecto, proyectoES);
             }
         }
     }//GEN-LAST:event_subMenu_GuardarActionPerformed
@@ -839,7 +839,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
             if (seleccion == JFileChooser.APPROVE_OPTION) {
                File archivo = fileChooser.getSelectedFile();
                ProyectoES proyectoES = GestorDeTransformacion.transformarProyectoEnProyectoES(this.proyecto);
-               ManejadorDeArchivos.EscribirXML(archivo.getAbsolutePath(), proyectoES);
+               ManejadorDeArchivos.GuardarProyectoEnXML(archivo.getAbsolutePath(), proyectoES);
                this.pathDeArchivoDelProyecto = archivo.getAbsolutePath();
             }
         }
