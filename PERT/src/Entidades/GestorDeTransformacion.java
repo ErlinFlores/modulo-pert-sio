@@ -40,8 +40,26 @@ public class GestorDeTransformacion {
             listaDeIdsDeTareasUsadas.add(id);
             redDeTareas.agregarTarea(tarea);
         }        
-        FabricaDeTareas.getInstance().establecerConsistencia(idMasGrande+1, listaDeIdsDeTareasUsadas);
+        FabricaDeTareas.getInstance().establecerConsistencia(idMasGrande+1, ordenarListaDeIdsDeTareasUsadas(listaDeIdsDeTareasUsadas));
         return new Proyecto(proyectoES.getNombre(), proyectoES.getDescripcion(), redDeTareas, proyectoES.getUnidadDeTiempo());
+    }
+    
+    private static List<Integer> ordenarListaDeIdsDeTareasUsadas(List<Integer> lista){
+        List<Integer> listaOrdenada = new ArrayList<Integer>();
+        for (int i = 0; i < lista.size(); i++){
+            boolean ubico = false;
+            for (int j = 0; j < listaOrdenada.size(); j++){
+                if (lista.get(i) < listaOrdenada.get(j)){
+                    listaOrdenada.add(j, lista.get(i));
+                    ubico = true;
+                    break;
+                }
+            }
+            if (!ubico){
+                listaOrdenada.add(lista.get(i));
+            }
+        }
+        return listaOrdenada;
     }
     
     public static ProyectoES transformarProyectoEnProyectoES(Proyecto proyecto){
