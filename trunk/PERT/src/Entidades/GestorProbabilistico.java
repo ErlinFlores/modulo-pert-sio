@@ -28,9 +28,9 @@ public class GestorProbabilistico {
      * @param duracion
      * @return probabilidad de culminación del proyecto
      */
-    public double calcularProbabilidad(double duracionExtendida){
+    public Double calcularProbabilidad(double duracionExtendida){
         if (!(tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.cargaExitosa))){
-            return -1;
+            return null;
         }
         if (duracionExtendida > 0){
             double zetaExtendido = (duracionExtendida - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
@@ -38,7 +38,7 @@ public class GestorProbabilistico {
             double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
             return Math.round(probabilidadExtendida * valorParaAcotar) / valorParaAcotar;
         }
-        return -1;
+        return null;
     }
     
     /**
@@ -47,9 +47,9 @@ public class GestorProbabilistico {
      * @param probabilidadExtendida
      * @return posible duración del proyecto
      */
-    public double calcularDuracion(double probabilidadExtendida){ 
+    public Double calcularDuracion(double probabilidadExtendida){ 
         if (!(tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.cargaExitosa))){
-            return -1;
+            return null;
         }
         if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal
             double probabilidadAcotada = Math.round(probabilidadExtendida * 1000000) / 1000000.0; // Se acota manteniendo la cantidad de cifras de los valores de la tabla Z.
@@ -72,7 +72,7 @@ public class GestorProbabilistico {
             double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
             return Math.round(duracionExtendida * valorParaAcotar) / valorParaAcotar;
         }
-        return -1;
+        return null;
     }
     
     /**

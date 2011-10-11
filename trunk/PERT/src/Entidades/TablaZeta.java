@@ -76,13 +76,13 @@ public class TablaZeta {
      * @param probabilidad
      * @return 
      */
-    public double obtenerZeta(double probabilidad){
+    public double obtenerZeta(double probabilidadAcotada){
         BigDecimal diferenciaAnterior = new BigDecimal(0+"");
         int filaAnterior = -1;
         int columnaAnterior = -1;
         for(int filaActual = 0; filaActual <= 30; filaActual++){
             for(int columnaActual = 0; columnaActual <= 9; columnaActual++){
-                BigDecimal diferenciaActual = new BigDecimal(tablaZ[filaActual][columnaActual]+"").subtract(new BigDecimal(probabilidad+""));
+                BigDecimal diferenciaActual = new BigDecimal(tablaZ[filaActual][columnaActual]+"").subtract(new BigDecimal(probabilidadAcotada+""));
                 if ((0 <= diferenciaActual.doubleValue()) && !((filaActual == 0) && (columnaActual == 0))){
                     diferenciaAnterior = diferenciaAnterior.abs();
                     if (diferenciaAnterior.doubleValue() >= diferenciaActual.doubleValue()){
