@@ -448,6 +448,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="campoTexto_ProbabilidadParaDuracion" min="-2" pref="58" max="-2" attributes="1"/>
                           </Group>
+                          <Component id="label_NoExisteDuracion" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="59" max="32767" attributes="0"/>
                   </Group>
@@ -463,7 +464,9 @@
                           <Component id="label_Probabilidad" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTexto_ProbabilidadParaDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="36" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
+                      <Component id="label_NoExisteDuracion" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="boton_CalcularDuracion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTexto_DuracionCalculada" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -504,6 +507,14 @@
             <Component class="javax.swing.JLabel" name="label_Probabilidad">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Probabilidad:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="label_NoExisteDuracion">
+              <Properties>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="cc" type="rgb"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="2"/>
               </Properties>
             </Component>
           </SubComponents>
