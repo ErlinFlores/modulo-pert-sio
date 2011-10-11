@@ -7,30 +7,20 @@ package EntradaSalida;
 import Entidades.Estados.ResultadoDeCargaDeAyuda;
 import Entidades.Estados.ResultadoDeCargaDeTablaZeta;
 import Entidades.Estados.ResultadoDeEscrituraDeLogDeErrores;
-import Entidades.FabricaDeTareas;
-import Entidades.Precedencia;
-import Entidades.Proyecto;
-import Entidades.RedDeTareas;
-import Entidades.Tarea;
-import Entidades.TiempoEstimado;
 import com.csvreader.CsvReader;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.help.HelpBroker;
@@ -117,16 +107,16 @@ public class ManejadorDeArchivos {
             writer = new PrintWriter("logDeErrores.txt");
             writer.println(fecha+" >> "+lineaDeError+"\n");  
             resultadoDeEscrituraDeLogDeErrores = ResultadoDeEscrituraDeLogDeErrores.escrituraExitosa;
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex1) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex1);
             resultadoDeEscrituraDeLogDeErrores = ResultadoDeEscrituraDeLogDeErrores.escrituraFallida;
         }finally{
             try{                    
                 if( null != writer ){   
                    writer.close();     
                 }                  
-             }catch (Exception e){ 
-                e.printStackTrace();
+             }catch (Exception ex2){ 
+                Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex2);
              }
         }           
     } 
@@ -138,8 +128,10 @@ public class ManejadorDeArchivos {
             o = decoder.readObject();
             decoder.close();
             return o;
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex1) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex1);
+        } catch (Exception ex2){ 
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex2);
         }
         return o;
     }
@@ -151,8 +143,10 @@ public class ManejadorDeArchivos {
             encoder.writeObject(datos);
             encoder.close();
             escrituraExitosa = true;
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex1) {
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex1);
+        } catch (Exception ex2){ 
+            Logger.getLogger(ManejadorDeArchivos.class.getName()).log(Level.SEVERE, null, ex2);
         }
         return escrituraExitosa;
     }
