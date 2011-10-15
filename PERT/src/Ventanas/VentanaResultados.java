@@ -170,11 +170,19 @@ public class VentanaResultados extends javax.swing.JDialog {
             this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerComienzoTardio(), fila, 5);
             this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerFinTardio(), fila, 6);
             this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerHolgura(), fila, 7);
-            this.tabla_ResultadoDeCalculos.setValueAt(tarea.esTareaCritica(), fila, 8);
+            this.tabla_ResultadoDeCalculos.setValueAt(esCritica(tarea.esTareaCritica()), fila, 8);
             this.tabla_ResultadoDeCalculos.setValueAt(tarea.obtenerDesviacionEstandar(), fila, 9);
             fila += 1;            
         }
         this.tabla_ResultadoDeCalculos.updateUI();
+    }
+    
+    private String esCritica(boolean esCritica){
+        if (esCritica){
+            return etiquetas.getString("resultadosSi");
+        }else{
+            return etiquetas.getString("resultadosNo");
+        }
     }
     
     private void actualizarInformacionDelProyecto(){
