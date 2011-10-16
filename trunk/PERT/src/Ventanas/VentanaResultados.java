@@ -595,11 +595,11 @@ public class VentanaResultados extends javax.swing.JDialog {
 
     private void boton_CalcularProbabilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_CalcularProbabilidadActionPerformed
         this.campoTexto_ProbabilidadCalculada.setText("");
-        double tiempo = 0;
+        double duracion = 0;
         try{
-            tiempo = Double.parseDouble(this.campoTexto_DuracionParaProbabilidad.getText());
-            if (tiempo > 0){
-                Double probabilidad = this.gestorProbabilistico.calcularProbabilidad(tiempo);
+            duracion = Double.parseDouble(this.campoTexto_DuracionParaProbabilidad.getText());
+            if (duracion > 0){
+                Double probabilidad = this.gestorProbabilistico.calcularProbabilidad(duracion);
                 if (probabilidad != null){
                     this.campoTexto_ProbabilidadCalculada.setText(String.valueOf(probabilidad));
                 }else{
