@@ -4,42 +4,20 @@
  */
 package Entidades;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import junit.framework.TestSuite;
+import junit.framework.Test;
+import junit.framework.TestCase;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author Manuel Lorenze
  */
-public class CalculoDeDuracionesTest {
+public class CalculoDeDuracionesTest extends TestCase {
     
     public CalculoDeDuracionesTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_1() {
         System.out.println("Calcular duración en el problema 1");
         double probabilidadExtendida = 0.184;
@@ -49,10 +27,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_2() {
         System.out.println("Calcular duración en el problema 2");
         double probabilidadExtendida = 0.977;
@@ -62,10 +36,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_3() {
         System.out.println("Calcular duración en el problema 3");
         double probabilidadExtendida = 0.629;
@@ -75,10 +45,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_4() {
         System.out.println("Calcular duración en el problema 4");
         double probabilidadExtendida = 0.090;
@@ -88,24 +54,15 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_5() {
         System.out.println("Calcular duración en el problema 5");
         double probabilidadExtendida = 0.022;
         GestorProbabilistico instance = new GestorProbabilistico(39, 5.963);
-        Double expResult = 27.015; 
-        //Double expResult = 27.014;
+        Double expResult = 27.014;
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_6() {
         System.out.println("Calcular duración en el problema 6");
         double probabilidadExtendida = 0.352;
@@ -115,10 +72,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_7() {
         System.out.println("Calcular duración en el problema 7");
         double probabilidadExtendida = 0.149;
@@ -128,10 +81,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_8() {
         System.out.println("Calcular duración en el problema 8");
         double probabilidadExtendida = 0.081;
@@ -141,10 +90,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_9() {
         System.out.println("Calcular duración en el problema 9");
         double probabilidadExtendida = 0.281;
@@ -154,38 +99,24 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_10() {
         System.out.println("Calcular duración en el problema 10");
         double probabilidadExtendida = 0.089;
         GestorProbabilistico instance = new GestorProbabilistico(40, 7.394);
-        Double expResult = 30.019;
-        //Double expResult = 30.018;
+        Double expResult = 30.018;
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_11() {
         System.out.println("Calcular duración en el problema 11");
         double probabilidadExtendida = 0.092;
         GestorProbabilistico instance = new GestorProbabilistico(45, 9.055);
-        Double expResult = 32.956; 
-        //Double expResult = 32.957;
+        Double expResult = 32.957; 
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_12() {
         System.out.println("Calcular duración en el problema 12");
         double probabilidadExtendida = 0.029;
@@ -194,11 +125,7 @@ public class CalculoDeDuracionesTest {
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularDuracion_13() {
         System.out.println("Calcular duración en el problema 13");
         double probabilidadExtendida = 0.058;
@@ -207,11 +134,7 @@ public class CalculoDeDuracionesTest {
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularDuracion_14() {
         System.out.println("Calcular duración en el problema 14");
         double probabilidadExtendida = 0.099;
@@ -220,11 +143,7 @@ public class CalculoDeDuracionesTest {
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularDuracion_15() {
         System.out.println("Calcular duración en el problema 15");
         double probabilidadExtendida = 0.644;
@@ -233,11 +152,7 @@ public class CalculoDeDuracionesTest {
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularDuracion_16() {
         System.out.println("Calcular duración en el problema 16");
         double probabilidadExtendida = 0.082;
@@ -247,10 +162,6 @@ public class CalculoDeDuracionesTest {
         assertEquals(expResult, result);
     }
     
-    /**
-     * Test of calcularDuracion method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularDuracion_17() {
         System.out.println("Calcular duración en el problema 17");
         double probabilidadExtendida = 0.274;
@@ -258,5 +169,9 @@ public class CalculoDeDuracionesTest {
         Double expResult = 10.000;
         Double result = instance.calcularDuracion(probabilidadExtendida);
         assertEquals(expResult, result);
+    }
+    
+    public static Test suite() {
+        return new TestSuite(CalculoDeDuracionesTest.class);
     }
 }
