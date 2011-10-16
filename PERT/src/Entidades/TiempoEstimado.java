@@ -20,80 +20,75 @@ public class TiempoEstimado {
     private double desviacionEstandar;
     
     public TiempoEstimado(double to, double tm, double tp){
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        tiempoOptimista = Math.round(to*valorParaAcotar)/valorParaAcotar;
-        tiempoMasProbable = Math.round(tm*valorParaAcotar)/valorParaAcotar;
-        tiempoPesimista = Math.round(tp*valorParaAcotar)/valorParaAcotar;
-        duracionEsperada = Math.round(calcularDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
-        desviacionEstandar = Math.round(calcularDesviacionEstandar()*valorParaAcotar)/valorParaAcotar;
-        varianza = Math.round(calcularVarianza()*valorParaAcotar)/valorParaAcotar;        
+        this.tiempoOptimista = GestorDeCifrasDecimales.getInstance().acotar(to);
+        this.tiempoMasProbable = GestorDeCifrasDecimales.getInstance().acotar(tm);
+        this.tiempoPesimista = GestorDeCifrasDecimales.getInstance().acotar(tp);
+        this.duracionEsperada = GestorDeCifrasDecimales.getInstance().acotar(calcularDuracionEsperada());
+        this.desviacionEstandar = GestorDeCifrasDecimales.getInstance().acotar(calcularDesviacionEstandar());
+        this.varianza = GestorDeCifrasDecimales.getInstance().acotar(calcularVarianza());      
     }    
     
     private double calcularDuracionEsperada(){
-        return (tiempoOptimista+(4*tiempoMasProbable)+tiempoPesimista)/6;
+        return (this.tiempoOptimista+(4*this.tiempoMasProbable)+this.tiempoPesimista)/6;
     }
     
     private double calcularDesviacionEstandar(){
-        return (tiempoPesimista-tiempoOptimista)/6;
+        return (this.tiempoPesimista-this.tiempoOptimista)/6;
     }
     
     private double calcularVarianza(){
-        return desviacionEstandar * desviacionEstandar;
+        return this.desviacionEstandar * this.desviacionEstandar;
     }
 
     public double obtenerDuracionEsperada() {
-        return duracionEsperada;
+        return this.duracionEsperada;
     }
 
     public double obtenerDesviacionEstandar() {
-        return desviacionEstandar;
+        return this.desviacionEstandar;
     }
 
     public double obtenerVarianza() {            
-        return varianza;
+        return this.varianza;
     }
 
     public void setearTiempoEstimado(double to, double tm, double tp){
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        tiempoOptimista = Math.round(to*valorParaAcotar)/valorParaAcotar;
-        tiempoMasProbable = Math.round(tm*valorParaAcotar)/valorParaAcotar;
-        tiempoPesimista = Math.round(tp*valorParaAcotar)/valorParaAcotar;
-        duracionEsperada = Math.round(calcularDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
-        desviacionEstandar = Math.round(calcularDesviacionEstandar()*valorParaAcotar)/valorParaAcotar;
-        varianza = Math.round(calcularVarianza()*valorParaAcotar)/valorParaAcotar;      
+        this.tiempoOptimista = GestorDeCifrasDecimales.getInstance().acotar(to);
+        this.tiempoMasProbable = GestorDeCifrasDecimales.getInstance().acotar(tm);
+        this.tiempoPesimista = GestorDeCifrasDecimales.getInstance().acotar(tp);
+        this.duracionEsperada = GestorDeCifrasDecimales.getInstance().acotar(calcularDuracionEsperada());
+        this.desviacionEstandar = GestorDeCifrasDecimales.getInstance().acotar(calcularDesviacionEstandar());
+        this.varianza = GestorDeCifrasDecimales.getInstance().acotar(calcularVarianza());      
     }
     
     public void setearTiempoOptimista(double to){
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        tiempoOptimista = Math.round(to*valorParaAcotar)/valorParaAcotar;
-        duracionEsperada = Math.round(calcularDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
-        desviacionEstandar = Math.round(calcularDesviacionEstandar()*valorParaAcotar)/valorParaAcotar;
-        varianza = Math.round(calcularVarianza()*valorParaAcotar)/valorParaAcotar;      
+        this.tiempoOptimista = GestorDeCifrasDecimales.getInstance().acotar(to);
+        this.duracionEsperada = GestorDeCifrasDecimales.getInstance().acotar(calcularDuracionEsperada());
+        this.desviacionEstandar = GestorDeCifrasDecimales.getInstance().acotar(calcularDesviacionEstandar());
+        this.varianza = GestorDeCifrasDecimales.getInstance().acotar(calcularVarianza());     
     }
     
     public double obtenerTiempoOptimista() {
-        return tiempoOptimista;
+        return this.tiempoOptimista;
     }
 
     public void setearTiempoMasProbable(double tm){
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        tiempoMasProbable = Math.round(tm*valorParaAcotar)/valorParaAcotar;
-        duracionEsperada = Math.round(calcularDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
+        this.tiempoMasProbable = GestorDeCifrasDecimales.getInstance().acotar(tm);
+        this.duracionEsperada = GestorDeCifrasDecimales.getInstance().acotar(calcularDuracionEsperada());
     }
     
     public double obtenerTiempoMasProbable() {
-        return tiempoMasProbable;
+        return this.tiempoMasProbable;
     }
 
     public void setearTiempoPesimista(double tp){
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        tiempoPesimista = Math.round(tp*valorParaAcotar)/valorParaAcotar;
-        duracionEsperada = Math.round(calcularDuracionEsperada()*valorParaAcotar)/valorParaAcotar;
-        desviacionEstandar = Math.round(calcularDesviacionEstandar()*valorParaAcotar)/valorParaAcotar;
-        varianza = Math.round(calcularVarianza()*valorParaAcotar)/valorParaAcotar;      
+        this.tiempoPesimista = GestorDeCifrasDecimales.getInstance().acotar(tp);
+        this.duracionEsperada = GestorDeCifrasDecimales.getInstance().acotar(calcularDuracionEsperada());
+        this.desviacionEstandar = GestorDeCifrasDecimales.getInstance().acotar(calcularDesviacionEstandar());
+        this.varianza = GestorDeCifrasDecimales.getInstance().acotar(calcularVarianza());      
     }
     
     public double obtenerTiempoPesimista() {
-        return tiempoPesimista;
+        return this.tiempoPesimista;
     }    
 }
