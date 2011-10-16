@@ -20,8 +20,7 @@ public abstract class TareaAbstracta {
     }
 
     public void setearComienzoTardio(double comienzoTardio) {        
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        this.comienzoTardio = Math.round(comienzoTardio*valorParaAcotar)/valorParaAcotar;
+        this.comienzoTardio = GestorDeCifrasDecimales.getInstance().acotar(comienzoTardio);
     }
 
     public double obtenerComienzoTemprano() {
@@ -29,8 +28,7 @@ public abstract class TareaAbstracta {
     }
 
     public void setearComienzoTemprano(double comienzoTemprano) {
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        this.comienzoTemprano = Math.round(comienzoTemprano*valorParaAcotar)/valorParaAcotar;
+        this.comienzoTemprano = GestorDeCifrasDecimales.getInstance().acotar(comienzoTemprano);
     }
 
     public double obtenerFinTardio() {
@@ -38,8 +36,7 @@ public abstract class TareaAbstracta {
     }
 
     public void setearFinTardio(double finTardio) {
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        this.finTardio = Math.round(finTardio*valorParaAcotar)/valorParaAcotar;
+        this.finTardio = GestorDeCifrasDecimales.getInstance().acotar(finTardio);
     }
 
     public double obtenerFinTemprano() {
@@ -47,8 +44,7 @@ public abstract class TareaAbstracta {
     }
 
     public void setearFinTemprano(double finTemprano) {
-        double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-        this.finTemprano = Math.round(finTemprano*valorParaAcotar)/valorParaAcotar;
+        this.finTemprano = GestorDeCifrasDecimales.getInstance().acotar(finTemprano);
     }    
     
     public double obtenerHolgura(){
