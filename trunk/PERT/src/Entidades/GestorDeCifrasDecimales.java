@@ -28,15 +28,15 @@ public class GestorDeCifrasDecimales {
     
     //--------------------------------------------------------------------------
     
-    private int cifrasDecimales;
+    private final int cifrasDecimales = 3;
+    private double valorAux;
     
     private GestorDeCifrasDecimales(){
-        cifrasDecimales = 3;
+        valorAux = Math.pow(10, cifrasDecimales);
     }
     
     public double acotar(double valorParaAcotar){
-        double aux = Math.pow(10, cifrasDecimales);
-        return Math.round(valorParaAcotar * aux) / aux;
+        return Math.round(valorParaAcotar * valorAux) / valorAux;
     }
     
     public int obtenerCifrasDecimales(){
