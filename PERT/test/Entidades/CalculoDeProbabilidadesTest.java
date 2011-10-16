@@ -4,43 +4,20 @@
  */
 package Entidades;
 
-import org.junit.Ignore;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import junit.framework.TestCase;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 import static org.junit.Assert.*;
 
 /**
  *
  * @author Manuel Lorenze
  */
-public class CalculoDeProbabilidadesTest {
+public class CalculoDeProbabilidadesTest extends TestCase {
     
     public CalculoDeProbabilidadesTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularProbabilidad_1() {
         System.out.println("Calcular probabilidad en el problema 1");
         double duracionExtendida = 124;
@@ -49,11 +26,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_2() {
         System.out.println("Calcular probabilidad en el problema 2");
         double duracionExtendida = 156;
@@ -62,11 +35,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_3() {
         System.out.println("Calcular probabilidad en el problema 3");
         double duracionExtendida = 18;
@@ -75,24 +44,16 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_4() {
         System.out.println("Calcular probabilidad en el problema 4");
         double duracionExtendida = 31;
         GestorProbabilistico instance = new GestorProbabilistico(40, 6.708);
-        Double expResult = 0.09;
+        Double expResult = 0.090;
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
     public void testCalcularProbabilidad_5() {
         System.out.println("Calcular probabilidad en el problema 5");
         double duracionExtendida = 27;
@@ -101,11 +62,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_6() {
         System.out.println("Calcular probabilidad en el problema 6");
         double duracionExtendida = 78;
@@ -114,11 +71,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_7() {
         System.out.println("Calcular probabilidad en el problema 7");
         double duracionExtendida = 33;
@@ -127,11 +80,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_8() {
         System.out.println("Calcular probabilidad en el problema 8");
         double duracionExtendida = 32;
@@ -140,11 +89,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_9() {
         System.out.println("Calcular probabilidad en el problema 9");
         double duracionExtendida = 33;
@@ -153,11 +98,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_10() {
         System.out.println("Calcular probabilidad en el problema 10");
         double duracionExtendida = 30;
@@ -166,11 +107,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_11() {
         System.out.println("Calcular probabilidad en el problema 11");
         double duracionExtendida = 33;
@@ -179,11 +116,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_12() {
         System.out.println("Calcular probabilidad en el problema 12");
         double duracionExtendida = 26;
@@ -192,11 +125,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-        
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_13() {
         System.out.println("Calcular probabilidad en el problema 13");
         double duracionExtendida = 28;
@@ -205,11 +134,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_14() {
         System.out.println("Calcular probabilidad en el problema 14");
         double duracionExtendida = 39;
@@ -218,11 +143,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_15() {
         System.out.println("Calcular probabilidad en el problema 13");
         double duracionExtendida = 42;
@@ -231,11 +152,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_16() {
         System.out.println("Calcular probabilidad en el problema 16");
         double duracionExtendida = 34;
@@ -244,11 +161,7 @@ public class CalculoDeProbabilidadesTest {
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
     }
-    
-    /**
-     * Test of calcularProbabilidad method, of class GestorProbabilistico.
-     */
-    @Test
+
     public void testCalcularProbabilidad_17() {
         System.out.println("Calcular probabilidad en el problema 17");
         double duracionExtendida = 10;
@@ -256,5 +169,9 @@ public class CalculoDeProbabilidadesTest {
         Double expResult = 0.274;
         Double result = instance.calcularProbabilidad(duracionExtendida);
         assertEquals(expResult, result);
+    }
+    
+    public static Test suite() {
+        return new TestSuite(CalculoDeProbabilidadesTest.class);
     }
 }
