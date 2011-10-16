@@ -35,8 +35,7 @@ public class GestorProbabilistico {
         if (duracionExtendida > 0){
             double zetaExtendido = (duracionExtendida - duracionEsperadaDelProyecto) / desviacionEstandarDelProyecto;
             double probabilidadExtendida = tablaZeta.obtenerProbabilidad(Math.round(zetaExtendido * 100) / 100.0);
-            double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-            return Math.round(probabilidadExtendida * valorParaAcotar) / valorParaAcotar;
+            return GestorDeCifrasDecimales.getInstance().acotar(probabilidadExtendida);
         }
         return null;
     }
@@ -51,26 +50,15 @@ public class GestorProbabilistico {
         if (!(tablaZeta.obtenerResultadoDeUltimaCarga().equals(ResultadoDeCargaDeTablaZeta.cargaExitosa))){
             return null;
         }
-        if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal
-            double probabilidadAcotada = Math.round(probabilidadExtendida * 1000000) / 1000000.0; // Se acota manteniendo la cantidad de cifras de los valores de la tabla Z.
-            double zetaAcotadoAbs;
-            boolean zetaNegativo;
-            if (probabilidadAcotada < 0.5){
-                zetaAcotadoAbs = tablaZeta.obtenerZeta(1 - probabilidadAcotada);
-                zetaNegativo = true;
-            }else{
-                zetaAcotadoAbs = tablaZeta.obtenerZeta(probabilidadAcotada);
-                zetaNegativo = false;
-            }   
+        if ((0 <= probabilidadExtendida) && (probabilidadExtendida <= 1)){ // la probabilidad representada en decimal            
             double zetaAcotado;
-            if (zetaNegativo){
-                zetaAcotado = -1 * zetaAcotadoAbs;
+            if (probabilidadExtendida < 0.5){
+                zetaAcotado = -1 * tablaZeta.obtenerZeta(1 - probabilidadExtendida);
             }else{
-                zetaAcotado = zetaAcotadoAbs;
-            }     
+                zetaAcotado = tablaZeta.obtenerZeta(probabilidadExtendida);
+            }       
             double duracionExtendida = (zetaAcotado * desviacionEstandarDelProyecto) + duracionEsperadaDelProyecto;
-            double valorParaAcotar = GestorDeCifrasDecimales.getInstance().obtenerValorParaAcotar();
-            return Math.round(duracionExtendida * valorParaAcotar) / valorParaAcotar;
+            return GestorDeCifrasDecimales.getInstance().acotar(duracionExtendida);
         }
         return null;
     }

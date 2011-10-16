@@ -29,18 +29,17 @@ public class GestorDeCifrasDecimales {
     //--------------------------------------------------------------------------
     
     private int cifrasDecimales;
-    private double valorParaAcotar;
     
     private GestorDeCifrasDecimales(){
         cifrasDecimales = 3;
-        valorParaAcotar = Math.pow(10, cifrasDecimales);
+    }
+    
+    public double acotar(double valorParaAcotar){
+        double aux = Math.pow(10, cifrasDecimales);
+        return Math.round(valorParaAcotar * aux) / aux;
     }
     
     public int obtenerCifrasDecimales(){
         return cifrasDecimales;
-    }
-    
-    public double obtenerValorParaAcotar(){
-        return valorParaAcotar;
     }
 }
