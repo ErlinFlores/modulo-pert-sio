@@ -50,7 +50,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
     public VentanaProyecto(Locale lugarConfigurado, HelpBroker helpBroker) {
         initComponents();   
         this.lugarConfigurado = lugarConfigurado;
-        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", lugarConfigurado);
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundlePert", lugarConfigurado);
         this.helpBroker = helpBroker;       
         this.pathDeArchivoDelProyecto = null;        
         crearProyectoInicial();
