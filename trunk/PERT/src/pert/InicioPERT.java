@@ -52,9 +52,6 @@ public class InicioPERT {
             ManejadorDeArchivos.escribirLineaDeErrorEnLog("Datos inconsistentes de la tabla Zeta en el archivo tablaZ.csv");
             error = true;
         }        
-        if (error){
-            ManejadorDeArchivos.escribirLineaDeErrorEnLog("================================================================================");
-        }
         return !error;
     }       
 }
