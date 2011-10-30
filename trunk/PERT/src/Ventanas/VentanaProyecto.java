@@ -53,7 +53,8 @@ public class VentanaProyecto extends javax.swing.JFrame {
         this.lugarConfigurado = lugarConfigurado;
         this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundlePert", lugarConfigurado);
         this.helpBroker = helpBroker;       
-        this.pathDeArchivoDelProyecto = null;        
+        this.pathDeArchivoDelProyecto = null;      
+        this.desdeAplicacionExterna = desdeAplicacionExterna;
         crearProyectoInicial();
         habilitarAyuda();                
         inicializarTabla();
