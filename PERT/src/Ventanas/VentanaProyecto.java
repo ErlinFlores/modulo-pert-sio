@@ -762,19 +762,19 @@ public class VentanaProyecto extends javax.swing.JFrame {
 
     private void subMenu_EspañolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_EspañolActionPerformed
         this.lugarConfigurado = new Locale("es", "UY");
-        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", this.lugarConfigurado);
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundlePert", this.lugarConfigurado);
         setearEtiquetas();
     }//GEN-LAST:event_subMenu_EspañolActionPerformed
 
     private void subMenu_InglesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_InglesActionPerformed
         this.lugarConfigurado = new Locale("en", "US");
-        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", this.lugarConfigurado);
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundlePert", this.lugarConfigurado);
         this.setearEtiquetas();
     }//GEN-LAST:event_subMenu_InglesActionPerformed
 
     private void subMenu_PortuguesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subMenu_PortuguesActionPerformed
         this.lugarConfigurado = new Locale("po", "BR");
-        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundle", this.lugarConfigurado);
+        this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundlePert", this.lugarConfigurado);
         this.setearEtiquetas();
     }//GEN-LAST:event_subMenu_PortuguesActionPerformed
 
