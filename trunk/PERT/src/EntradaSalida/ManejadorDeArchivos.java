@@ -82,7 +82,7 @@ public class ManejadorDeArchivos {
      */
     public static HelpBroker cargarAyuda(){
         try {
-            File fichero = new File("help/help_set.hs");
+            File fichero = new File("helpPERT/help_set.hs");
             URL hsURL = fichero.toURI().toURL();
             HelpSet helpset = new HelpSet(ManejadorDeArchivos.class.getClassLoader(), hsURL);
             resultadoDeCargaDeAyuda = ResultadoDeCargaDeAyuda.cargaExitosa;
