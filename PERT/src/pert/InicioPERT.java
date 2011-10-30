@@ -24,14 +24,14 @@ public class InicioPERT {
      */
     public static void main(String[] args) {
         InicioPERT principal = new InicioPERT();
-        principal.inicializar("es","UY");
+        principal.inicializar("es","UY", false);
     }
 
-    public void inicializar(String lenguajeIdioma, String paisIdioma){
+    public void inicializar(String lenguajeIdioma, String paisIdioma, boolean desdeAplicacionExterna){
         if(validarContextoDeLaAplicacion(lenguajeIdioma, paisIdioma, TablaZeta.getInstance())){
             Locale lugarConfigurado = new Locale(lenguajeIdioma, paisIdioma);
             HelpBroker helpBroker = ManejadorDeArchivos.cargarAyuda();            
-            VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado, helpBroker);
+            VentanaProyecto ventanaProyecto = new VentanaProyecto(lugarConfigurado, helpBroker, desdeAplicacionExterna);
             ventanaProyecto.setVisible(true);
         }else{
              JOptionPane.showMessageDialog(null, "Error en datos de entrada. Verificar en el log de errores el problema.");
