@@ -41,13 +41,14 @@ public class VentanaProyecto extends javax.swing.JFrame {
     private ResourceBundle etiquetas;   
     private HelpBroker helpBroker;
     private String pathDeArchivoDelProyecto;
+    private boolean desdeAplicacionExterna;
     
     private DefaultTableModel modeloDeTablaDeTareas;
     
     private Proyecto proyecto;    
     
     /** Creates new form VentanaProyecto */
-    public VentanaProyecto(Locale lugarConfigurado, HelpBroker helpBroker) {
+    public VentanaProyecto(Locale lugarConfigurado, HelpBroker helpBroker, boolean desdeAplicacionExterna) {
         initComponents();   
         this.lugarConfigurado = lugarConfigurado;
         this.etiquetas = ResourceBundle.getBundle("Idiomas.MessagesBundlePert", lugarConfigurado);
@@ -318,7 +319,11 @@ public class VentanaProyecto extends javax.swing.JFrame {
            new Object[] { this.etiquetas.getString("mensajeOk"), this.etiquetas.getString("mensajeCancelar") },   
            "OK");
         if (seleccion == 0){
-            System.exit(0);
+            if (desdeAplicacionExterna){
+                this.dispose();
+            }else{
+                System.exit(0);
+            }
         }
     }      
     
