@@ -164,11 +164,7 @@ public class VentanaProyecto extends javax.swing.JFrame {
         }else{
             this.proyecto.setearNombre(this.campoTexto_NombreProyecto.getText());
         }
-        if (this.areaTexto_DescripcionProyecto.getText().length() > 500){ 
-            return false;
-        }else{
-            this.proyecto.setearDescripcion(this.areaTexto_DescripcionProyecto.getText());
-        }
+        this.proyecto.setearDescripcion(this.areaTexto_DescripcionProyecto.getText());
         if ((this.campoTexto_UnidadDeTiempo.getText().equals("") && (this.campoTexto_UnidadDeTiempo.getText().length() > 15))){
             return false;
         }else{
